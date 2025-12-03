@@ -19,7 +19,7 @@ public class CardDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     public void OnBeginDrag(PointerEventData eventData)
     {
         startPosition = rectTransform.anchoredPosition;
-
+        
         cardCanvas.overrideSorting = true;
         cardCanvas.sortingOrder = 10;
     }
