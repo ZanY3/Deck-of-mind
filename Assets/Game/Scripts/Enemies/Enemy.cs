@@ -33,7 +33,7 @@ public class Enemy : MonoBehaviour
             UpdateUI();
             //Some effects
         }
-        if(currentHealth < 0)
+        if(currentHealth <= 0)
         {
             Destroy(gameObject);
         }

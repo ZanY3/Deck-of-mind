@@ -8,9 +8,13 @@ public class CardDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     private Vector2 startPosition;
     private Canvas canvas;
     private Canvas cardCanvas;
+    private CardDisplay cardDisplay;
+
+    [HideInInspector] public bool droppedOnTarget;
 
     private void Awake()
     {
+        cardDisplay = GetComponent<CardDisplay>();
         rectTransform = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
         cardCanvas = GetComponent<Canvas>();
@@ -18,10 +22,13 @@ public class CardDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        InteractionState.isDraggingCard = true;
+        GetComponent<CanvasGroup>().blocksRaycasts = false;
+        droppedOnTarget = false;
         startPosition = rectTransform.anchoredPosition;
-        
+
         cardCanvas.overrideSorting = true;
-        cardCanvas.sortingOrder = 10;
+        cardCanvas.sortingOrder = 100;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -31,7 +38,20 @@ public class CardDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        InteractionState.isDraggingCard = false;
         cardCanvas.overrideSorting = false;
-        rectTransform.anchoredPosition = startPosition;
+        GetComponent<CanvasGroup>().blocksRaycasts = true;
+
+        CardData card = cardDisplay.Card;
+
+        if (!droppedOnTarget || card.type != CardData.CardType.Attack)
+        {
+            rectTransform.anchoredPosition = startPosition;
+        }
+        else
+        {
+            Destroy(gameObject);
+            droppedOnTarget = true;
+        }
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class EnemyUI : MonoBehaviour,IPointerEnterHandler, IPointerExitHandler
+public class EnemyToolTip : MonoBehaviour,IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private EnemyData enemyData;
 
@@ -20,15 +20,20 @@ public class EnemyUI : MonoBehaviour,IPointerEnterHandler, IPointerExitHandler
         descriptionTxt.text = enemyData.description;
         typeTxt.text = enemyData.enemyType.ToString();
         iconImg.sprite = enemyData.artwork;
-        
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
-        ShowUI();
+        if(!InteractionState.isDraggingCard)
+        { 
+            ShowUI();
+        }
     }
     public void OnPointerExit(PointerEventData eventData)
     {
-        HideUI();
+        if (!InteractionState.isDraggingCard)
+        {
+            HideUI();
+        }
     }
     public void ShowUI()
     {

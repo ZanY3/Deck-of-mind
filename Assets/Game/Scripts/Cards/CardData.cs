@@ -2,7 +2,6 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "New_Card", menuName = "Scriptable Objects/Card")]
 
-
 public class CardData : ScriptableObject
 {
     public enum CardType
