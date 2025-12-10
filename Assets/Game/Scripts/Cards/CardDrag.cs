@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using static UnityEngine.GraphicsBuffer;
 
 public class CardDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
@@ -44,14 +45,17 @@ public class CardDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
         CardData card = cardDisplay.cardToDisplay;
 
-        if (!droppedOnTarget || card.type != CardData.CardType.Attack)
+        GameObject target = eventData.pointerEnter;
+
+        if (!droppedOnTarget || target == null ||
+        (target.GetComponent<PlayerHealth>() != null && card.type == CardData.CardType.Attack) ||
+        (target.GetComponent<Enemy>() != null && card.type == CardData.CardType.Defence))
         {
             rectTransform.anchoredPosition = startPosition;
         }
         else
         {
             Destroy(gameObject);
-            droppedOnTarget = true;
         }
     }
 }

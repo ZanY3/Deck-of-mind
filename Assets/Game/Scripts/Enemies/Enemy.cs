@@ -7,7 +7,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private TMP_Text healthTxt;
     [SerializeField] private TMP_Text damageTxt;
 
-    private Player player;
+    private PlayerHealth player;
 
     private int currentHealth;
     private int damage;
@@ -15,7 +15,7 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
         battleManager = FindAnyObjectByType<BattleManager>();
 
         battleManager.AddEnemy(this);
@@ -44,6 +44,7 @@ public class Enemy : MonoBehaviour
         if(currentHealth <= 0)
         {
             battleManager.RemoveEnemy(this);
+            battleManager.CheckPlayerWin();
             Destroy(gameObject);
         }
     }
@@ -51,6 +52,4 @@ public class Enemy : MonoBehaviour
     {
         player.TakeDamage(enemyData.damage);
     }
-
-
 }

@@ -2,10 +2,13 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Player : MonoBehaviour
+public class PlayerHealth : MonoBehaviour
 {
     [SerializeField] private int maxHealth;
+    [SerializeField] private BattleManager battleManager;
+
     private int currentHealth;
+    private PlayerDefense defense;
 
     [Space]
     [Header("UI/HealthBar")]
@@ -15,6 +18,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        defense = GetComponent<PlayerDefense>();
         currentHealth = maxHealth;
         UpdateUI();
     }
@@ -22,13 +26,15 @@ public class Player : MonoBehaviour
     {
         if(currentHealth > 0)
         {
-            currentHealth -= damage;
+            currentHealth -= defense.CalculateDamage(damage);
             UpdateUI();
         }
         if(currentHealth <= 0)
         {
+            currentHealth = 0;
+            UpdateUI();
             Debug.Log("PLAYER DIED!!!");
-            //Die window
+            battleManager.PlayerLose();//Fix bugs with UI and with enemy disable
         }
     }
     public void UpdateUI()

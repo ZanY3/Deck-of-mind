@@ -1,25 +1,24 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class EnemyDropTarget : MonoBehaviour, IDropHandler
+public class PlayerDropTarget : MonoBehaviour, IDropHandler
 {
-    private Enemy enemy;
-
-    private void Awake()
+    private PlayerDefense defense;
+    private void Start()
     {
-        enemy = GetComponent<Enemy>();
+        defense = GetComponent<PlayerDefense>();
     }
-    public void OnDrop(PointerEventData eventData) //OnCardDrop
+    public void OnDrop(PointerEventData eventData)
     {
         CardData card = eventData.pointerDrag.GetComponent<CardDisplay>().cardToDisplay;
 
-        if(card.type != CardData.CardType.Attack)
+        if (card.type != CardData.CardType.Defence)
         {
             return;
         }
         else
         {
-            enemy.TakeDamage(card.power);
+            defense.AddArmor(card.power);
         }
         eventData.pointerDrag.GetComponent<CardDrag>().droppedOnTarget = true;
     }
