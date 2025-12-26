@@ -10,6 +10,11 @@ public class HandManager : MonoBehaviour
 
     private int handSize = 3;
 
+    private void Start()
+    {
+        DrawHand();
+    }
+
     public void DrawHand()
     {
         ClearHand();
