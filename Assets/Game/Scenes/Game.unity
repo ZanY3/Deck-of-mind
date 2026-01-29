@@ -3525,6 +3525,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4c4bd94ee798294798a387bff7a5d35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDropTarget
+  cardEffects: {fileID: 377841814}
 --- !u!1 &1416197536
 GameObject:
   m_ObjectHideFlags: 0
@@ -5004,14 +5005,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DeckManager
   startDeck:
   - {fileID: 11400000, guid: 73886f53cdea3d34fa3e402ad531dceb, type: 2}
-  - {fileID: 11400000, guid: 0701b4e738ee2234eb924cce0b020d04, type: 2}
   - {fileID: 11400000, guid: 5f7de41eac637e54eab46c497018f303, type: 2}
-  - {fileID: 11400000, guid: 1dccc7642d3d1624ab34d22591f4552c, type: 2}
   - {fileID: 11400000, guid: 73886f53cdea3d34fa3e402ad531dceb, type: 2}
   - {fileID: 11400000, guid: 5f7de41eac637e54eab46c497018f303, type: 2}
-  - {fileID: 11400000, guid: 5e1b4f7c7f6e5a44483c27bc4d6a08d3, type: 2}
-  - {fileID: 11400000, guid: 5e1b4f7c7f6e5a44483c27bc4d6a08d3, type: 2}
-  - {fileID: 11400000, guid: 5e1b4f7c7f6e5a44483c27bc4d6a08d3, type: 2}
 --- !u!1 &1739304504
 GameObject:
   m_ObjectHideFlags: 0

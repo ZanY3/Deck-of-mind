@@ -32,11 +32,11 @@ public class PlayerDropTarget : MonoBehaviour, IDropHandler
             }
             if(cardTemp.effect == CardData.Effect.BloodPact)
             {
-                eventData.pointerDrag.GetComponent<CardEffects>().BloodPact(GetComponent<PlayerHealth>());
+                cardEffects.BloodPact(GetComponent<PlayerHealth>());
             }
             if(cardTemp.effect == CardData.Effect.BloodDraw)
             {
-                eventData.pointerDrag.GetComponent<CardEffects>().BloodDraw(GetComponent<PlayerHealth>());
+                cardEffects.BloodDraw(GetComponent<PlayerHealth>());
             }
             else
             {
