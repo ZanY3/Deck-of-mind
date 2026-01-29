@@ -4959,8 +4959,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DeckManager
   startDeck:
   - {fileID: 11400000, guid: 73886f53cdea3d34fa3e402ad531dceb, type: 2}
+  - {fileID: 11400000, guid: 0701b4e738ee2234eb924cce0b020d04, type: 2}
   - {fileID: 11400000, guid: 5f7de41eac637e54eab46c497018f303, type: 2}
-  - {fileID: 11400000, guid: 224293e1d4fa8044289e526d0ae1cb0c, type: 2}
+  - {fileID: 11400000, guid: 1dccc7642d3d1624ab34d22591f4552c, type: 2}
   - {fileID: 11400000, guid: 73886f53cdea3d34fa3e402ad531dceb, type: 2}
   - {fileID: 11400000, guid: 5f7de41eac637e54eab46c497018f303, type: 2}
 --- !u!1 &1739304504

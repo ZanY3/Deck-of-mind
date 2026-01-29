@@ -443,7 +443,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 49.7}
-  m_SizeDelta: {x: 150, y: 125}
+  m_SizeDelta: {x: 150, y: 135}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5560506887818841890
 CanvasRenderer:
@@ -915,7 +915,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c25cf8d58c25be428071917249493c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardEffects
-  effect: 0
 --- !u!1 &8958904942587321123
 GameObject:
   m_ObjectHideFlags: 0

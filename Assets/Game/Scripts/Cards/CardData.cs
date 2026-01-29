@@ -18,7 +18,9 @@ public class CardData : ScriptableObject
         Stun,
         RandomPower,
         BloodPact,
-        BloodDraw
+        BloodDraw,
+        HealthDrain,
+        StrengthDrain
     }
 
     public CardType type;

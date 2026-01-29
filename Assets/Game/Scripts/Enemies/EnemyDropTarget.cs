@@ -38,6 +38,14 @@ public class EnemyDropTarget : MonoBehaviour, IDropHandler
 
                 eventData.pointerDrag.GetComponent<CardEffects>().Stun(enemy);
             }
+            if(card.effect == CardData.Effect.HealthDrain)
+            {
+                eventData.pointerDrag.GetComponent<CardEffects>().HealthWeaken(enemy, true, 2);
+            }
+            if(card.effect == CardData.Effect.StrengthDrain)
+            {
+                eventData.pointerDrag.GetComponent<CardEffects>().StrengthWeaken(enemy, true, 2);
+            }
         }
         eventData.pointerDrag.GetComponent<CardDrag>().droppedOnTarget = true;
     }

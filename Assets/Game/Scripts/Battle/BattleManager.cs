@@ -166,6 +166,22 @@ public class BattleManager : MonoBehaviour
                 }
                 continue;
             }
+            if (enemies[i].hpWeakened)
+            {
+                enemies[i].hpWeakenedTurnsLeft--;
+                if (enemies[i].hpWeakenedTurnsLeft <= 0)
+                {
+                    enemies[i].ApplyHealthWeaken(false, 0);
+                }
+            }
+            if (enemies[i].strengthWeakened)
+            {
+                enemies[i].strengthWeakenedTurnsLeft--;
+                if (enemies[i].strengthWeakenedTurnsLeft <= 0)
+                {
+                    enemies[i].ApplyStrengthWeaken(false, 0);
+                }
+            }
             enemies[i].AttackPlayer();
             //Some animations for enemy attack
             yield return new WaitForSeconds(1.5f);

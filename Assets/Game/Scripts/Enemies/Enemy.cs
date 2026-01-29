@@ -14,6 +14,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] private TMP_Text debuffDamageTxt;
 
     [HideInInspector] public bool stunned = false;
+    [HideInInspector] public bool strengthWeakened = false;
+    [HideInInspector] public bool hpWeakened = false;
 
     private PlayerHealth player;
 
@@ -23,6 +25,8 @@ public class Enemy : MonoBehaviour
 
     private BattleManager battleManager;
     [HideInInspector] public int stunTurnsLeft = 0;
+    [HideInInspector] public int hpWeakenedTurnsLeft = 0;
+    [HideInInspector] public int strengthWeakenedTurnsLeft = 0;
 
     public EnemyData Data => enemyData;
 
@@ -97,6 +101,36 @@ public class Enemy : MonoBehaviour
     {
         GetComponentInChildren<EnemyToolTip>().UpdateStunToolTip(true);
         stunned = true;
+    }
+    public void ApplyHealthWeaken(bool state, int turns)
+    {
+        hpWeakenedTurnsLeft = turns;
+        if (state)
+        {
+            currentHealth /= 2;
+            hpWeakened = true;
+        }
+        else
+        {
+            currentHealth *= 2;
+            hpWeakened = false;
+        }
+        UpdateUI();
+    }
+    public void ApplyStrengthWeaken(bool state, int turns)
+    {
+        strengthWeakenedTurnsLeft = turns;
+        if (state)
+        {
+            damage /= 2;
+            strengthWeakened = true;
+        }
+        else
+        {
+            damage *= 2;
+            strengthWeakened = false;
+        }
+        UpdateUI();
     }
     public virtual void AttackPlayer()
     {

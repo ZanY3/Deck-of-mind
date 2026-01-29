@@ -1,7 +1,8 @@
-﻿using Unity.VisualScripting;
+﻿using DG.Tweening;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using DG.Tweening;
+using static UnityEngine.GraphicsBuffer;
 
 public class CardDrag : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
@@ -108,7 +109,8 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler,
             draggingManager.SetPlayerTooltipState(false);
         }
 
-        if (IsValidTarget(eventData) == false)
+        Enemy enemy = eventData.pointerEnter?.GetComponent<Enemy>();
+        if (!IsValidTarget(eventData))
         {
             rectTransform.DOAnchorPos(startPosition, 0.2f).SetEase(Ease.OutBack);
         }
