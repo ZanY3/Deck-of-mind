@@ -70,6 +70,5 @@ public class DefenseCell : MonoBehaviour, IDropHandler
         {
             DecreaseDefense(card.power);
         }
-        eventData.pointerDrag.GetComponent<CardDrag>().droppedOnTarget = true;
     }
 }

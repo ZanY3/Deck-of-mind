@@ -1,51 +1,33 @@
 ﻿using DG.Tweening;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using static UnityEngine.GraphicsBuffer;
 
 public class CardDrag : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     private RectTransform rectTransform;
     private Vector2 startPosition;
-    private Canvas canvas;
     private Canvas cardCanvas;
     private CardDisplay cardDisplay;
     private EnergyManager energyManager;
     private CardDraggingManager draggingManager;
-
     private Vector3 startScale;
-
-    [HideInInspector] public bool droppedOnTarget;
 
     private void Awake()
     {
         cardDisplay = GetComponent<CardDisplay>();
         rectTransform = GetComponent<RectTransform>();
-        canvas = GetComponentInParent<Canvas>();
         cardCanvas = GetComponent<Canvas>();
         energyManager = FindAnyObjectByType<EnergyManager>();
         draggingManager = FindAnyObjectByType<CardDraggingManager>();
-
         startScale = rectTransform.localScale;
     }
-    //--------------------------------------------------------------------------------------
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        if (eventData.pointerDrag == null)
-        {
-            transform.DOScale(startScale * 1.2f, 0.1f).SetEase(Ease.Linear);
-        }
-    }
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        if (eventData.pointerDrag == null)
-        {
-            transform.GetComponent<Transform>().DOScale(startScale, 0.1f).SetEase(Ease.Linear);
-        }
-    }
+
+    public void OnPointerEnter(PointerEventData eventData) => transform.DOScale(startScale * 1.2f, 0.1f);
+    public void OnPointerExit(PointerEventData eventData) => transform.DOScale(startScale, 0.1f);
+
     public void OnBeginDrag(PointerEventData eventData)
     {
+        InteractionState.isDraggingCard = true;
         if (!energyManager.CheckIsEnoughOnCard(cardDisplay.cardToDisplay.energyCost))
         {
             eventData.pointerDrag = null;
@@ -53,98 +35,84 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler,
         }
 
         CardData.CardType type = cardDisplay.cardToDisplay.type;
+
+        // Подсказки
         if (type == CardData.CardType.Attack || type == CardData.CardType.SkillOnEnemy)
-        {
             draggingManager.SetEnemiesTooltipState(true);
-        }
-        if(type == CardData.CardType.Defence || type == CardData.CardType.SkillOnPlayer)
-        {
+        if (type == CardData.CardType.Defence || type == CardData.CardType.SkillOnPlayer)
             draggingManager.SetPlayerTooltipState(true);
-        }
 
-        transform.DOScale(startScale * 0.7f, 0.1f).SetEase(Ease.Linear);
-
-        InteractionState.isDraggingCard = true;
+        transform.DOScale(startScale * 0.7f, 0.1f);
         GetComponent<CanvasGroup>().blocksRaycasts = false;
-        droppedOnTarget = false;
-
         startPosition = rectTransform.anchoredPosition;
-
         cardCanvas.overrideSorting = true;
         cardCanvas.sortingOrder = 100;
-        
     }
 
     public void OnDrag(PointerEventData eventData)
     {
         Vector3 worldPos;
-        RectTransformUtility.ScreenPointToWorldPointInRectangle(
-        rectTransform,
-        eventData.position,
-        eventData.pressEventCamera,
-        out worldPos
-        );
-
+        RectTransformUtility.ScreenPointToWorldPointInRectangle(rectTransform, eventData.position, eventData.pressEventCamera, out worldPos);
         rectTransform.position = worldPos;
     }
 
-
     public void OnEndDrag(PointerEventData eventData)
     {
-        transform.DOScale(startScale, 0.1f).SetEase(Ease.Linear);
-
         InteractionState.isDraggingCard = false;
-        cardCanvas.overrideSorting = false;
+        transform.DOScale(startScale, 0.1f);
         GetComponent<CanvasGroup>().blocksRaycasts = true;
+        cardCanvas.overrideSorting = false;
 
         CardData card = cardDisplay.cardToDisplay;
+        CardEffects effects = FindAnyObjectByType<CardEffects>();
 
-        CardData.CardType type = cardDisplay.cardToDisplay.type;
-        if (type == CardData.CardType.Attack || type == CardData.CardType.SkillOnEnemy)
-        {
+        // Выключаем подсказки
+        if (card.type == CardData.CardType.Attack || card.type == CardData.CardType.SkillOnEnemy)
             draggingManager.SetEnemiesTooltipState(false);
-        }
-        if (type == CardData.CardType.Defence || type == CardData.CardType.SkillOnPlayer)
-        {
+        if (card.type == CardData.CardType.Defence || card.type == CardData.CardType.SkillOnPlayer)
             draggingManager.SetPlayerTooltipState(false);
-        }
 
-        Enemy enemy = eventData.pointerEnter?.GetComponent<Enemy>();
-        if (!IsValidTarget(eventData))
+        GameObject target = eventData.pointerEnter;
+        if (target == null)
         {
             rectTransform.DOAnchorPos(startPosition, 0.2f).SetEase(Ease.OutBack);
+            return;
+        }
+
+        Enemy enemy = target.GetComponentInParent<Enemy>();
+        PlayerHealth player = target.GetComponent<PlayerHealth>();
+
+        // Проверка валидности
+        bool valid;
+        if((card.type == CardData.CardType.Attack || card.type == CardData.CardType.SkillOnEnemy) && enemy == null ||
+        (card.type == CardData.CardType.Defence || card.type == CardData.CardType.SkillOnPlayer) && player == null ||
+        (card.effect == CardData.Effect.HealthDrain && enemy.hpWeakened) ||
+        (card.effect == CardData.Effect.StrengthDrain && enemy.strengthWeakened) ||
+        (card.effect == CardData.Effect.Stun && enemy.stunned))
+        {
+            valid = false;
         }
         else
         {
-            energyManager.DecreaseEnergy(card.energyCost);
-            Destroy(gameObject);
-            
+            valid = true;
         }
-    }
-    public bool IsValidTarget(PointerEventData eventData)
-    {
-        GameObject target = eventData.pointerEnter;
 
-        if (target == null || !droppedOnTarget)
-            return false;
-
-        PlayerHealth playerOnTarget = target.GetComponent<PlayerHealth>();
-        Enemy enemyOnTarget = target.GetComponent<Enemy>();
-        CardData card = cardDisplay.cardToDisplay;
-
-
-        if (
-        (playerOnTarget != null && card.type == CardData.CardType.Attack) ||
-        (enemyOnTarget != null && card.type == CardData.CardType.Defence) ||
-        (enemyOnTarget != null && card.type == CardData.CardType.SkillOnPlayer) ||
-        (playerOnTarget != null && card.type == CardData.CardType.SkillOnEnemy))
-        //(enemyOnTarget != null && card.effect == CardData.Effect.Stun && enemyOnTarget.stunned)
+        if (!valid)
         {
-            return false;
+            rectTransform.DOAnchorPos(startPosition, 0.2f).SetEase(Ease.OutBack);
+            return;
         }
-        else
+
+        // Снимаем энергию
+        energyManager.DecreaseEnergy(card.energyCost);
+
+        // Применяем эффекты
+        if (enemy != null)
         {
-            return true;
+            var dropTarget = enemy.GetComponent<EnemyDropTarget>();
+            dropTarget.ApplyAttack(card);
         }
+
+        Destroy(gameObject);
     }
 }

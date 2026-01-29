@@ -102,6 +102,7 @@ public class Enemy : MonoBehaviour
         GetComponentInChildren<EnemyToolTip>().UpdateStunToolTip(true);
         stunned = true;
     }
+    /*
     public void ApplyHealthWeaken(bool state, int turns)
     {
         hpWeakenedTurnsLeft = turns;
@@ -132,6 +133,7 @@ public class Enemy : MonoBehaviour
         }
         UpdateUI();
     }
+    */
     public virtual void AttackPlayer()
     {
         Vector3 tempPos = new Vector3(transform.position.x, transform.position.y, transform.position.z);

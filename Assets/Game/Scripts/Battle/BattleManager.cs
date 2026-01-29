@@ -7,6 +7,7 @@ public class BattleManager : MonoBehaviour
 {
     [SerializeField] private HandManager handManager;
     [SerializeField] private EnergyManager energyManager;
+    [SerializeField] private CardEffects effects;
     [SerializeField] private PlayerHealth player;
 
     [Header("UI")]
@@ -171,7 +172,7 @@ public class BattleManager : MonoBehaviour
                 enemies[i].hpWeakenedTurnsLeft--;
                 if (enemies[i].hpWeakenedTurnsLeft <= 0)
                 {
-                    enemies[i].ApplyHealthWeaken(false, 0);
+                    effects.HealthWeaken(enemies[i], false, 0);
                 }
             }
             if (enemies[i].strengthWeakened)
@@ -179,7 +180,7 @@ public class BattleManager : MonoBehaviour
                 enemies[i].strengthWeakenedTurnsLeft--;
                 if (enemies[i].strengthWeakenedTurnsLeft <= 0)
                 {
-                    enemies[i].ApplyStrengthWeaken(false, 0);
+                    effects.StrengthWeaken(enemies[i], false, 0);
                 }
             }
             enemies[i].AttackPlayer();
@@ -220,7 +221,6 @@ public class BattleManager : MonoBehaviour
     {
         RectTransform endBtnTransform = endTurnBtn.GetComponent<RectTransform>();
         endBtnTransform.DOKill();
-
 
         if (!state)
         {

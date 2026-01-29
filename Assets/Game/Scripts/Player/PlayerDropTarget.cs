@@ -3,6 +3,7 @@ using UnityEngine.EventSystems;
 
 public class PlayerDropTarget : MonoBehaviour, IDropHandler
 {
+    [SerializeField] private CardEffects cardEffects;
     private PlayerDefense defense;
 
     private void Start()
@@ -27,7 +28,7 @@ public class PlayerDropTarget : MonoBehaviour, IDropHandler
             CardData cardTemp = eventData.pointerDrag.GetComponent<CardDisplay>().cardToDisplay;
             if (cardTemp.effect == CardData.Effect.Cleansing && GetComponent<PlayerHealth>().hasAnxiety)
             {
-                eventData.pointerDrag.GetComponent<CardEffects>().RemoveAllDebuffs(GetComponent<PlayerHealth>());
+                cardEffects.RemoveAllDebuffs(GetComponent<PlayerHealth>());
             }
             if(cardTemp.effect == CardData.Effect.BloodPact)
             {
@@ -43,6 +44,5 @@ public class PlayerDropTarget : MonoBehaviour, IDropHandler
                 return;
             }
         }
-        eventData.pointerDrag.GetComponent<CardDrag>().droppedOnTarget = true;
     }
 }

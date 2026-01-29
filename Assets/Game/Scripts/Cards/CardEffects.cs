@@ -46,6 +46,17 @@ public class CardEffects : MonoBehaviour
     }
     public void StrengthWeaken(Enemy enemy, bool state, int turns)
     {
-        enemy.ApplyHealthWeaken(state, turns);
+        enemy.strengthWeakenedTurnsLeft = turns;
+        if (state)
+        {
+            enemy.damage /= 2;
+            enemy.strengthWeakened = true;
+        }
+        else
+        {
+            enemy.damage *= 2;
+            enemy.strengthWeakened = false;
+        }
+        enemy.UpdateUI();
     }
 }
