@@ -73,7 +73,7 @@ public class PlayerHealth : MonoBehaviour
         if (state)
         {
             image.color = new Color(image.color.r, image.color.g, image.color.b, 0);
-            clueTween = image.DOFade(0.1f, 0.2f).SetLoops(-1, LoopType.Yoyo);
+            clueTween = image.DOFade(0.1f, 0.2f).SetLoops(-1, LoopType.Yoyo).SetAutoKill(true).SetUpdate(true);
         }
         else
         {

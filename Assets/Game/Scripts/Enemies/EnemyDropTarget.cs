@@ -27,7 +27,7 @@ public class EnemyDropTarget : MonoBehaviour//, IDropHandler
                 case CardData.Effect.Stun:
                     if (!enemy.stunned)
                     {
-                        enemy.transform.DOShakeScale(0.15f, new Vector3(0.15f, 0.15f, 0));
+                        enemy.transform.DOShakeScale(0.15f, new Vector3(0.15f, 0.15f, 0)).SetAutoKill(true).SetUpdate(true);
                         effects.Stun(enemy);
                     }
                     break;
@@ -35,7 +35,7 @@ public class EnemyDropTarget : MonoBehaviour//, IDropHandler
                 case CardData.Effect.HealthDrain:
                     if (!enemy.hpWeakened)
                     {
-                        enemy.transform.DOShakeScale(0.15f, new Vector3(0.15f, 0.15f, 0));
+                        enemy.transform.DOShakeScale(0.15f, new Vector3(0.15f, 0.15f, 0)).SetAutoKill(true).SetUpdate(true);
                         effects.HealthWeaken(enemy, true, 2);
                     }
                     break;
@@ -43,7 +43,7 @@ public class EnemyDropTarget : MonoBehaviour//, IDropHandler
                 case CardData.Effect.StrengthDrain:
                     if (!enemy.strengthWeakened)
                     {
-                        enemy.transform.DOShakeScale(0.15f, new Vector3(0.15f, 0.15f, 0));
+                        enemy.transform.DOShakeScale(0.15f, new Vector3(0.15f, 0.15f, 0)).SetAutoKill(true).SetUpdate(true);
                         effects.StrengthWeaken(enemy, true, 2);
                     }
                     break;

@@ -63,7 +63,7 @@ public class DefenseCell : MonoBehaviour, IDropHandler
         }
         if(card.effect == CardData.Effect.RandomPower)
         {
-            int damage = eventData.pointerDrag.GetComponent<CardEffects>().RandomPower();
+            int damage = FindAnyObjectByType<CardEffects>().RandomPower();
             DecreaseDefense(damage);
         }
         else

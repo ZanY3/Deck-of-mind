@@ -11,6 +11,7 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler,
     private EnergyManager energyManager;
     private CardDraggingManager draggingManager;
     private Vector3 startScale;
+    private bool canStartDragging = true;
 
     private void Awake()
     {
@@ -22,11 +23,16 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler,
         startScale = rectTransform.localScale;
     }
 
-    public void OnPointerEnter(PointerEventData eventData) => transform.DOScale(startScale * 1.2f, 0.1f);
-    public void OnPointerExit(PointerEventData eventData) => transform.DOScale(startScale, 0.1f);
+    public void OnPointerEnter(PointerEventData eventData) => transform.DOScale(startScale * 1.2f, 0.1f).SetAutoKill(true).SetUpdate(true);
+    public void OnPointerExit(PointerEventData eventData) => transform.DOScale(startScale, 0.1f).SetAutoKill(true).SetUpdate(true);
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if(canStartDragging)
+        {
+            startPosition = rectTransform.anchoredPosition;
+        }
+
         InteractionState.isDraggingCard = true;
         if (!energyManager.CheckIsEnoughOnCard(cardDisplay.cardToDisplay.energyCost))
         {
@@ -36,15 +42,15 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler,
 
         CardData.CardType type = cardDisplay.cardToDisplay.type;
 
-        // Подсказки
+
         if (type == CardData.CardType.Attack || type == CardData.CardType.SkillOnEnemy)
             draggingManager.SetEnemiesTooltipState(true);
         if (type == CardData.CardType.Defence || type == CardData.CardType.SkillOnPlayer)
             draggingManager.SetPlayerTooltipState(true);
 
-        transform.DOScale(startScale * 0.7f, 0.1f);
+        transform.DOScale(startScale * 0.7f, 0.1f).SetAutoKill(true).SetUpdate(true);
         GetComponent<CanvasGroup>().blocksRaycasts = false;
-        startPosition = rectTransform.anchoredPosition;
+
         cardCanvas.overrideSorting = true;
         cardCanvas.sortingOrder = 100;
     }
@@ -58,8 +64,9 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler,
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        canStartDragging = false;
         InteractionState.isDraggingCard = false;
-        transform.DOScale(startScale, 0.1f);
+        transform.DOScale(startScale, 0.1f).SetAutoKill(true).SetUpdate(true);
         GetComponent<CanvasGroup>().blocksRaycasts = true;
         cardCanvas.overrideSorting = false;
 
@@ -75,7 +82,7 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler,
         GameObject target = eventData.pointerEnter;
         if (target == null)
         {
-            rectTransform.DOAnchorPos(startPosition, 0.2f).SetEase(Ease.OutBack);
+            rectTransform.DOAnchorPos(startPosition, 0.2f).SetEase(Ease.OutBack).SetAutoKill(true).SetUpdate(true).OnComplete(() => canStartDragging = true);
             return;
         }
 
@@ -99,7 +106,7 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler,
 
         if (!valid)
         {
-            rectTransform.DOAnchorPos(startPosition, 0.2f).SetEase(Ease.OutBack);
+            rectTransform.DOAnchorPos(startPosition, 0.2f).SetEase(Ease.OutBack).SetAutoKill(true).SetUpdate(true).OnComplete(() => canStartDragging = true);
             return;
         }
 
@@ -112,7 +119,7 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler,
             var dropTarget = enemy.GetComponent<EnemyDropTarget>();
             dropTarget.ApplyAttack(card);
         }
-
+        transform.DOKill();
         Destroy(gameObject);
     }
 }
