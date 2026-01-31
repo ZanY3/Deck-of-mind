@@ -110,11 +110,12 @@ public class BattleManager : MonoBehaviour
         {
             if (enemies[i].Data.enemyType == EnemyData.EnemyType.Defender && enemies[i].GetComponentInChildren<DefenseCell>() != null && enemies[i].stunned == false)
             {
-                enemies[i].transform.DOShakeScale(duration: 0.15f, strength: new Vector3(0.15f, 0.15f, 0));
-                enemies[i].GetComponentInChildren<DefenseCell>().RefillDefense();
-                yield return new WaitForSeconds(0.35f);
-                //Some animations for enemy attack
-                yield return new WaitForSeconds(1.5f);
+                if (enemies[i].GetComponentInChildren<DefenseCell>().RefreshDefenseEveryTurn)
+                {
+                    enemies[i].transform.DOShakeScale(duration: 0.15f, strength: new Vector3(0.15f, 0.15f, 0));
+                    enemies[i].GetComponentInChildren<DefenseCell>().RefillDefense();
+                    yield return new WaitForSeconds(1.5f);
+                }
             }
 
             if(enemies[i].Data.enemyType == EnemyData.EnemyType.Debuffer)

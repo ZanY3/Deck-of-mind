@@ -10,12 +10,12 @@ public class CardEffects : MonoBehaviour
     }
     public void BloodPact(PlayerHealth playerHealth)
     {
-        GetComponent<PlayerHealth>().TakeDamage(4);
+        playerHealth.TakeDamage(4);
         FindAnyObjectByType<EnergyManager>().IncreaseEnergy(1);
     }
     public void BloodDraw(PlayerHealth playerHealth)
     {
-        GetComponent<PlayerHealth>().TakeDamage(2);
+        playerHealth.TakeDamage(2);
         FindAnyObjectByType<HandManager>().DrawOneCard();
     }
 

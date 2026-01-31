@@ -1,4 +1,4 @@
-using TMPro;
+﻿using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -18,6 +18,9 @@ public class DefenseCell : MonoBehaviour, IDropHandler
 
     private Enemy enemy;
     private int startDefenseAmout;
+
+    public bool RefreshDefenseEveryTurn => refreshDefenseEveryTurn;
+    public bool defenseIsActive = true;
 
     private void Start()
     {
@@ -41,11 +44,12 @@ public class DefenseCell : MonoBehaviour, IDropHandler
         {
             defenseAmout -= value;
         }
-        else if(defenseAmout <= value)
+        else if (defenseAmout <= value)
         {
-            gameObject.SetActive(false);
-            //canAttackEnemy = true;
+            defenseIsActive = false;
             dropTarget.enabled = true;
+
+            gameObject.SetActive(false);
         }
         UpdateUI();
     }

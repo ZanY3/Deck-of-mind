@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class CardDrag : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     private RectTransform rectTransform;
     private Vector2 startPosition;
@@ -28,7 +28,7 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler,
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if(canStartDragging)
+        if (canStartDragging)
         {
             startPosition = rectTransform.anchoredPosition;
         }
@@ -66,12 +66,13 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler,
     {
         canStartDragging = false;
         InteractionState.isDraggingCard = false;
+
+        // Возвращаем масштаб карты
         transform.DOScale(startScale, 0.1f).SetAutoKill(true).SetUpdate(true);
         GetComponent<CanvasGroup>().blocksRaycasts = true;
         cardCanvas.overrideSorting = false;
 
         CardData card = cardDisplay.cardToDisplay;
-        CardEffects effects = FindAnyObjectByType<CardEffects>();
 
         // Выключаем подсказки
         if (card.type == CardData.CardType.Attack || card.type == CardData.CardType.SkillOnEnemy)
@@ -80,45 +81,74 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler,
             draggingManager.SetPlayerTooltipState(false);
 
         GameObject target = eventData.pointerEnter;
+
+        // Нет цели — возвращаем карту
         if (target == null)
         {
-            rectTransform.DOAnchorPos(startPosition, 0.2f).SetEase(Ease.OutBack).SetAutoKill(true).SetUpdate(true).OnComplete(() => canStartDragging = true);
+            rectTransform.DOAnchorPos(startPosition, 0.2f).SetEase(Ease.OutBack)
+                .SetAutoKill(true).SetUpdate(true)
+                .OnComplete(() => canStartDragging = true);
             return;
         }
 
         Enemy enemy = target.GetComponentInParent<Enemy>();
         PlayerHealth player = target.GetComponent<PlayerHealth>();
 
-        // Проверка валидности
-        bool valid;
-        if((card.type == CardData.CardType.Attack || card.type == CardData.CardType.SkillOnEnemy) && enemy == null ||
-        (card.type == CardData.CardType.Defence || card.type == CardData.CardType.SkillOnPlayer) && player == null ||
-        (card.effect == CardData.Effect.HealthDrain && enemy.hpWeakened) ||
-        (card.effect == CardData.Effect.StrengthDrain && enemy.strengthWeakened) ||
-        (card.effect == CardData.Effect.Stun && enemy.stunned))
+        // ---------------------- Снимаем энергию сразу ----------------------
+        energyManager.DecreaseEnergy(card.energyCost);
+
+        // ---------------------- Проверка щита ----------------------
+        if ((card.type == CardData.CardType.Attack || card.type == CardData.CardType.SkillOnEnemy) && enemy != null)
         {
+            DefenseCell shield = enemy.GetComponentInChildren<DefenseCell>(true);
+
+            if (shield != null && shield.defenseIsActive)
+            {
+                // Атакуем щит
+                if (card.effect == CardData.Effect.RandomPower)
+                {
+                    int damage = FindAnyObjectByType<CardEffects>().RandomPower();
+                    shield.DecreaseDefense(damage);
+                }
+                else
+                {
+                    shield.DecreaseDefense(card.power);
+                }
+
+                // Карта уничтожается, враг не получает урон
+                transform.DOKill();
+                Destroy(gameObject);
+                return;
+            }
+        }
+
+        // ---------------------- Проверка цели ----------------------
+        bool valid = true;
+
+        if ((card.type == CardData.CardType.Attack || card.type == CardData.CardType.SkillOnEnemy) && enemy == null)
             valid = false;
-        }
-        else
-        {
-            valid = true;
-        }
+
+        if ((card.type == CardData.CardType.Defence || card.type == CardData.CardType.SkillOnPlayer) && player == null)
+            valid = false;
 
         if (!valid)
         {
-            rectTransform.DOAnchorPos(startPosition, 0.2f).SetEase(Ease.OutBack).SetAutoKill(true).SetUpdate(true).OnComplete(() => canStartDragging = true);
+            rectTransform.DOAnchorPos(startPosition, 0.2f).SetEase(Ease.OutBack)
+                .SetAutoKill(true).SetUpdate(true)
+                .OnComplete(() => canStartDragging = true);
             return;
         }
 
-        // Снимаем энергию
-        energyManager.DecreaseEnergy(card.energyCost);
-
-        // Применяем эффекты
+        // ---------------------- Применяем эффекты ----------------------
         if (enemy != null)
         {
             var dropTarget = enemy.GetComponent<EnemyDropTarget>();
-            dropTarget.ApplyAttack(card);
+            if (dropTarget != null && dropTarget.enabled)
+            {
+                dropTarget.ApplyAttack(card);
+            }
         }
+        // ---------------------- Уничтожаем карту ----------------------
         transform.DOKill();
         Destroy(gameObject);
     }

@@ -2893,6 +2893,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 37b953edb52f353449d8a28f8e0e8ce5, type: 2}
   - {fileID: 11400000, guid: 79cebd7addb0f494a9f50c5cc8a72a4c, type: 2}
   - {fileID: 11400000, guid: 224293e1d4fa8044289e526d0ae1cb0c, type: 2}
+  - {fileID: 11400000, guid: 0701b4e738ee2234eb924cce0b020d04, type: 2}
+  - {fileID: 11400000, guid: 1dccc7642d3d1624ab34d22591f4552c, type: 2}
   cardTemplates:
   - {fileID: 2097190796}
   - {fileID: 1873815704}
