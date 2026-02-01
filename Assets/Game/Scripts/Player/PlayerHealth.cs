@@ -38,12 +38,17 @@ public class PlayerHealth : MonoBehaviour
         UpdateUI();
     }
 //--------------------------------------------------------------------------------------
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, bool useShield) //this bool parameter is for effects and in the future for special enemies
     {
         if(currentHealth > 0)
         {
             CameraShake.Shake(0.2f, 0.3f);
-            currentHealth -= defense.CalculateDamage(damage);
+
+            if(useShield)
+                currentHealth -= defense.CalculateDamage(damage);
+            else
+                currentHealth -= damage;
+
             UpdateUI();
         }
         if(currentHealth <= 0)

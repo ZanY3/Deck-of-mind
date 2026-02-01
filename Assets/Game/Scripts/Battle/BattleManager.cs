@@ -64,7 +64,7 @@ public class BattleManager : MonoBehaviour
         if(player.hasAnxiety)
         {
             Debug.LogWarning("Player took damage from anxiety debuff");
-            player.TakeDamage(player.anxietyDamage);
+            player.TakeDamage(player.anxietyDamage,true);
         }
         StartCoroutine(EnemyAttack());
     }

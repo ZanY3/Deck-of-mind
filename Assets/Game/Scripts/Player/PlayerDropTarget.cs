@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 public class PlayerDropTarget : MonoBehaviour, IDropHandler
 {
     [SerializeField] private CardEffects cardEffects;
+    [SerializeField] private EnergyManager energyManager;
     private PlayerDefense defense;
 
     private void Start()
@@ -22,26 +23,25 @@ public class PlayerDropTarget : MonoBehaviour, IDropHandler
         else if (card.type == CardData.CardType.Defence)
         {
             defense.AddArmor(card.power);
+            energyManager.DecreaseEnergy(card.energyCost);
         }
         else if (card.type == CardData.CardType.SkillOnPlayer)
         {
             CardData cardTemp = eventData.pointerDrag.GetComponent<CardDisplay>().cardToDisplay;
             if (cardTemp.effect == CardData.Effect.Cleansing && GetComponent<PlayerHealth>().hasAnxiety)
             {
-                cardEffects.RemoveAllDebuffs(GetComponent<PlayerHealth>());
+                cardEffects.Cleansing(GetComponent<PlayerHealth>());
+                energyManager.DecreaseEnergy(card.energyCost);
             }
             if(cardTemp.effect == CardData.Effect.BloodPact)
             {
                 cardEffects.BloodPact(GetComponent<PlayerHealth>());
+                energyManager.DecreaseEnergy(card.energyCost);
             }
             if(cardTemp.effect == CardData.Effect.BloodDraw)
             {
                 cardEffects.BloodDraw(GetComponent<PlayerHealth>());
-            }
-            else
-            {
-                Debug.Log("Player don't have debuffs to clean");
-                return;
+                energyManager.DecreaseEnergy(card.energyCost);
             }
         }
     }

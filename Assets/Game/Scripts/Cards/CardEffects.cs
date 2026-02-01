@@ -3,19 +3,19 @@ using UnityEngine;
 public class CardEffects : MonoBehaviour
 {
 //--------------Effects on player---------------------------
-    public void RemoveAllDebuffs(PlayerHealth playerHealth)
+    public void Cleansing(PlayerHealth playerHealth)
     {
         playerHealth.ClearAllDebuffs();
         Debug.Log("All debufs had cleaned!");
     }
     public void BloodPact(PlayerHealth playerHealth)
     {
-        playerHealth.TakeDamage(4);
+        playerHealth.TakeDamage(4, false);
         FindAnyObjectByType<EnergyManager>().IncreaseEnergy(1);
     }
     public void BloodDraw(PlayerHealth playerHealth)
     {
-        playerHealth.TakeDamage(2);
+        playerHealth.TakeDamage(2, false);
         FindAnyObjectByType<HandManager>().DrawOneCard();
     }
 

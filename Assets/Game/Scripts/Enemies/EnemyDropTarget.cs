@@ -3,8 +3,9 @@ using UnityEngine.EventSystems;
 using DG.Tweening;
 using Unity.VisualScripting;
 
-public class EnemyDropTarget : MonoBehaviour//, IDropHandler
+public class EnemyDropTarget : MonoBehaviour
 {
+    [HideInInspector] public bool canBeAttacked = true;
     private Enemy enemy;
     private CardEffects effects;
     private void Awake()

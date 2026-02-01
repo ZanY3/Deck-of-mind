@@ -3,7 +3,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DefenseCell : MonoBehaviour, IDropHandler
+public class DefenseCell : MonoBehaviour//, IDropHandler
 {
     [SerializeField] private int defenseAmout;
     [SerializeField] private int defensePerTurn;
@@ -24,7 +24,8 @@ public class DefenseCell : MonoBehaviour, IDropHandler
 
     private void Start()
     {
-        dropTarget.enabled = false;
+        dropTarget.canBeAttacked = false;
+        //dropTarget.enabled = false;
         enemy = GetComponentInParent<Enemy>();
         startDefenseAmout = defenseAmout;
         UpdateUI();
@@ -47,7 +48,8 @@ public class DefenseCell : MonoBehaviour, IDropHandler
         else if (defenseAmout <= value)
         {
             defenseIsActive = false;
-            dropTarget.enabled = true;
+            dropTarget.canBeAttacked = true;
+            //dropTarget.enabled = true;
 
             gameObject.SetActive(false);
         }
@@ -57,6 +59,7 @@ public class DefenseCell : MonoBehaviour, IDropHandler
     {
        defenseAmoutTxt.text = defenseAmout.ToString();
     }
+    /*
     public void OnDrop(PointerEventData eventData) //OnCardDrop
     {
         CardData card = eventData.pointerDrag.GetComponent<CardDisplay>().cardToDisplay;
@@ -75,4 +78,5 @@ public class DefenseCell : MonoBehaviour, IDropHandler
             DecreaseDefense(card.power);
         }
     }
+    */
 }

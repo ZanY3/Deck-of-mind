@@ -142,7 +142,7 @@ public class Enemy : MonoBehaviour
             .SetUpdate(true)
             .OnComplete(() =>
             {
-                player.TakeDamage(damage);
+                player.TakeDamage(damage, true);
 
                 // Возврат в начальную позицию
                 transform.DOMoveX(startPos.x, duration).SetEase(Ease.InOutQuad).SetAutoKill(true).SetUpdate(true);

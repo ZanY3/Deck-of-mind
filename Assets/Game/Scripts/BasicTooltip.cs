@@ -10,7 +10,7 @@ public class BasicTooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     private void Start()
     {
-        startScale = GetComponent<RectTransform>().localScale;
+        startScale = tooltip.GetComponent<RectTransform>().localScale;
         tooltip.transform.DOScale(0, 0); //to make an animation in the future
     }
 

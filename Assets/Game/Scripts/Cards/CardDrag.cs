@@ -85,8 +85,10 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         // Нет цели — возвращаем карту
         if (target == null)
         {
-            rectTransform.DOAnchorPos(startPosition, 0.2f).SetEase(Ease.OutBack)
-                .SetAutoKill(true).SetUpdate(true)
+            rectTransform.DOAnchorPos(startPosition, 0.2f)
+                .SetEase(Ease.OutBack)
+                .SetAutoKill(true)
+                .SetUpdate(true)
                 .OnComplete(() => canStartDragging = true);
             return;
         }
@@ -94,8 +96,22 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         Enemy enemy = target.GetComponentInParent<Enemy>();
         PlayerHealth player = target.GetComponent<PlayerHealth>();
 
-        // ---------------------- Снимаем энергию сразу ----------------------
-        energyManager.DecreaseEnergy(card.energyCost);
+        // Проверка цели
+        bool valid = true;
+        if ((card.type == CardData.CardType.Attack || card.type == CardData.CardType.SkillOnEnemy) && enemy == null)
+            valid = false;
+        if ((card.type == CardData.CardType.Defence || card.type == CardData.CardType.SkillOnPlayer) && player == null)
+            valid = false;
+
+        if (!valid)
+        {
+            rectTransform.DOAnchorPos(startPosition, 0.2f)
+                .SetEase(Ease.OutBack)
+                .SetAutoKill(true)
+                .SetUpdate(true)
+                .OnComplete(() => canStartDragging = true);
+            return;
+        }
 
         // ---------------------- Проверка щита ----------------------
         if ((card.type == CardData.CardType.Attack || card.type == CardData.CardType.SkillOnEnemy) && enemy != null)
@@ -104,52 +120,91 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
             if (shield != null && shield.defenseIsActive)
             {
-                // Атакуем щит
                 if (card.effect == CardData.Effect.RandomPower)
                 {
                     int damage = FindAnyObjectByType<CardEffects>().RandomPower();
                     shield.DecreaseDefense(damage);
+                }
+                else if (card.type == CardData.CardType.SkillOnEnemy)
+                {
+                    var dropTarget = enemy.GetComponent<EnemyDropTarget>();
+                    if (CanApplyEnemySkill(card, enemy))
+                    {
+                        dropTarget.ApplyAttack(card);
+                        energyManager.DecreaseEnergy(card.energyCost);
+                        transform.DOKill();
+                        Destroy(gameObject);
+                        return;
+                    }
+                    else
+                    {
+                        // Эффект уже есть — карта возвращается
+                        rectTransform.DOAnchorPos(startPosition, 0.2f)
+                            .SetEase(Ease.OutBack)
+                            .SetAutoKill(true)
+                            .SetUpdate(true)
+                            .OnComplete(() => canStartDragging = true);
+                        return;
+                    }
                 }
                 else
                 {
                     shield.DecreaseDefense(card.power);
                 }
 
-                // Карта уничтожается, враг не получает урон
+                energyManager.DecreaseEnergy(card.energyCost);
                 transform.DOKill();
                 Destroy(gameObject);
                 return;
             }
         }
 
-        // ---------------------- Проверка цели ----------------------
-        bool valid = true;
-
-        if ((card.type == CardData.CardType.Attack || card.type == CardData.CardType.SkillOnEnemy) && enemy == null)
-            valid = false;
-
-        if ((card.type == CardData.CardType.Defence || card.type == CardData.CardType.SkillOnPlayer) && player == null)
-            valid = false;
-
-        if (!valid)
-        {
-            rectTransform.DOAnchorPos(startPosition, 0.2f).SetEase(Ease.OutBack)
-                .SetAutoKill(true).SetUpdate(true)
-                .OnComplete(() => canStartDragging = true);
-            return;
-        }
-
-        // ---------------------- Применяем эффекты ----------------------
+        // ---------------------- Применяем эффекты на врага ----------------------
         if (enemy != null)
         {
             var dropTarget = enemy.GetComponent<EnemyDropTarget>();
-            if (dropTarget != null && dropTarget.enabled)
+            if (dropTarget != null && dropTarget.canBeAttacked)
             {
-                dropTarget.ApplyAttack(card);
+                if (CanApplyEnemySkill(card, enemy))
+                {
+                    dropTarget.ApplyAttack(card);
+                    energyManager.DecreaseEnergy(card.energyCost);
+                    transform.DOKill();
+                    Destroy(gameObject);
+                }
+                else
+                {
+                    // Эффект уже есть — возвращаем карту
+                    rectTransform.DOAnchorPos(startPosition, 0.2f)
+                        .SetEase(Ease.OutBack)
+                        .SetAutoKill(true)
+                        .SetUpdate(true)
+                        .OnComplete(() => canStartDragging = true);
+                }
+                return;
             }
         }
-        // ---------------------- Уничтожаем карту ----------------------
+
         transform.DOKill();
         Destroy(gameObject);
+    }
+    private bool CanApplyEnemySkill(CardData card, Enemy enemy)
+    {
+        if (card.type != CardData.CardType.SkillOnEnemy || enemy == null)
+            return true;
+
+        switch (card.effect)
+        {
+            case CardData.Effect.Stun:
+                return !enemy.stunned;
+
+            case CardData.Effect.HealthDrain:
+                return !enemy.hpWeakened;
+
+            case CardData.Effect.StrengthDrain:
+                return !enemy.strengthWeakened;
+        }
+
+        return true;
     }
 }
