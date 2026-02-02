@@ -1,5 +1,6 @@
 using DG.Tweening;
 using TMPro;
+using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -13,6 +14,13 @@ public class EnemyToolTip : MonoBehaviour,IPointerEnterHandler, IPointerExitHand
     [SerializeField] private GameObject tooltip;
     [SerializeField] private GameObject cardDragTooltip;
     [SerializeField] private GameObject stunTooltip;
+    [Header("Debuffs")]
+    [SerializeField] private GameObject hpWeaknededTooltip;
+    [SerializeField] private TMP_Text hpWeaknededTurnsLeftText;
+
+    [SerializeField] private GameObject strWeaknededTooltip;
+    [SerializeField] private TMP_Text strWeaknededTurnsLeftText;
+    [Space]
     [SerializeField] private Image iconImg;
     [SerializeField] private TMP_Text nameTxt;
     [SerializeField] private TMP_Text descriptionTxt;
@@ -50,6 +58,16 @@ public class EnemyToolTip : MonoBehaviour,IPointerEnterHandler, IPointerExitHand
         {
             iconImg.color = Color.white;
         }
+    }
+    public void UpdateHpWeaknededTooltip(bool state, int turnsLeft)
+    {
+        hpWeaknededTurnsLeftText.text = "Turns left: " + turnsLeft.ToString();
+        hpWeaknededTooltip.SetActive(state);
+    }
+    public void UpdateStrengthTooltip(bool state, int turnsLeft)
+    {
+        strWeaknededTurnsLeftText.text = "Turns left: " + turnsLeft.ToString();
+        strWeaknededTooltip.SetActive(state);
     }
     public void UpdateDragTooltip(bool state)
     {

@@ -171,6 +171,7 @@ public class BattleManager : MonoBehaviour
             if (enemies[i].hpWeakened)
             {
                 enemies[i].hpWeakenedTurnsLeft--;
+                enemies[i].GetComponentInChildren<EnemyToolTip>().UpdateHpWeaknededTooltip(true, enemies[i].hpWeakenedTurnsLeft);
                 if (enemies[i].hpWeakenedTurnsLeft <= 0)
                 {
                     effects.HealthWeaken(enemies[i], false, 0);
@@ -179,6 +180,7 @@ public class BattleManager : MonoBehaviour
             if (enemies[i].strengthWeakened)
             {
                 enemies[i].strengthWeakenedTurnsLeft--;
+                enemies[i].GetComponentInChildren<EnemyToolTip>().UpdateStrengthTooltip(true, enemies[i].strengthWeakenedTurnsLeft);
                 if (enemies[i].strengthWeakenedTurnsLeft <= 0)
                 {
                     effects.StrengthWeaken(enemies[i], false, 0);

@@ -42,6 +42,7 @@ public class CardEffects : MonoBehaviour
             enemy.currentHealth *= 2;
             enemy.hpWeakened = false;
         }
+        enemy.GetComponentInChildren<EnemyToolTip>().UpdateHpWeaknededTooltip(state, turns);
         enemy.UpdateUI();
     }
     public void StrengthWeaken(Enemy enemy, bool state, int turns)
@@ -57,6 +58,7 @@ public class CardEffects : MonoBehaviour
             enemy.damage *= 2;
             enemy.strengthWeakened = false;
         }
+        enemy.GetComponentInChildren<EnemyToolTip>().UpdateStrengthTooltip(state, turns);
         enemy.UpdateUI();
     }
 }

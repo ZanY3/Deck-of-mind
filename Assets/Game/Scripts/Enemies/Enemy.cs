@@ -49,6 +49,7 @@ public class Enemy : MonoBehaviour
 
     public void UpdateUI()
     {
+        EnemyToolTip tooltip = GetComponentInChildren<EnemyToolTip>();
         if (healthTxt != null) healthTxt.text = currentHealth.ToString();
         if (damageTxt != null) damageTxt.text = damage.ToString();
         if (debuffDamageTxt != null && GetComponent<AnxietyDebuff>() != null)
