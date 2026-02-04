@@ -116,4 +116,9 @@ public class PlayerHealth : MonoBehaviour
             healthTxt.text = currentHealth.ToString() + "/" + maxHealth.ToString();
         }
     }
+    public bool HasDebuffs()
+    {
+        return hasAnxiety;
+        //maybe in the future i will add more debuffs, but now only anxiety
+    }
 }

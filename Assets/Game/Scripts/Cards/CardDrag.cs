@@ -102,6 +102,8 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             valid = false;
         if ((card.type == CardData.CardType.Defence || card.type == CardData.CardType.SkillOnPlayer) && player == null)
             valid = false;
+        if(card.effect == CardData.Effect.Cleansing && !player.HasDebuffs())
+            valid = false;
 
         if (!valid)
         {
