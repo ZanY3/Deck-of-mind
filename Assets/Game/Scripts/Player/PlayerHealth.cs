@@ -93,6 +93,15 @@ public class PlayerHealth : MonoBehaviour
         ChangeStunState(false);
         UpdateUI();
     }
+    public void Heal(int amoutToHeal)
+    {
+        currentHealth += amoutToHeal;
+        if(currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
+        UpdateUI();
+    }
     public void UpdateUI()
     {
         if(healthTxt != null && healthBarImage != null)

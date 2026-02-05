@@ -9,6 +9,7 @@ public class CardRewardManager : MonoBehaviour
 
     [SerializeField] private CardDisplay[] cardTemplates;
     [SerializeField] private DeckManager deckManager;
+    [SerializeField] private PlayerHealth player;
 
     [HideInInspector] public bool hasChosenCard = false;
     
@@ -46,6 +47,12 @@ public class CardRewardManager : MonoBehaviour
             cg.interactable = state;
             cg.blocksRaycasts = state;
         }
+    }
+    public void SkipReward()
+    {
+        player.Heal(10);
+        hasChosenCard = true;
+        SetCardsInteractable(false);
     }
 
     public void ChooseCard(CardData card)

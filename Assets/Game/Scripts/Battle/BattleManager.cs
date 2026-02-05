@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections;
 using DG.Tweening;
+using UnityEngine.UI;
 
 public class BattleManager : MonoBehaviour
 {
@@ -26,7 +27,7 @@ public class BattleManager : MonoBehaviour
     {
         enemies = new List<Enemy>();
     }
-//-------------------------------------------
+    //-------------------------------------------
     public void AddEnemy(Enemy enemy)
     {
         enemies.Add(enemy);
@@ -38,11 +39,6 @@ public class BattleManager : MonoBehaviour
     public void StartBattle()
     {
         isPlayerTurn = true;
-
-        EndBtnSetActive(true);
-
-        RectTransform rt = endTurnBtn.GetComponent<RectTransform>();
-        rt.anchoredPosition = new Vector2(rt.anchoredPosition.x, -200);
         EndBtnSetActive(true);
 
         winFinalPanel.SetActive(false);
@@ -61,10 +57,10 @@ public class BattleManager : MonoBehaviour
     }
     public void EnemyTurn()
     {
-        if(player.hasAnxiety)
+        if (player.hasAnxiety)
         {
             Debug.LogWarning("Player took damage from anxiety debuff");
-            player.TakeDamage(player.anxietyDamage,true);
+            player.TakeDamage(player.anxietyDamage, true);
         }
         StartCoroutine(EnemyAttack());
     }
@@ -91,7 +87,7 @@ public class BattleManager : MonoBehaviour
 
         player.UpdateUI();
 
-        for(int i = 0; i < enemies.Count; i++)
+        for (int i = 0; i < enemies.Count; i++)
         {
             enemies[i].enabled = false;
         }
@@ -102,7 +98,7 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator EnemyAttack()
     {
-        if(player.hasAnxiety)
+        if (player.hasAnxiety)
         {
             yield return new WaitForSeconds(1.5f);
         }
@@ -118,7 +114,7 @@ public class BattleManager : MonoBehaviour
                 }
             }
 
-            if(enemies[i].Data.enemyType == EnemyData.EnemyType.Debuffer)
+            if (enemies[i].Data.enemyType == EnemyData.EnemyType.Debuffer)
             {
                 if (enemies[i].GetComponent<AnxietyDebuff>() != null)
                 {
@@ -141,7 +137,7 @@ public class BattleManager : MonoBehaviour
                     StunDebuff enemyStun = enemies[i].GetComponent<StunDebuff>();
                     EnemyToolTip enemyToolTip = enemies[i].GetComponentInChildren<EnemyToolTip>();
 
-                    if(enemyStun.turnsUntilStun > 0)
+                    if (enemyStun.turnsUntilStun > 0)
                     {
                         enemyStun.turnsUntilStun--;
                     }
@@ -155,7 +151,7 @@ public class BattleManager : MonoBehaviour
                     {
                         enemyToolTip.UpdateStunClue(true);
                     }
-                 }
+                }
             }
 
             if (enemies[i].stunned)
@@ -222,20 +218,22 @@ public class BattleManager : MonoBehaviour
     }
     public void EndBtnSetActive(bool state)
     {
-        RectTransform endBtnTransform = endTurnBtn.GetComponent<RectTransform>();
-        endBtnTransform.DOKill();
+        Button btn = endTurnBtn.GetComponent<Button>();
+        Image img = endTurnBtn.GetComponent<Image>();
+
+        img.DOKill();
+
+        btn.interactable = state;
 
         if (!state)
         {
-            endBtnTransform.DOAnchorPosY(-200, 0.3f).OnComplete(() =>
-            {
-                endTurnBtn.SetActive(false);
-            });
+            img.DOColor(new Color(0.6f, 0.6f, 0.6f, 0.7f), 0.15f)
+               .SetEase(Ease.OutQuad);
         }
         else
         {
-            endTurnBtn.SetActive(true);
-            endBtnTransform.DOAnchorPosY(135, 0.3f);
+            img.DOColor(Color.white, 0.15f)
+               .SetEase(Ease.OutQuad);
         }
     }
 }
