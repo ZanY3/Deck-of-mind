@@ -176,6 +176,7 @@ GameObject:
   - component: {fileID: 46173281}
   - component: {fileID: 46173283}
   - component: {fileID: 46173282}
+  - component: {fileID: 46173284}
   m_Layer: 5
   m_Name: FinalTxt
   m_TagString: Untagged
@@ -301,6 +302,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 46173280}
   m_CullTransparentMesh: 1
+--- !u!114 &46173284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 46173280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fc806d26a12e0b4db4dbf32d6c94b7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TextWaveAnim
+  amplitude: 5
+  frequency: 3
+  letterOffset: 0.4
 --- !u!1 &67259471
 GameObject:
   m_ObjectHideFlags: 0
@@ -643,6 +659,7 @@ MonoBehaviour:
   numberOfStages: 10
   playerDefense: {fileID: 1397727169}
   enemiesPrefabs:
+  - {fileID: 296436791887354713, guid: ffb69bf477882604fbc279c863f959d5, type: 3}
   - {fileID: 1816550486874978644, guid: 7faffba7115f81f4a9bd2173b03dfe20, type: 3}
   - {fileID: 5978665549588100378, guid: f49653eceae247343b971868c3e648f0, type: 3}
   - {fileID: 2601725641773459835, guid: 426b59197cbf67a4ba6b04e9575b4be0, type: 3}
@@ -650,7 +667,6 @@ MonoBehaviour:
   - {fileID: 919055057233421266, guid: 04a359a47af678742a1fdc855ed98691, type: 3}
   - {fileID: 3576302214709595720, guid: a4ced8783cf488841ac3e6b27ba3464a, type: 3}
   - {fileID: 772129519610729770, guid: 4c70e2d3c3947b643bbad05da30cacff, type: 3}
-  - {fileID: 296436791887354713, guid: ffb69bf477882604fbc279c863f959d5, type: 3}
   - {fileID: 296436791887354713, guid: 27b70d20e3e9372468f606e111850142, type: 3}
   - {fileID: 296436791887354713, guid: dbc16cffd04ffa34789275df49a6c8d7, type: 3}
   - {fileID: 8944439527343392059, guid: 4640360e6c03d0044a2424edf227f5a8, type: 3}
@@ -1422,6 +1438,7 @@ GameObject:
   - component: {fileID: 348637503}
   - component: {fileID: 348637505}
   - component: {fileID: 348637504}
+  - component: {fileID: 348637506}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -1547,6 +1564,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 348637502}
   m_CullTransparentMesh: 1
+--- !u!114 &348637506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 348637502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fc806d26a12e0b4db4dbf32d6c94b7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TextWaveAnim
+  amplitude: 3
+  frequency: 2
+  letterOffset: 0.2
 --- !u!1 &377841812
 GameObject:
   m_ObjectHideFlags: 0
@@ -3885,11 +3917,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4246580499561464838, guid: c570123a1f57b294dac6fe2b5f8ecb2a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 761.9
+      value: 692
       objectReference: {fileID: 0}
     - target: {fileID: 4246580499561464838, guid: c570123a1f57b294dac6fe2b5f8ecb2a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 373.6
+      value: -230
       objectReference: {fileID: 0}
     - target: {fileID: 4246580499561464838, guid: c570123a1f57b294dac6fe2b5f8ecb2a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4013,6 +4045,7 @@ GameObject:
   - component: {fileID: 1183053601}
   - component: {fileID: 1183053603}
   - component: {fileID: 1183053602}
+  - component: {fileID: 1183053604}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -4138,6 +4171,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1183053600}
   m_CullTransparentMesh: 1
+--- !u!114 &1183053604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1183053600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fc806d26a12e0b4db4dbf32d6c94b7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TextWaveAnim
+  amplitude: 3
+  frequency: 2
+  letterOffset: 0.2
 --- !u!1 &1198327346
 GameObject:
   m_ObjectHideFlags: 0
@@ -4777,6 +4825,7 @@ GameObject:
   - component: {fileID: 1416197537}
   - component: {fileID: 1416197539}
   - component: {fileID: 1416197538}
+  - component: {fileID: 1416197540}
   m_Layer: 5
   m_Name: FinalTxt
   m_TagString: Untagged
@@ -4902,6 +4951,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1416197536}
   m_CullTransparentMesh: 1
+--- !u!114 &1416197540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1416197536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fc806d26a12e0b4db4dbf32d6c94b7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TextWaveAnim
+  amplitude: 5
+  frequency: 3
+  letterOffset: 0.4
 --- !u!1 &1434966527
 GameObject:
   m_ObjectHideFlags: 0
@@ -5592,6 +5656,7 @@ GameObject:
   - component: {fileID: 1538146380}
   - component: {fileID: 1538146379}
   - component: {fileID: 1538146378}
+  - component: {fileID: 1538146381}
   m_Layer: 5
   m_Name: TipTxt
   m_TagString: Untagged
@@ -5729,6 +5794,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1538146376}
   m_CullTransparentMesh: 1
+--- !u!114 &1538146381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1538146376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fc806d26a12e0b4db4dbf32d6c94b7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TextWaveAnim
+  amplitude: 0.2
+  frequency: 1
+  letterOffset: 0.15
 --- !u!1 &1541962108
 GameObject:
   m_ObjectHideFlags: 0
@@ -7205,6 +7285,7 @@ GameObject:
   - component: {fileID: 1892049687}
   - component: {fileID: 1892049689}
   - component: {fileID: 1892049688}
+  - component: {fileID: 1892049690}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -7330,6 +7411,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1892049686}
   m_CullTransparentMesh: 1
+--- !u!114 &1892049690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1892049686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fc806d26a12e0b4db4dbf32d6c94b7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TextWaveAnim
+  amplitude: 3
+  frequency: 2
+  letterOffset: 0.2
 --- !u!1 &1915514491
 GameObject:
   m_ObjectHideFlags: 0
@@ -7381,6 +7477,7 @@ GameObject:
   - component: {fileID: 1965467913}
   - component: {fileID: 1965467915}
   - component: {fileID: 1965467914}
+  - component: {fileID: 1965467916}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -7506,6 +7603,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1965467912}
   m_CullTransparentMesh: 1
+--- !u!114 &1965467916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1965467912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fc806d26a12e0b4db4dbf32d6c94b7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TextWaveAnim
+  amplitude: 3
+  frequency: 2
+  letterOffset: 0.2
 --- !u!1 &1975157956
 GameObject:
   m_ObjectHideFlags: 0
@@ -7639,6 +7751,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1879493839}
     m_Modifications:
+    - target: {fileID: 64007899277724383, guid: c570123a1f57b294dac6fe2b5f8ecb2a, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 64007899277724383, guid: c570123a1f57b294dac6fe2b5f8ecb2a, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 64007899277724383, guid: c570123a1f57b294dac6fe2b5f8ecb2a, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 64007899277724383, guid: c570123a1f57b294dac6fe2b5f8ecb2a, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4246580499561464838, guid: c570123a1f57b294dac6fe2b5f8ecb2a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -81
