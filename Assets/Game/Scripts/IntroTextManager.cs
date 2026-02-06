@@ -18,11 +18,16 @@ public class IntroTextManager : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private float typeSpeed = 0.05f;
     [SerializeField] private float sentenceDelay = 1f;
+    [SerializeField] private float fadeDuration = 0.5f;
+    [SerializeField] private float scalePunch = 0.05f;
+    [SerializeField] private float swayAmount = 0.5f; // градусы поворота
+    [SerializeField] private float swayDuration = 2f; // время полного покачивания
 
     private int currentSentence = 0;
     private bool isTyping = false;
     private Coroutine typingCoroutine;
     private bool waitingForNext = false;
+    private Tween swayTween;
 
     private void Start()
     {
@@ -37,18 +42,17 @@ public class IntroTextManager : MonoBehaviour
         {
             if (isTyping)
             {
-                // Если текст печатается — показываем весь
                 if (typingCoroutine != null)
-                {
                     StopCoroutine(typingCoroutine);
-                    textField.text = sentences[currentSentence];
-                    isTyping = false;
-                    waitingForNext = true;
-                }
+
+                textField.text = sentences[currentSentence];
+                isTyping = false;
+                waitingForNext = true;
+
+                textField.transform.DOPunchScale(Vector3.one * scalePunch, 0.2f, 1, 0.5f);
             }
             else if (waitingForNext)
             {
-                // Если текст уже напечатан — идём к следующему
                 waitingForNext = false;
                 currentSentence++;
                 if (currentSentence < sentences.Count)
@@ -62,9 +66,9 @@ public class IntroTextManager : MonoBehaviour
             }
         }
     }
+
     private IEnumerator PlayIntro()
     {
-        // Ждём пока экран полностью проявится
         yield return new WaitForSeconds(0.5f);
 
         if (sentences.Count > 0)
@@ -75,6 +79,10 @@ public class IntroTextManager : MonoBehaviour
     {
         isTyping = true;
         textField.text = "";
+        textField.alpha = 0f;
+
+        // Плавное появление текста без изменения глобального масштаба
+        textField.DOFade(1f, fadeDuration);
 
         foreach (char letter in sentence)
         {
@@ -82,13 +90,25 @@ public class IntroTextManager : MonoBehaviour
             yield return new WaitForSeconds(typeSpeed);
         }
 
+        // Начинаем очень слабое покачивание текста
+        if (swayTween != null)
+            swayTween.Kill();
+
+        swayTween = textField.transform.DOLocalRotate(
+            new Vector3(0f, 0f, swayAmount),
+            swayDuration / 2f
+        ).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutSine);
+
         isTyping = false;
         waitingForNext = true;
     }
 
     public void OnIntroCompleted()
     {
-        Camera.main.GetComponent<CameraShake>().OnShake(1f, 0.5f);
+        if (swayTween != null)
+            swayTween.Kill();
+
+        Camera.main.GetComponent<CameraShake>().OnShake(0.5f, 0.3f);
         allGameElements.SetActive(true);
         gameObject.SetActive(false);
     }
