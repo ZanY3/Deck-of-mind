@@ -23,6 +23,10 @@ public class IntroTextManager : MonoBehaviour
     [SerializeField] private float swayAmount = 0.5f; // градусы поворота
     [SerializeField] private float swayDuration = 2f; // время полного покачивания
 
+    [Space]
+    [Header("Other")]
+    [SerializeField] private TutorialManager tutorialManager;
+
     private int currentSentence = 0;
     private bool isTyping = false;
     private Coroutine typingCoroutine;
@@ -66,7 +70,6 @@ public class IntroTextManager : MonoBehaviour
             }
         }
     }
-
     private IEnumerator PlayIntro()
     {
         yield return new WaitForSeconds(0.5f);
@@ -107,9 +110,10 @@ public class IntroTextManager : MonoBehaviour
     {
         if (swayTween != null)
             swayTween.Kill();
-
+        
         Camera.main.GetComponent<CameraShake>().OnShake(0.5f, 0.3f);
         allGameElements.SetActive(true);
+        tutorialManager.StartTutorial();
         gameObject.SetActive(false);
     }
 }
