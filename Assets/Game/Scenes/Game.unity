@@ -1228,7 +1228,7 @@ MonoBehaviour:
   typeSpeed: 0.05
   sentenceDelay: 1
   fadeDuration: 0.5
-  scalePunch: 0.05
+  scalePunch: 0.03
   swayAmount: 0.75
   swayDuration: 2
   tutorialManager: {fileID: 268980323}

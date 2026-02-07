@@ -60,10 +60,8 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(int value)
     {
-        // Убиваем все tween на transform перед новой анимацией
         transform.DOKill();
 
-        // Анимация удара
         transform.DOShakeScale(0.15f, 1, 10, 80).SetAutoKill(true).SetUpdate(true);
 
         currentHealth -= value;
@@ -74,7 +72,6 @@ public class Enemy : MonoBehaviour
             currentHealth = 0;
             UpdateUI();
 
-            // Отключаем все текущие tween на этом объекте
             transform.DOKill();
 
             if (enemyData.name == "Brain Leech" && FindAnyObjectByType<BossPhaseController>() != null)
@@ -91,7 +88,7 @@ public class Enemy : MonoBehaviour
                     .SetUpdate(true).
                     OnComplete(() =>
                     {
-                        if (this != null) // Проверка на объект
+                        if (this != null)
                         {
                             battleManager.RemoveEnemy(this);
                             battleManager.CheckPlayerWin();
@@ -132,7 +129,6 @@ public class Enemy : MonoBehaviour
     {
         if (player == null) return;
 
-        // Убиваем все tween на transform, чтобы избежать конфликтов
         transform.DOKill();
 
         Vector3 startPos = transform.position;
@@ -145,7 +141,6 @@ public class Enemy : MonoBehaviour
             {
                 player.TakeDamage(damage, true);
 
-                // Возврат в начальную позицию
                 transform.DOMoveX(startPos.x, duration).SetEase(Ease.InOutQuad).SetAutoKill(true).SetUpdate(true);
             });
     }

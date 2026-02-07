@@ -12,7 +12,7 @@ public class CardRewardManager : MonoBehaviour
     [SerializeField] private PlayerHealth player;
 
     [HideInInspector] public bool hasChosenCard = false;
-    
+
     private int cardsCount;
 
     public void GetRewardCards(int count)
@@ -25,19 +25,44 @@ public class CardRewardManager : MonoBehaviour
         cardsCount = count;
         SetCardsInteractable(true);
 
-        List<CardData> tempCards = new List<CardData>(cards);
+        // 1️⃣ Список для награды
+        List<CardData> rewardCards = new List<CardData>();
+        List<CardData> availableNewCards = new List<CardData>();
 
+        // Находим карты, которых нет у игрока
+        foreach (var card in allCards)
+        {
+            if (!deckManager.HasCard(card))
+                availableNewCards.Add(card);
+        }
+
+        // 2️⃣ Всегда хотя бы одна новая карта
+        if (availableNewCards.Count > 0)
+        {
+            int randIndex = Random.Range(0, availableNewCards.Count);
+            rewardCards.Add(availableNewCards[randIndex]);
+            availableNewCards.RemoveAt(randIndex);
+        }
+
+        // 3️⃣ Остальные карты случайные из всех
+        List<CardData> tempCards = new List<CardData>(allCards);
+        tempCards.RemoveAll(c => rewardCards.Contains(c)); // избегаем дубликатов в награде
+
+        while (rewardCards.Count < count && tempCards.Count > 0)
+        {
+            int randIndex = Random.Range(0, tempCards.Count);
+            rewardCards.Add(tempCards[randIndex]);
+            tempCards.RemoveAt(randIndex);
+        }
+
+        // 4️⃣ Отображение карт
         for (int i = 0; i < count; i++)
         {
-            int randNum = Random.Range(0, tempCards.Count);
-            CardData chosenCard = tempCards[randNum];
-
-            cardTemplates[i].cardToDisplay = chosenCard;
+            cardTemplates[i].cardToDisplay = rewardCards[i];
             cardTemplates[i].VisualizeCard();
-
-            tempCards.RemoveAt(randNum);
         }
     }
+
     public void SetCardsInteractable(bool state)
     {
         for (int i = 0; i < cardsCount; i++)
@@ -48,6 +73,7 @@ public class CardRewardManager : MonoBehaviour
             cg.blocksRaycasts = state;
         }
     }
+
     public void SkipReward()
     {
         player.Heal(10);

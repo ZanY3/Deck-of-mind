@@ -54,6 +54,8 @@ public class IntroTextManager : MonoBehaviour
                 waitingForNext = true;
 
                 textField.transform.DOPunchScale(Vector3.one * scalePunch, 0.2f, 1, 0.5f);
+
+                StartSway();
             }
             else if (waitingForNext)
             {
@@ -70,6 +72,7 @@ public class IntroTextManager : MonoBehaviour
             }
         }
     }
+
     private IEnumerator PlayIntro()
     {
         yield return new WaitForSeconds(0.5f);
@@ -84,7 +87,6 @@ public class IntroTextManager : MonoBehaviour
         textField.text = "";
         textField.alpha = 0f;
 
-        // Плавное появление текста без изменения глобального масштаба
         textField.DOFade(1f, fadeDuration);
 
         foreach (char letter in sentence)
@@ -93,24 +95,32 @@ public class IntroTextManager : MonoBehaviour
             yield return new WaitForSeconds(typeSpeed);
         }
 
-        // Начинаем очень слабое покачивание текста
-        if (swayTween != null)
-            swayTween.Kill();
-
-        swayTween = textField.transform.DOLocalRotate(
-            new Vector3(0f, 0f, swayAmount),
-            swayDuration / 2f
-        ).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutSine);
+        StartSway();
 
         isTyping = false;
         waitingForNext = true;
+    }
+
+    private void StartSway()
+    {
+        if (swayTween != null)
+            swayTween.Kill();
+
+        textField.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        swayTween = textField.transform.DOLocalRotate(
+            new Vector3(0f, 0f, swayAmount),
+            swayDuration / 2f
+        )
+        .From(new Vector3(0f, 0f, -swayAmount))
+        .SetLoops(-1, LoopType.Yoyo)
+        .SetEase(Ease.InOutSine);
     }
 
     public void OnIntroCompleted()
     {
         if (swayTween != null)
             swayTween.Kill();
-        
+
         Camera.main.GetComponent<CameraShake>().OnShake(0.5f, 0.3f);
         allGameElements.SetActive(true);
         tutorialManager.StartTutorial();

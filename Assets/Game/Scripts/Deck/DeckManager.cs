@@ -56,4 +56,8 @@ public class DeckManager : MonoBehaviour
         deck.Insert(deck.Count, card);
         Debug.Log(card + " added.");
     }
+    public bool HasCard(CardData card)
+    {
+        return deck.Contains(card);
+    }
 }
