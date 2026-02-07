@@ -98,10 +98,13 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator EnemyAttack()
     {
+        Debug.Log("=== ENEMY TURN START === Player stunned: " + player.stunned + ", turns left: " + player.turnsUntilStunRemove);
+
         if (player.hasAnxiety)
         {
             yield return new WaitForSeconds(1.5f);
         }
+
         for (int i = 0; i < enemies.Count; i++) // All enemies attack in turn
         {
             if (enemies[i].Data.enemyType == EnemyData.EnemyType.Defender && enemies[i].GetComponentInChildren<DefenseCell>() != null && enemies[i].stunned == false)
@@ -128,8 +131,7 @@ public class BattleManager : MonoBehaviour
                         player.anxietyDamage = enemy.GetComponent<AnxietyDebuff>().AnxietyDamage;
                         player.UpdateUI();
 
-                        yield return castTween.WaitForCompletion(); //ЖДЁМ АНИМАЦИЮ
-
+                        yield return castTween.WaitForCompletion();
                     }
                 }
                 else if (enemies[i].GetComponent<StunDebuff>() != null && enemies[i].stunned == false)
@@ -140,17 +142,20 @@ public class BattleManager : MonoBehaviour
                     if (enemyStun.turnsUntilStun > 0)
                     {
                         enemyStun.turnsUntilStun--;
+                        Debug.Log("Stun charging... turns until stun: " + enemyStun.turnsUntilStun);
                     }
                     if (enemyStun.turnsUntilStun <= 0)
                     {
+                        Debug.Log("Applying stun to player!");
                         enemyStun.DealStun();
-
                         enemyToolTip.UpdateStunClue(false);
                     }
                     if (enemyStun.turnsUntilStun == 1)
                     {
                         enemyToolTip.UpdateStunClue(true);
                     }
+
+                    yield return new WaitForSeconds(1.5f);
                 }
             }
 
@@ -183,39 +188,54 @@ public class BattleManager : MonoBehaviour
                 }
             }
             enemies[i].AttackPlayer();
-            //Some animations for enemy attack
             yield return new WaitForSeconds(1.5f);
         }
-        if (player.stunned == false)
+
+        Debug.Log("=== After enemy attacks === Player stunned: " + player.stunned + ", turns: " + player.turnsUntilStunRemove);
+
+        // Обработка стана игрока
+        if (player.stunned)
         {
+            Debug.Log("Player is stunned branch");
+            player.ChangeStunClueState(true);
+
+            if (player.turnsUntilStunRemove > 0)
+            {
+                player.turnsUntilStunRemove--;
+                Debug.Log("Decreased stun turns, now: " + player.turnsUntilStunRemove);
+            }
+
+            if (player.turnsUntilStunRemove <= 0)
+            {
+                Debug.Log("Stun removed!");
+                player.ChangeStunState(false);
+                player.ChangeStunClueState(false);
+
+                isPlayerTurn = true;
+                EndBtnSetActive(true);
+                handManager.DrawHand();
+            }
+            else
+            {
+                Debug.Log("Player still stunned, starting new enemy turn");
+                isPlayerTurn = false;
+                EndBtnSetActive(false);
+                StartCoroutine(EnemyAttack());
+            }
+        }
+        else
+        {
+            Debug.Log("Player is NOT stunned branch");
             player.ChangeStunClueState(false);
             isPlayerTurn = true;
             EndBtnSetActive(true);
             handManager.DrawHand();
         }
-        else if (player.stunned == true)
-        {
-            isPlayerTurn = false;
-            EndBtnSetActive(false);
-            player.ChangeStunClueState(true);
-            if (player.turnsUntilStunRemove <= 0)
-            {
-                player.ChangeStunState(false);
-            }
-            else
-            {
-                player.turnsUntilStunRemove--;
-            }
-        }
-        if (!player.stunned)
-        {
-            isPlayerTurn = true;
-            EndBtnSetActive(true);
-            handManager.DrawHand();
-        }
+
         if (winFinalPanel.activeSelf || loseFinalPanel.activeSelf)
             yield break;
     }
+
     public void EndBtnSetActive(bool state)
     {
         Button btn = endTurnBtn.GetComponent<Button>();

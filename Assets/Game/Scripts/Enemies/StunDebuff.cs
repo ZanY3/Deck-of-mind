@@ -1,5 +1,4 @@
-using UnityEngine;
-
+﻿using UnityEngine;
 public class StunDebuff : MonoBehaviour
 {
     public int turnsUntilStun = 2;
@@ -9,9 +8,14 @@ public class StunDebuff : MonoBehaviour
     {
         startTurnsUntilStun = turnsUntilStun;
     }
+
     public void DealStun()
     {
-        FindAnyObjectByType<PlayerHealth>().ChangeStunState(true);
+        PlayerHealth playerHealth = FindAnyObjectByType<PlayerHealth>();
+        Debug.Log("=== STUN APPLIED TO PLAYER ===");
+        playerHealth.ChangeStunState(true);
+        playerHealth.turnsUntilStunRemove = 2; // ← ИЗМЕНИ С 1 НА 2
+        Debug.Log("Player stunned, turns until remove: " + playerHealth.turnsUntilStunRemove);
         turnsUntilStun = startTurnsUntilStun;
     }
 }
