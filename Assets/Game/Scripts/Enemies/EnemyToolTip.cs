@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class EnemyToolTip : MonoBehaviour,IPointerEnterHandler, IPointerExitHandler
 {
-    [SerializeField] private EnemyData enemyData;
+    [HideInInspector] public EnemyData enemyData;
 
     [Space]
     [Header("UI/Tooltip")]
@@ -28,7 +28,6 @@ public class EnemyToolTip : MonoBehaviour,IPointerEnterHandler, IPointerExitHand
     [Space]
     [Header("Not required")]
     [SerializeField] private GameObject stunnerClue;
-
     private Vector3 startScale;
     private Tween clueTween;
 

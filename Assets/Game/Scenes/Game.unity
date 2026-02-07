@@ -659,15 +659,17 @@ MonoBehaviour:
   numberOfStages: 10
   playerDefense: {fileID: 1397727169}
   enemiesPrefabs:
+  - {fileID: 1816550486874978644, guid: 14e4e1a177ebe4e4aa5188db4531f05c, type: 3}
   - {fileID: 1816550486874978644, guid: 7faffba7115f81f4a9bd2173b03dfe20, type: 3}
-  - {fileID: 5978665549588100378, guid: f49653eceae247343b971868c3e648f0, type: 3}
   - {fileID: 2601725641773459835, guid: 426b59197cbf67a4ba6b04e9575b4be0, type: 3}
-  - {fileID: 1816550486874978644, guid: 4f7295688e6025f4386f60212f751ace, type: 3}
   - {fileID: 296436791887354713, guid: ffb69bf477882604fbc279c863f959d5, type: 3}
+  - {fileID: 5978665549588100378, guid: f49653eceae247343b971868c3e648f0, type: 3}
+  - {fileID: 1816550486874978644, guid: fc7f97af029b7dd469dae28f10218c16, type: 3}
+  - {fileID: 1816550486874978644, guid: 4f7295688e6025f4386f60212f751ace, type: 3}
   - {fileID: 3576302214709595720, guid: a4ced8783cf488841ac3e6b27ba3464a, type: 3}
   - {fileID: 772129519610729770, guid: 4c70e2d3c3947b643bbad05da30cacff, type: 3}
-  - {fileID: 296436791887354713, guid: 27b70d20e3e9372468f606e111850142, type: 3}
   - {fileID: 296436791887354713, guid: dbc16cffd04ffa34789275df49a6c8d7, type: 3}
+  - {fileID: 296436791887354713, guid: 27b70d20e3e9372468f606e111850142, type: 3}
   - {fileID: 8944439527343392059, guid: 4640360e6c03d0044a2424edf227f5a8, type: 3}
   handManager: {fileID: 461268574}
   battleManager: {fileID: 495381521}
@@ -1913,7 +1915,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 693.7927, y: 77}
+  m_AnchoredPosition: {x: 708, y: 81}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &453413396

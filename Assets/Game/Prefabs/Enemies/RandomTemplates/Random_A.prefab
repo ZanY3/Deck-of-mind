@@ -391,8 +391,9 @@ GameObject:
   - component: {fileID: 2717010628445642510}
   - component: {fileID: 6597536080820051552}
   - component: {fileID: 3308693822043084406}
+  - component: {fileID: -6312699009752183584}
   m_Layer: 5
-  m_Name: Laziness_A
+  m_Name: Random_A
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -438,7 +439,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fd0544a897db7944aa15854cb08557a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
-  enemyData: {fileID: 11400000, guid: afa52cee35a8dbf41963349d2ce5e7ed, type: 2}
+  enemyData: {fileID: 0}
   healthTxt: {fileID: 1020006459840935090}
   damageTxt: {fileID: 4508267159312989986}
   debuffDamageTxt: {fileID: 0}
@@ -464,6 +465,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDropTarget
   canBeAttacked: 1
+--- !u!114 &-6312699009752183584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1816550486874978644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d562ded21cbd68644b952d394230bf2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RandomEnemy
+  enemyList:
+  - {fileID: 11400000, guid: afa52cee35a8dbf41963349d2ce5e7ed, type: 2}
+  - {fileID: 11400000, guid: b2178ca69d5b4fb48926462339e56530, type: 2}
 --- !u!1 &4594093185478186783
 GameObject:
   m_ObjectHideFlags: 0
@@ -1596,7 +1612,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b067aace4d0bb9e41b9295094682445a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyUI
-  enemyData: {fileID: 11400000, guid: afa52cee35a8dbf41963349d2ce5e7ed, type: 2}
   tooltip: {fileID: 203799437581049679}
   cardDragTooltip: {fileID: 6793762152059848069}
   stunTooltip: {fileID: 340359620253780886}

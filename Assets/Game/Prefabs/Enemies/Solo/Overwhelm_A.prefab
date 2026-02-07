@@ -392,7 +392,7 @@ GameObject:
   - component: {fileID: 6597536080820051552}
   - component: {fileID: 3308693822043084406}
   m_Layer: 5
-  m_Name: Laziness_A
+  m_Name: Overwhelm_A
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -438,7 +438,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fd0544a897db7944aa15854cb08557a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
-  enemyData: {fileID: 11400000, guid: afa52cee35a8dbf41963349d2ce5e7ed, type: 2}
+  enemyData: {fileID: 11400000, guid: 8135645d1f217c142bc321d79319f075, type: 2}
   healthTxt: {fileID: 1020006459840935090}
   damageTxt: {fileID: 4508267159312989986}
   debuffDamageTxt: {fileID: 0}
@@ -1252,8 +1252,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 48
-  m_fontSizeBase: 48
+  m_fontSize: 44
+  m_fontSizeBase: 44
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1596,7 +1596,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b067aace4d0bb9e41b9295094682445a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyUI
-  enemyData: {fileID: 11400000, guid: afa52cee35a8dbf41963349d2ce5e7ed, type: 2}
+  enemyData: {fileID: 11400000, guid: 8135645d1f217c142bc321d79319f075, type: 2}
   tooltip: {fileID: 203799437581049679}
   cardDragTooltip: {fileID: 6793762152059848069}
   stunTooltip: {fileID: 340359620253780886}

@@ -4,7 +4,7 @@ using DG.Tweening;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private EnemyData enemyData;
+    public EnemyData enemyData;
     [SerializeField] private TMP_Text healthTxt;
     [SerializeField] private TMP_Text damageTxt;
 
@@ -33,7 +33,7 @@ public class Enemy : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
         battleManager = FindAnyObjectByType<BattleManager>();
-
+        GetComponentInChildren<EnemyToolTip>().enemyData = this.enemyData;
         battleManager.AddEnemy(this);
 
         ReadData();
