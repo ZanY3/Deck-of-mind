@@ -54,7 +54,7 @@ public class Enemy : MonoBehaviour
         if (damageTxt != null) damageTxt.text = damage.ToString();
         if (debuffDamageTxt != null && GetComponent<AnxietyDebuff>() != null)
         {
-            debuffDamageTxt.text = GetComponent<AnxietyDebuff>().AnxietyDamage.ToString();
+            debuffDamageTxt.text = GetComponent<AnxietyDebuff>().anxietyDamage.ToString();
         }
     }
 

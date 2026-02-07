@@ -28,6 +28,7 @@ public class EnemyToolTip : MonoBehaviour,IPointerEnterHandler, IPointerExitHand
     [Space]
     [Header("Not required")]
     [SerializeField] private GameObject stunnerClue;
+    [SerializeField] private TMP_Text anxietyDamageTxt;
     private Vector3 startScale;
     private Tween clueTween;
 
@@ -44,6 +45,10 @@ public class EnemyToolTip : MonoBehaviour,IPointerEnterHandler, IPointerExitHand
         descriptionTxt.text = enemyData.description;
         typeTxt.text = enemyData.enemyType.ToString();
         iconImg.sprite = enemyData.artwork;
+        if(GetComponentInParent<AnxietyDebuff>() != null)
+        {
+            anxietyDamageTxt.text = GetComponentInParent<AnxietyDebuff>().anxietyDamage.ToString();
+        }
     }
     public void UpdateStunToolTip(bool state)
     {

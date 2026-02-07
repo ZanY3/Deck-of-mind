@@ -25,18 +25,15 @@ public class CardRewardManager : MonoBehaviour
         cardsCount = count;
         SetCardsInteractable(true);
 
-        // 1️⃣ Список для награды
         List<CardData> rewardCards = new List<CardData>();
         List<CardData> availableNewCards = new List<CardData>();
 
-        // Находим карты, которых нет у игрока
         foreach (var card in allCards)
         {
             if (!deckManager.HasCard(card))
                 availableNewCards.Add(card);
         }
 
-        // 2️⃣ Всегда хотя бы одна новая карта
         if (availableNewCards.Count > 0)
         {
             int randIndex = Random.Range(0, availableNewCards.Count);
@@ -44,9 +41,8 @@ public class CardRewardManager : MonoBehaviour
             availableNewCards.RemoveAt(randIndex);
         }
 
-        // 3️⃣ Остальные карты случайные из всех
         List<CardData> tempCards = new List<CardData>(allCards);
-        tempCards.RemoveAll(c => rewardCards.Contains(c)); // избегаем дубликатов в награде
+        tempCards.RemoveAll(c => rewardCards.Contains(c));
 
         while (rewardCards.Count < count && tempCards.Count > 0)
         {
@@ -55,7 +51,6 @@ public class CardRewardManager : MonoBehaviour
             tempCards.RemoveAt(randIndex);
         }
 
-        // 4️⃣ Отображение карт
         for (int i = 0; i < count; i++)
         {
             cardTemplates[i].cardToDisplay = rewardCards[i];

@@ -128,7 +128,7 @@ public class BattleManager : MonoBehaviour
                         Tween castTween = enemy.transform.DOShakePosition(0.25f, new Vector3(6f, 3f, 0), 12, 90, false, true);
                         enemy.GetComponent<AnxietyDebuff>().startAnxietyApplied = true;
                         player.hasAnxiety = true;
-                        player.anxietyDamage = enemy.GetComponent<AnxietyDebuff>().AnxietyDamage;
+                        player.anxietyDamage = enemy.GetComponent<AnxietyDebuff>().anxietyDamage;
                         player.UpdateUI();
 
                         yield return castTween.WaitForCompletion();
@@ -193,7 +193,6 @@ public class BattleManager : MonoBehaviour
 
         Debug.Log("=== After enemy attacks === Player stunned: " + player.stunned + ", turns: " + player.turnsUntilStunRemove);
 
-        // Обработка стана игрока
         if (player.stunned)
         {
             Debug.Log("Player is stunned branch");

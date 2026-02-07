@@ -7,7 +7,7 @@ public class DefenseCell : MonoBehaviour//, IDropHandler
 {
     [SerializeField] private int defenseAmout;
     [SerializeField] private int defensePerTurn;
-    [SerializeField] private bool refreshDefenseEveryTurn = false;
+    [HideInInspector] public bool refreshDefenseEveryTurn = false;
     [SerializeField] private EnemyDropTarget dropTarget;
 
     [Space]

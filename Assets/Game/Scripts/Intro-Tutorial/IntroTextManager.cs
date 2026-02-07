@@ -17,9 +17,9 @@ public class IntroTextManager : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField] private float typeSpeed = 0.05f;
-    [SerializeField] private float sentenceDelay = 1f;
     [SerializeField] private float fadeDuration = 0.5f;
     [SerializeField] private float scalePunch = 0.05f;
+
     [SerializeField] private float swayAmount = 0.5f; // градусы поворота
     [SerializeField] private float swayDuration = 2f; // время полного покачивания
 
