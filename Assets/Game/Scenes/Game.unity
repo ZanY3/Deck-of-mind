@@ -560,7 +560,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StageManager
   currentStage: 1
-  numberOfStages: 10
+  numberOfStages: 12
   playerDefense: {fileID: 1397727169}
   enemiesPrefabs:
   - {fileID: 1816550486874978644, guid: 7faffba7115f81f4a9bd2173b03dfe20, type: 3}

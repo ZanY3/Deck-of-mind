@@ -1536,7 +1536,7 @@ RectTransform:
   m_GameObject: {fileID: 8896040919002820068}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1.15, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2717010628445642510}
@@ -1609,6 +1609,7 @@ MonoBehaviour:
   descriptionTxt: {fileID: 5317813464043943778}
   typeTxt: {fileID: 2592859273104497301}
   stunnerClue: {fileID: 0}
+  anxietyDamageTxt: {fileID: 0}
 --- !u!1001 &3838840480285493324
 PrefabInstance:
   m_ObjectHideFlags: 0

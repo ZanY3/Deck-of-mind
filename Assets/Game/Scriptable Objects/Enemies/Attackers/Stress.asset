@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   description: Just deals 3 damage
   health: 8
-  damage: 4
-  artwork: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
+  damage: 3
+  artwork: {fileID: 5575842270196637367, guid: 28da976768b13c94ea2419a2f2fc23c3, type: 3}
   enemyType: 0

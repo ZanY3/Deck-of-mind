@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Overwhelm
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   description: Deals 3 damage.
-  health: 14
-  damage: 4
-  artwork: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  health: 16
+  damage: 3
+  artwork: {fileID: -5545626719615784092, guid: 674b551bbc872af4db243108d10cc8a1, type: 3}
   enemyType: 0

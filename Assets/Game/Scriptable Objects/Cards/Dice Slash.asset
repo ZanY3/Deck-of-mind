@@ -15,6 +15,6 @@ MonoBehaviour:
   type: 0
   effect: 3
   icon: {fileID: -3836494406197171394, guid: 8d3cff6fddef098468c8b2ef6d5e7539, type: 3}
-  description: Deals a random damage from 1 to 6
+  description: Deals a random damage from 1 to 4
   power: 0
   energyCost: 1

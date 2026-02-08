@@ -34,7 +34,7 @@ public class RandomEnemy : MonoBehaviour
                 GetComponent<AnxietyDebuff>().anxietyDamage = 4;
             }
         }
-        if(enemy.enemyData.enemyType == EnemyData.EnemyType.Defender && enemy.enemyData.name != "Obsession")
+        if(enemy.enemyData.enemyType == EnemyData.EnemyType.Defender && enemy.enemyData.name == "Obsession")
         {
             enemy.GetComponentInChildren<DefenseCell>().refreshDefenseEveryTurn = true;
         }
