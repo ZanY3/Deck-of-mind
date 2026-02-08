@@ -15,6 +15,7 @@ public class StageManager : MonoBehaviour
 
     [Space]
     [Header("Managers/Objects")]
+    [SerializeField] private GameObject endingPanel;
     [SerializeField] private HandManager handManager;
     [SerializeField] private BattleManager battleManager;
     [SerializeField] private RectTransform enemySlotPos;
@@ -41,8 +42,8 @@ public class StageManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("All stages was completed");
-            RestartScene();
+            Debug.LogWarning("THE END!");
+            endingPanel.SetActive(true);
         }
     }
     IEnumerator WaitForReward()
@@ -62,9 +63,5 @@ public class StageManager : MonoBehaviour
         var enemy = Instantiate(enemiesPrefabs[currentStage - 1], enemySlotPos.position, Quaternion.identity);
         enemy.transform.SetParent(enemySlotPos.transform, false);
         handManager.DrawHand();
-    }
-    public void RestartScene()
-    {
-        SceneManager.LoadScene("Game");
     }
 }
