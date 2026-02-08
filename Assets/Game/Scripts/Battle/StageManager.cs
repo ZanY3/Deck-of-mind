@@ -67,5 +67,4 @@ public class StageManager : MonoBehaviour
     {
         SceneManager.LoadScene("Game");
     }
-
 }

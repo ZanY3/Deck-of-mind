@@ -3,13 +3,13 @@ using UnityEngine.InputSystem;
 
 public class MinimalCameraFollow : MonoBehaviour
 {
-    [Header("Плавность и движение")]
-    [SerializeField] private float moveSpeed = 5f;    // Плавность камеры
-    [SerializeField] private float moveAmount = 0.5f; // Максимальное смещение камеры от центра
+    [Header("Movement settings")]
+    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float moveAmount = 0.5f;
 
-    [Header("Границы камеры")]
-    [SerializeField] private Vector2 minBounds; // Левая-нижняя точка уровня
-    [SerializeField] private Vector2 maxBounds; // Правая-верхняя точка уровня
+    [Header("Camera bounds")]
+    [SerializeField] private Vector2 minBounds;
+    [SerializeField] private Vector2 maxBounds;
 
     [HideInInspector] public bool canMoveCam = true;
     private Camera mainCamera;
