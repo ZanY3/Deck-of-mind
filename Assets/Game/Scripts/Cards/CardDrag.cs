@@ -4,6 +4,17 @@ using UnityEngine.EventSystems;
 
 public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
+    [Header("Sounds")]
+    [SerializeField] private AudioClip cardEnterSound;
+    [SerializeField] private AudioClip cardExitSound;
+    [SerializeField] private AudioClip cardStartDragSound;
+    [SerializeField] private AudioClip cardEndDragSound;
+    [SerializeField] private AudioClip notEnoughEnergySound;
+    [Range(0f, 1f)][SerializeField] private float cardPointerEnterExitVolume = 0.015f;
+    [Range(0f, 1f)][SerializeField] private float cardStartDragVolume = 0.035f;
+    [Range(0f, 1f)][SerializeField] private float cardEndDragVolume = 0.035f;
+    [Range(0f, 1f)][SerializeField] private float notEnoughEnergyVolume = 0.015f;
+
     private RectTransform rectTransform;
     private Vector2 startPosition;
     private Canvas cardCanvas;
@@ -23,25 +34,58 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         startScale = rectTransform.localScale;
     }
 
-    public void OnPointerEnter(PointerEventData eventData) => transform.DOScale(startScale * 1.2f, 0.1f).SetAutoKill(true).SetUpdate(true);
-    public void OnPointerExit(PointerEventData eventData) => transform.DOScale(startScale, 0.1f).SetAutoKill(true).SetUpdate(true);
-
-    public void OnBeginDrag(PointerEventData eventData)
+    public void OnPointerEnter(PointerEventData eventData)
     {
-        if (canStartDragging)
-        {
-            startPosition = rectTransform.anchoredPosition;
-        }
-
-        InteractionState.isDraggingCard = true;
         if (!energyManager.CheckIsEnoughOnCard(cardDisplay.cardToDisplay.energyCost))
         {
             eventData.pointerDrag = null;
+            InteractionState.isDraggingCard = false;
             return;
         }
 
-        CardData.CardType type = cardDisplay.cardToDisplay.type;
+        if (InteractionState.isDraggingCard) return;
 
+        float randPitch = Random.Range(0.85f, 1.15f);
+        SoundManager.Instance.PlaySFX(cardEnterSound, randPitch, cardPointerEnterExitVolume);
+        transform.DOScale(startScale * 1.15f, 0.1f).SetAutoKill(true).SetUpdate(true);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (!energyManager.CheckIsEnoughOnCard(cardDisplay.cardToDisplay.energyCost))
+        {
+            eventData.pointerDrag = null;
+            InteractionState.isDraggingCard = false; // сброс
+            return;
+        }
+
+        if (InteractionState.isDraggingCard) return; // запрещаем hover других карт во время драга
+
+        float randPitch = Random.Range(0.85f, 1.15f);
+        SoundManager.Instance.PlaySFX(cardExitSound, randPitch, cardPointerEnterExitVolume);
+        transform.DOScale(startScale, 0.1f).SetAutoKill(true).SetUpdate(true);
+    }
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        if (!canStartDragging || InteractionState.isDraggingCard) return;
+
+        startPosition = rectTransform.anchoredPosition;
+        InteractionState.isDraggingCard = true; // глобальное состояние
+
+        if (!energyManager.CheckIsEnoughOnCard(cardDisplay.cardToDisplay.energyCost))
+        {
+            CameraShake.Instance.OnShake(0.1f, 0.1f);
+            float randPitch1 = Random.Range(0.85f, 1.15f);
+            SoundManager.Instance.PlaySFX(notEnoughEnergySound, randPitch1, notEnoughEnergyVolume);
+            eventData.pointerDrag = null;
+            InteractionState.isDraggingCard = false; // сброс
+            return;
+        }
+        float randPitch = Random.Range(0.85f, 1.15f);
+        SoundManager.Instance.PlaySFX(cardStartDragSound, randPitch, cardStartDragVolume);
+
+        CardData.CardType type = cardDisplay.cardToDisplay.type;
 
         if (type == CardData.CardType.Attack || type == CardData.CardType.SkillOnEnemy)
             draggingManager.SetEnemiesTooltipState(true);
@@ -67,14 +111,13 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         canStartDragging = false;
         InteractionState.isDraggingCard = false;
 
-        // Возвращаем масштаб карты
+
         transform.DOScale(startScale, 0.1f).SetAutoKill(true).SetUpdate(true);
         GetComponent<CanvasGroup>().blocksRaycasts = true;
         cardCanvas.overrideSorting = false;
 
         CardData card = cardDisplay.cardToDisplay;
 
-        // Выключаем подсказки
         if (card.type == CardData.CardType.Attack || card.type == CardData.CardType.SkillOnEnemy)
             draggingManager.SetEnemiesTooltipState(false);
         if (card.type == CardData.CardType.Defence || card.type == CardData.CardType.SkillOnPlayer)
@@ -82,7 +125,6 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
         GameObject target = eventData.pointerEnter;
 
-        // Нет цели — возвращаем карту
         if (target == null)
         {
             rectTransform.DOAnchorPos(startPosition, 0.2f)
@@ -96,13 +138,12 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         Enemy enemy = target.GetComponentInParent<Enemy>();
         PlayerHealth player = target.GetComponent<PlayerHealth>();
 
-        // Проверка цели
         bool valid = true;
         if ((card.type == CardData.CardType.Attack || card.type == CardData.CardType.SkillOnEnemy) && enemy == null)
             valid = false;
         if ((card.type == CardData.CardType.Defence || card.type == CardData.CardType.SkillOnPlayer) && player == null)
             valid = false;
-        if(card.effect == CardData.Effect.Cleansing && !player.HasDebuffs())
+        if (card.effect == CardData.Effect.Cleansing && !player.HasDebuffs())
             valid = false;
 
         if (!valid)
@@ -114,8 +155,9 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                 .OnComplete(() => canStartDragging = true);
             return;
         }
+        float randPitch = Random.Range(0.85f, 1.15f);
+        SoundManager.Instance.PlaySFX(cardEndDragSound, randPitch, cardEndDragVolume);
 
-        // ---------------------- Проверка щита ----------------------
         if ((card.type == CardData.CardType.Attack || card.type == CardData.CardType.SkillOnEnemy) && enemy != null)
         {
             DefenseCell shield = enemy.GetComponentInChildren<DefenseCell>(true);
@@ -140,7 +182,6 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                     }
                     else
                     {
-                        // Эффект уже есть — карта возвращается
                         rectTransform.DOAnchorPos(startPosition, 0.2f)
                             .SetEase(Ease.OutBack)
                             .SetAutoKill(true)
@@ -161,7 +202,6 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             }
         }
 
-        // ---------------------- Применяем эффекты на врага ----------------------
         if (enemy != null)
         {
             var dropTarget = enemy.GetComponent<EnemyDropTarget>();
@@ -176,7 +216,6 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                 }
                 else
                 {
-                    // Эффект уже есть — возвращаем карту
                     rectTransform.DOAnchorPos(startPosition, 0.2f)
                         .SetEase(Ease.OutBack)
                         .SetAutoKill(true)
@@ -190,6 +229,7 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         transform.DOKill();
         Destroy(gameObject);
     }
+
     private bool CanApplyEnemySkill(CardData card, Enemy enemy)
     {
         if (card.type != CardData.CardType.SkillOnEnemy || enemy == null)
@@ -199,14 +239,11 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         {
             case CardData.Effect.Stun:
                 return !enemy.stunned;
-
             case CardData.Effect.HealthDrain:
                 return !enemy.hpWeakened;
-
             case CardData.Effect.StrengthDrain:
                 return !enemy.strengthWeakened;
         }
-
         return true;
     }
 }

@@ -1275,7 +1275,9 @@ MonoBehaviour:
   swayDuration: 2
   letterTypeSound: {fileID: 8300000, guid: 7034fe7885494354084db9fa84480b6e, type: 3}
   sentenceEndSound: {fileID: 8300000, guid: 2824a655cabc2c44c8a55fb61b386fe5, type: 3}
+  letterAndSentenceSoundVolume: 0.075
   transitionSound: {fileID: 8300000, guid: 425a7e861ba92884788787bcc70af0d5, type: 3}
+  transitionSoundVolume: 0.125
   tutorialManager: {fileID: 268980323}
 --- !u!1 &268980321
 GameObject:
@@ -1326,6 +1328,7 @@ MonoBehaviour:
   endBtnHint: {fileID: 860749721}
   finalHint: {fileID: 84449536}
   clickSound: {fileID: 8300000, guid: 7304cac41699cfb49a98170269e369d3, type: 3}
+  clickSoundVolume: 0.1
 --- !u!1 &317310088
 GameObject:
   m_ObjectHideFlags: 0
@@ -2021,6 +2024,7 @@ MonoBehaviour:
   titleDisplayDuration: 4
   letterTypeSound: {fileID: 8300000, guid: 2824a655cabc2c44c8a55fb61b386fe5, type: 3}
   sentenceEndSound: {fileID: 8300000, guid: 7034fe7885494354084db9fa84480b6e, type: 3}
+  letterAndSentenceSoundVolume: 0.075
 --- !u!114 &400765825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8708,7 +8712,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 0
+  m_Spacing: 25
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
