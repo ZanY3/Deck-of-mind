@@ -563,6 +563,7 @@ MonoBehaviour:
   numberOfStages: 12
   playerDefense: {fileID: 1397727169}
   enemiesPrefabs:
+  - {fileID: 8944439527343392059, guid: 4640360e6c03d0044a2424edf227f5a8, type: 3}
   - {fileID: 1816550486874978644, guid: 7faffba7115f81f4a9bd2173b03dfe20, type: 3}
   - {fileID: 2601725641773459835, guid: 56af6b3f5ce814449b0fa57a38aff326, type: 3}
   - {fileID: 5978665549588100378, guid: f49653eceae247343b971868c3e648f0, type: 3}
@@ -574,7 +575,6 @@ MonoBehaviour:
   - {fileID: 3576302214709595720, guid: b1506688d85fc5647ad8446de2f45836, type: 3}
   - {fileID: 3576302214709595720, guid: a4ced8783cf488841ac3e6b27ba3464a, type: 3}
   - {fileID: 296436791887354713, guid: 27b70d20e3e9372468f606e111850142, type: 3}
-  - {fileID: 8944439527343392059, guid: 4640360e6c03d0044a2424edf227f5a8, type: 3}
   endingPanel: {fileID: 0}
   handManager: {fileID: 461268574}
   battleManager: {fileID: 495381521}
@@ -8228,7 +8228,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1920, y: 1080}
+  m_SizeDelta: {x: 1950, y: 1100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1879493840
 MonoBehaviour:
