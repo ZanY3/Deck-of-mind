@@ -13,7 +13,7 @@ public class EndingManager : MonoBehaviour
     [SerializeField] private TMP_Text textField;
     [SerializeField] private Image slideImage;
     [SerializeField] private CanvasGroup canvasGroup;
-    [SerializeField] private Image fadeImage; // для белого перехода
+    [SerializeField] private Image fadeImage;
 
     [Header("Text & Images")]
     [SerializeField] private List<string> sentences;
@@ -37,14 +37,21 @@ public class EndingManager : MonoBehaviour
     [SerializeField] private string sceneToLoadName = "Game";
 
     [Header("Title After Ending")]
-    [SerializeField] private TMP_Text titleText;      // "Deck of Mind"
+    [SerializeField] private TMP_Text titleText;
     [SerializeField] private float titleFadeDuration = 1f;
-    [SerializeField] private float titleDisplayDuration = 1.5f; // сколько держать перед загрузкой сцены
+    [SerializeField] private float titleDisplayDuration = 1.5f;
+
+    [Header("Sounds")]
+    [SerializeField] private AudioClip letterTypeSound;
+    [SerializeField] private AudioClip sentenceEndSound;
+    [Range(0f, 1f)][SerializeField] private float letterAndSentenceSoundVolume = 0.075f;
 
     private int currentSentence = 0;
     private bool isTyping = false;
     private bool waitingForNext = false;
     private Coroutine typingCoroutine;
+
+    private bool sentenceSoundPlayed = false; // флаг, чтобы звук конца предложения не дублировался
 
     private Tween swayTween;
     private Tween zoomTween;
@@ -57,7 +64,6 @@ public class EndingManager : MonoBehaviour
         fadeImage.color = new Color(1f, 1f, 1f, 0f);
         UpdateImage();
 
-        // Скрываем текст заголовка заранее
         if (titleText != null)
         {
             Color c = titleText.color;
@@ -65,12 +71,8 @@ public class EndingManager : MonoBehaviour
             titleText.gameObject.SetActive(false);
         }
 
-        // Подготовка текста концовки
-        if (textField != null)
-        {
-            Color c = textField.color;
-            textField.color = new Color(c.r, c.g, c.b, 0f); // скрываем текст через цвет
-        }
+        Color tc = textField.color;
+        textField.color = new Color(tc.r, tc.g, tc.b, 0f);
 
         typingCoroutine = StartCoroutine(TypeSentence(sentences[currentSentence]));
     }
@@ -82,16 +84,26 @@ public class EndingManager : MonoBehaviour
             if (isTyping)
             {
                 StopCoroutine(typingCoroutine);
+
                 textField.text = sentences[currentSentence];
                 isTyping = false;
                 waitingForNext = true;
+
                 textField.transform.DOPunchScale(Vector3.one * scalePunch, 0.2f);
+
+                if (!sentenceSoundPlayed && sentenceEndSound != null)
+                {
+                    SoundManager.Instance.PlaySFX(sentenceEndSound, 1f, letterAndSentenceSoundVolume);
+                    sentenceSoundPlayed = true;
+                }
+
                 StartSway();
             }
             else if (waitingForNext)
             {
                 waitingForNext = false;
                 currentSentence++;
+
                 if (currentSentence < sentences.Count)
                 {
                     typingCoroutine = StartCoroutine(TypeSentence(sentences[currentSentence]));
@@ -110,17 +122,29 @@ public class EndingManager : MonoBehaviour
         isTyping = true;
         textField.text = "";
 
-        // Скрываем через цвет
-        Color startColor = textField.color;
-        textField.color = new Color(startColor.r, startColor.g, startColor.b, 0f);
+        Color c = textField.color;
+        textField.color = new Color(c.r, c.g, c.b, 0f);
+        textField.DOColor(new Color(c.r, c.g, c.b, 1f), fadeDuration);
 
-        // Появление текста
-        textField.DOColor(new Color(startColor.r, startColor.g, startColor.b, 1f), fadeDuration);
+        sentenceSoundPlayed = false;
 
         foreach (char letter in sentence)
         {
             textField.text += letter;
+
+            if (letterTypeSound != null && letter != ' ')
+            {
+                float randomPitch = Random.Range(0.85f, 1.15f);
+                SoundManager.Instance.PlaySFX(letterTypeSound, randomPitch, letterAndSentenceSoundVolume);
+            }
+
             yield return new WaitForSeconds(typeSpeed);
+        }
+
+        if (!sentenceSoundPlayed && sentenceEndSound != null)
+        {
+            SoundManager.Instance.PlaySFX(sentenceEndSound, 1f, letterAndSentenceSoundVolume);
+            sentenceSoundPlayed = true;
         }
 
         StartSway();
@@ -132,7 +156,9 @@ public class EndingManager : MonoBehaviour
     private void StartSway()
     {
         swayTween?.Kill();
+
         textField.transform.localRotation = Quaternion.identity;
+
         swayTween = textField.transform.DOLocalRotate(
             new Vector3(0, 0, swayAmount),
             swayDuration / 2f
@@ -154,8 +180,10 @@ public class EndingManager : MonoBehaviour
 
         slideImage.transform.localScale = Vector3.one;
 
-        // Плавный zoom (дыхание)
-        zoomTween = slideImage.transform.DOScale(zoomAmount, zoomDuration).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutSine);
+        zoomTween = slideImage.transform
+            .DOScale(zoomAmount, zoomDuration)
+            .SetLoops(-1, LoopType.Yoyo)
+            .SetEase(Ease.InOutSine);
     }
 
     private void OnEndingCompleted()
@@ -171,13 +199,11 @@ public class EndingManager : MonoBehaviour
         fadeImage.raycastTarget = true;
         fadeImage.color = new Color(1f, 1f, 1f, 0f);
 
-        slideImage.transform.DOScale(1.1f, fadeToWhiteDuration).SetEase(Ease.OutQuad);
-        textField.transform.DOScale(1.05f, fadeToWhiteDuration).SetEase(Ease.OutQuad);
+        slideImage.transform.DOScale(1.1f, fadeToWhiteDuration);
+        textField.transform.DOScale(1.05f, fadeToWhiteDuration);
 
-        fadeImage.DOFade(1f, fadeToWhiteDuration).OnComplete(() =>
-        {
-            StartCoroutine(ShowTitleAndLoadScene());
-        });
+        fadeImage.DOFade(1f, fadeToWhiteDuration)
+            .OnComplete(() => StartCoroutine(ShowTitleAndLoadScene()));
     }
 
     private IEnumerator ShowTitleAndLoadScene()
@@ -191,7 +217,6 @@ public class EndingManager : MonoBehaviour
             titleText.color = new Color(c.r, c.g, c.b, 0f);
             titleText.gameObject.SetActive(true);
 
-            // Плавное появление без масштабирования
             titleText.DOColor(new Color(c.r, c.g, c.b, 1f), titleFadeDuration);
         }
 

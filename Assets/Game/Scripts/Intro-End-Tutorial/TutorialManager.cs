@@ -10,6 +10,10 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private GameObject endBtnHint;
     [SerializeField] private GameObject finalHint;
 
+    [Header("Sounds")]
+    [SerializeField] private AudioClip clickSound;
+    [Range(0f, 1f)][SerializeField] private float clickSoundVolume = 0.1f;
+
     private bool tutorialIsActive = false;
     private int step = 0;
 
@@ -36,6 +40,8 @@ public class TutorialManager : MonoBehaviour
 
         if (tutorialIsActive && Mouse.current.leftButton.wasPressedThisFrame)
         {
+            float randPitch = Random.Range(0.9f, 1.1f);
+            SoundManager.Instance.PlaySFX(clickSound, randPitch, clickSoundVolume);
             NextStep();
         }
     }

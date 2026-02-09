@@ -24,6 +24,14 @@ public class IntroTextManager : MonoBehaviour
     [SerializeField] private float swayDuration = 2f; // время полного покачивания
 
     [Space]
+    [Header("Sounds")]
+    [SerializeField] private AudioClip letterTypeSound;
+    [SerializeField] private AudioClip sentenceEndSound;
+    [Range(0f, 1f)][SerializeField] private float letterAndSentenceSoundVolume = 0.075f;
+    [SerializeField] private AudioClip transitionSound;
+    [Range(0f, 1f)][SerializeField] private float transitionSoundVolume = 0.125f;
+
+    [Space]
     [Header("Other")]
     [SerializeField] private TutorialManager tutorialManager;
 
@@ -32,6 +40,8 @@ public class IntroTextManager : MonoBehaviour
     private Coroutine typingCoroutine;
     private bool waitingForNext = false;
     private Tween swayTween;
+
+    private bool sentenceSoundPlayed = false;
 
     private void Start()
     {
@@ -54,6 +64,12 @@ public class IntroTextManager : MonoBehaviour
                 waitingForNext = true;
 
                 textField.transform.DOPunchScale(Vector3.one * scalePunch, 0.2f, 1, 0.5f);
+
+                if (!sentenceSoundPlayed && sentenceEndSound != null)
+                {
+                    SoundManager.Instance.PlaySFX(sentenceEndSound, 1f, letterAndSentenceSoundVolume);
+                    sentenceSoundPlayed = true;
+                }
 
                 StartSway();
             }
@@ -89,10 +105,25 @@ public class IntroTextManager : MonoBehaviour
 
         textField.DOFade(1f, fadeDuration);
 
+        sentenceSoundPlayed = false;
+
         foreach (char letter in sentence)
         {
             textField.text += letter;
+
+            if (letterTypeSound != null && letter != ' ')
+            {
+                float randPitch = Random.Range(0.85f, 1.15f);
+                SoundManager.Instance.PlaySFX(letterTypeSound, randPitch, letterAndSentenceSoundVolume);
+            }
+
             yield return new WaitForSeconds(typeSpeed);
+        }
+
+        if (!sentenceSoundPlayed && sentenceEndSound != null)
+        {
+            SoundManager.Instance.PlaySFX(sentenceEndSound, 1f, letterAndSentenceSoundVolume);
+            sentenceSoundPlayed = true;
         }
 
         StartSway();
@@ -118,6 +149,9 @@ public class IntroTextManager : MonoBehaviour
 
     public void OnIntroCompleted()
     {
+        if (transitionSound != null)
+            SoundManager.Instance.PlaySFX(transitionSound, 1f, transitionSoundVolume);
+
         if (swayTween != null)
             swayTween.Kill();
 
