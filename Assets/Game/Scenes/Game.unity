@@ -563,7 +563,6 @@ MonoBehaviour:
   numberOfStages: 12
   playerDefense: {fileID: 1397727169}
   enemiesPrefabs:
-  - {fileID: 8944439527343392059, guid: 4640360e6c03d0044a2424edf227f5a8, type: 3}
   - {fileID: 1816550486874978644, guid: 7faffba7115f81f4a9bd2173b03dfe20, type: 3}
   - {fileID: 2601725641773459835, guid: 56af6b3f5ce814449b0fa57a38aff326, type: 3}
   - {fileID: 5978665549588100378, guid: f49653eceae247343b971868c3e648f0, type: 3}
@@ -575,6 +574,7 @@ MonoBehaviour:
   - {fileID: 3576302214709595720, guid: b1506688d85fc5647ad8446de2f45836, type: 3}
   - {fileID: 3576302214709595720, guid: a4ced8783cf488841ac3e6b27ba3464a, type: 3}
   - {fileID: 296436791887354713, guid: 27b70d20e3e9372468f606e111850142, type: 3}
+  - {fileID: 8944439527343392059, guid: 4640360e6c03d0044a2424edf227f5a8, type: 3}
   endingPanel: {fileID: 0}
   handManager: {fileID: 461268574}
   battleManager: {fileID: 495381521}
@@ -1328,7 +1328,7 @@ MonoBehaviour:
   endBtnHint: {fileID: 860749721}
   finalHint: {fileID: 84449536}
   clickSound: {fileID: 8300000, guid: 7304cac41699cfb49a98170269e369d3, type: 3}
-  clickSoundVolume: 0.1
+  clickSoundVolume: 0.15
 --- !u!1 &317310088
 GameObject:
   m_ObjectHideFlags: 0
@@ -4795,6 +4795,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RewardCardUI
   rewardManager: {fileID: 1003521138}
+  cardEnterSound: {fileID: 8300000, guid: 4130945fba329e740ad5b1144c83e40a, type: 3}
+  cardExitSound: {fileID: 8300000, guid: ba6abf670b995b6469fa5ffcec66e546, type: 3}
+  cardChoosedSound: {fileID: 8300000, guid: 02ee4c030e8cb854bac845e8bc477457, type: 3}
+  cardEnterExitVolume: 0.025
+  cardChoosedVolume: 0.05
 --- !u!1 &1003521137
 GameObject:
   m_ObjectHideFlags: 0
@@ -5571,6 +5576,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RewardCardUI
   rewardManager: {fileID: 1003521138}
+  cardEnterSound: {fileID: 8300000, guid: 4130945fba329e740ad5b1144c83e40a, type: 3}
+  cardExitSound: {fileID: 8300000, guid: ba6abf670b995b6469fa5ffcec66e546, type: 3}
+  cardChoosedSound: {fileID: 8300000, guid: 02ee4c030e8cb854bac845e8bc477457, type: 3}
+  cardEnterExitVolume: 0.025
+  cardChoosedVolume: 0.05
 --- !u!1 &1259905532
 GameObject:
   m_ObjectHideFlags: 0
@@ -5959,6 +5969,8 @@ MonoBehaviour:
   cardDraggingImg: {fileID: 1477074157}
   healthBarImage: {fileID: 1679283412}
   healthTxt: {fileID: 1299669800}
+  takeDamageSound: {fileID: 8300000, guid: 3ca989f2f4eb10a4cb6d5399963c284d, type: 3}
+  takeDamageVolume: 0.075
   turnsUntilStunRemove: 0
 --- !u!114 &1397727169
 MonoBehaviour:
@@ -7890,6 +7902,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RewardCardUI
   rewardManager: {fileID: 1003521138}
+  cardEnterSound: {fileID: 8300000, guid: 4130945fba329e740ad5b1144c83e40a, type: 3}
+  cardExitSound: {fileID: 8300000, guid: ba6abf670b995b6469fa5ffcec66e546, type: 3}
+  cardChoosedSound: {fileID: 8300000, guid: 02ee4c030e8cb854bac845e8bc477457, type: 3}
+  cardEnterExitVolume: 0.025
+  cardChoosedVolume: 0.05
 --- !u!1 &1800799323
 GameObject:
   m_ObjectHideFlags: 0

@@ -28,6 +28,9 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private Image healthBarImage;
     [SerializeField] private TMP_Text healthTxt;
 
+    [SerializeField] private AudioClip takeDamageSound;
+    [Range(0f, 1f)][SerializeField] private float takeDamageVolume = 0.1f;
+
     [HideInInspector] public int turnsUntilStunRemove = 0;
     private Tween clueTween;
 
@@ -40,6 +43,8 @@ public class PlayerHealth : MonoBehaviour
 //--------------------------------------------------------------------------------------
     public void TakeDamage(int damage, bool useShield) //this bool parameter is for effects and in the future for special enemies
     {
+        float randPitch = Random.Range(0.7f, 1.2f);
+        SoundManager.Instance.PlaySFX(takeDamageSound, randPitch, takeDamageVolume);
         if(currentHealth > 0)
         {
             CameraShake.Shake(0.2f, 0.3f);

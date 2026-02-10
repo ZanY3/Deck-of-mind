@@ -15,5 +15,5 @@ MonoBehaviour:
   description: Final boss
   health: 30
   damage: 4
-  artwork: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  artwork: {fileID: 1218224322633961778, guid: ac9da45b9e060f34db6699fb0276ca9b, type: 3}
   enemyType: 3
