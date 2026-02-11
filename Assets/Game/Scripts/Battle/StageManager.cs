@@ -64,4 +64,8 @@ public class StageManager : MonoBehaviour
         enemy.transform.SetParent(enemySlotPos.transform, false);
         handManager.DrawHand();
     }
+    public void RestartGame()
+    {
+        SceneManager.LoadScene("Game");
+    }
 }

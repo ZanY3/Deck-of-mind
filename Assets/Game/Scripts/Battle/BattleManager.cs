@@ -19,6 +19,13 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private GameObject winFinalPanel;
     [SerializeField] private GameObject loseFinalPanel;
 
+    [Space]
+    [Header("Sounds")]
+    [SerializeField] private AudioClip winSound;
+    [SerializeField] private AudioClip defeatSound;
+    [Range(0f, 1f)][SerializeField] private float winVolume;
+    [Range(0f, 1f)][SerializeField] private float defeatVolume;
+
     [HideInInspector] public bool isPlayerTurn = true;
 
     [HideInInspector] public List<Enemy> enemies;
@@ -57,11 +64,20 @@ public class BattleManager : MonoBehaviour
     }
     public void EnemyTurn()
     {
+        // если игрок уже проиграл — враги не ходят
+        if (loseFinalPanel.activeSelf)
+            return;
+
         if (player.hasAnxiety)
         {
             Debug.LogWarning("Player took damage from anxiety debuff");
             player.TakeDamage(player.anxietyDamage, true);
         }
+
+        // после урона от тревоги игрок мог умереть
+        if (loseFinalPanel.activeSelf)
+            return;
+
         StartCoroutine(EnemyAttack());
     }
     public void CheckPlayerWin()
@@ -69,6 +85,9 @@ public class BattleManager : MonoBehaviour
         if (enemies.Count <= 0)
         {
             //RoundEnded
+            float randPitch = Random.Range(0.95f, 1.05f);
+            SoundManager.Instance.PlaySFX(winSound, randPitch, winVolume);
+
             player.hasAnxiety = false;
             player.anxietyDamage = 0;
 
@@ -82,6 +101,7 @@ public class BattleManager : MonoBehaviour
     public void PlayerLose()
     {
         //RoundEnded
+        SoundManager.Instance.PlaySFX(defeatSound, 1, defeatVolume);
         player.hasAnxiety = false;
         player.anxietyDamage = 0;
 

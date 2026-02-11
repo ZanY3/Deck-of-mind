@@ -35,7 +35,7 @@ public class SoundManager : MonoBehaviour
         sfxSource.volume = volume;
         sfxSource.PlayOneShot(clip);
 
-        yield return new WaitForSeconds(clip.length);
+        yield return new WaitForSecondsRealtime(clip.length);
 
         sfxSource.pitch = originalPitch;
         sfxSource.volume = originalVolume;

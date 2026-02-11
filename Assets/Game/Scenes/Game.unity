@@ -575,7 +575,7 @@ MonoBehaviour:
   - {fileID: 3576302214709595720, guid: a4ced8783cf488841ac3e6b27ba3464a, type: 3}
   - {fileID: 296436791887354713, guid: 27b70d20e3e9372468f606e111850142, type: 3}
   - {fileID: 8944439527343392059, guid: 4640360e6c03d0044a2424edf227f5a8, type: 3}
-  endingPanel: {fileID: 0}
+  endingPanel: {fileID: 400765823}
   handManager: {fileID: 461268574}
   battleManager: {fileID: 495381521}
   enemySlotPos: {fileID: 443347405}
@@ -1275,9 +1275,9 @@ MonoBehaviour:
   swayDuration: 2
   letterTypeSound: {fileID: 8300000, guid: 7034fe7885494354084db9fa84480b6e, type: 3}
   sentenceEndSound: {fileID: 8300000, guid: 2824a655cabc2c44c8a55fb61b386fe5, type: 3}
-  letterAndSentenceSoundVolume: 0.075
+  letterAndSentenceSoundVolume: 0.1
   transitionSound: {fileID: 8300000, guid: 425a7e861ba92884788787bcc70af0d5, type: 3}
-  transitionSoundVolume: 0.125
+  transitionSoundVolume: 0.15
   tutorialManager: {fileID: 268980323}
 --- !u!1 &268980321
 GameObject:
@@ -2359,6 +2359,10 @@ MonoBehaviour:
   handPanel: {fileID: 1975157956}
   winFinalPanel: {fileID: 1101623035}
   loseFinalPanel: {fileID: 694664844}
+  winSound: {fileID: 8300000, guid: 1f31d68306d2a8640a08ccd64f25e525, type: 3}
+  defeatSound: {fileID: 8300000, guid: c49b0c19b63a43b4ea3d0ae4910bc8bb, type: 3}
+  winVolume: 0.1
+  defeatVolume: 0.15
   isPlayerTurn: 1
   enemies: []
 --- !u!4 &495381522
@@ -4488,6 +4492,7 @@ RectTransform:
   - {fileID: 1101623036}
   - {fileID: 694664845}
   - {fileID: 1259905533}
+  - {fileID: 1429717390}
   m_Father: {fileID: 2085982800}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -4845,6 +4850,10 @@ MonoBehaviour:
   - {fileID: 981637748}
   deckManager: {fileID: 1702557157}
   player: {fileID: 1397727168}
+  rewardOpenedSound: {fileID: 8300000, guid: 75e5975cd3b38b943bde5c5c4320f5b5, type: 3}
+  healSound: {fileID: 8300000, guid: 2a467511626920f41b1eaf8c7d717f17, type: 3}
+  healVolume: 0.35
+  rewardOpenVolume: 0.03
   hasChosenCard: 0
 --- !u!224 &1003521139
 RectTransform:
@@ -5828,7 +5837,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1920, y: 1080}
+  m_SizeDelta: {x: 2500, y: 1500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1354809972
 MonoBehaviour:
@@ -5969,8 +5978,11 @@ MonoBehaviour:
   cardDraggingImg: {fileID: 1477074157}
   healthBarImage: {fileID: 1679283412}
   healthTxt: {fileID: 1299669800}
+  bloodVignetteImg: {fileID: 1429717391}
   takeDamageSound: {fileID: 8300000, guid: 3ca989f2f4eb10a4cb6d5399963c284d, type: 3}
-  takeDamageVolume: 0.075
+  takeDamageVolume: 0.125
+  lowHpSound: {fileID: 8300000, guid: d943995915e96244fbc4c871a0ed6c49, type: 3}
+  lowHpVolume: 0.2
   turnsUntilStunRemove: 0
 --- !u!114 &1397727169
 MonoBehaviour:
@@ -6152,6 +6164,81 @@ MonoBehaviour:
   amplitude: 5
   frequency: 3
   letterOffset: 0.4
+--- !u!1 &1429717389
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1429717390}
+  - component: {fileID: 1429717392}
+  - component: {fileID: 1429717391}
+  m_Layer: 5
+  m_Name: BloodVignette
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1429717390
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1429717389}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.1, y: 1.1, z: 1.1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 896174230}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 1920, y: 1080}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1429717391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1429717389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: -3425771667698648002, guid: 55d5e9990dbbda9488741240ccda53c5, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1429717392
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1429717389}
+  m_CullTransparentMesh: 1
 --- !u!1 &1434966527
 GameObject:
   m_ObjectHideFlags: 0
@@ -6237,7 +6324,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 135264087}
         m_TargetAssemblyTypeName: StageManager, Assembly-CSharp
-        m_MethodName: RestartScene
+        m_MethodName: RestartGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

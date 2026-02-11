@@ -2,25 +2,21 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class PlayerHealth : MonoBehaviour
 {
     [SerializeField] private BattleManager battleManager;
-
     [SerializeField] private int maxHealth;
 
     private int currentHealth;
     private PlayerDefense defense;
-    
+
     [HideInInspector] public bool hasAnxiety = false;
     [HideInInspector] public int anxietyDamage = 0;
-
     [HideInInspector] public bool stunned = false;
 
     [Space]
     [Header("UI/HealthBar")]
-
     [SerializeField] private GameObject stunClue;
     [SerializeField] private GameObject anxietyDebuffImg;
     [SerializeField] private GameObject stunDebuffImg;
@@ -28,11 +24,18 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private Image healthBarImage;
     [SerializeField] private TMP_Text healthTxt;
 
+    [SerializeField] private Image bloodVignetteImg;
+
+    [Header("Sound")]
     [SerializeField] private AudioClip takeDamageSound;
     [Range(0f, 1f)][SerializeField] private float takeDamageVolume = 0.1f;
 
     [HideInInspector] public int turnsUntilStunRemove = 0;
     private Tween clueTween;
+
+    // ===== VIGNETTE SETTINGS =====
+    private float maxVignetteAlpha = 150f / 255f;
+    private float vignetteSmooth = 5f;
 
     private void Start()
     {
@@ -40,39 +43,46 @@ public class PlayerHealth : MonoBehaviour
         currentHealth = maxHealth;
         UpdateUI();
     }
-//--------------------------------------------------------------------------------------
-    public void TakeDamage(int damage, bool useShield) //this bool parameter is for effects and in the future for special enemies
+
+    //--------------------------------------------------------------------------------------
+
+    public void TakeDamage(int damage, bool useShield)
     {
         float randPitch = Random.Range(0.7f, 1.2f);
         SoundManager.Instance.PlaySFX(takeDamageSound, randPitch, takeDamageVolume);
-        if(currentHealth > 0)
+
+        if (currentHealth > 0)
         {
             CameraShake.Shake(0.2f, 0.3f);
 
-            if(useShield)
+            if (useShield)
                 currentHealth -= defense.CalculateDamage(damage);
             else
                 currentHealth -= damage;
 
             UpdateUI();
         }
-        if(currentHealth <= 0)
+
+        if (currentHealth <= 0)
         {
             currentHealth = 0;
             UpdateUI();
-            battleManager.PlayerLose();//Fix bugs with UI and with enemy disable
+            battleManager.PlayerLose();
         }
     }
+
     public void ChangeStunState(bool state)
     {
         stunned = state;
         stunDebuffImg.SetActive(state);
         UpdateUI();
     }
+
     public void ChangeStunClueState(bool state)
     {
         stunClue.SetActive(state);
     }
+
     public void ChangeDraggingClueState(bool state)
     {
         cardDraggingImg.SetActive(state);
@@ -83,13 +93,17 @@ public class PlayerHealth : MonoBehaviour
         if (state)
         {
             image.color = new Color(image.color.r, image.color.g, image.color.b, 0);
-            clueTween = image.DOFade(0.1f, 0.2f).SetLoops(-1, LoopType.Yoyo).SetAutoKill(true).SetUpdate(true);
+            clueTween = image.DOFade(0.1f, 0.2f)
+                .SetLoops(-1, LoopType.Yoyo)
+                .SetAutoKill(true)
+                .SetUpdate(true);
         }
         else
         {
             image.color = new Color(image.color.r, image.color.g, image.color.b, 0);
         }
     }
+
     public void ClearAllDebuffs()
     {
         anxietyDamage = 0;
@@ -98,41 +112,65 @@ public class PlayerHealth : MonoBehaviour
         ChangeStunState(false);
         UpdateUI();
     }
+
     public void Heal(int amoutToHeal)
     {
         currentHealth += amoutToHeal;
-        if(currentHealth > maxHealth)
-        {
+        if (currentHealth > maxHealth)
             currentHealth = maxHealth;
-        }
+
         UpdateUI();
     }
+
     public void UpdateUI()
     {
-        if(healthTxt != null && healthBarImage != null)
+        if (healthTxt != null && healthBarImage != null)
         {
             anxietyDebuffImg.SetActive(hasAnxiety);
             stunDebuffImg.SetActive(stunned);
 
-            if(hasAnxiety && !stunned)
+            // ===== ВОЗВРАЩЕНО: цвет игрока по дебаффам =====
+            if (hasAnxiety && !stunned)
             {
-                GetComponent<Image>().color = new Color32(224, 255, 194, 255); //#E0FFC2
+                GetComponent<Image>().color = new Color32(224, 255, 194, 255); // #E0FFC2
             }
-            else if(stunned)
+            else if (stunned)
             {
-                GetComponent<Image>().color = new Color32(206, 126, 255, 255); //#CE7EFF
+                GetComponent<Image>().color = new Color32(206, 126, 255, 255); // #CE7EFF
             }
             else
             {
                 GetComponent<Image>().color = Color.white;
             }
+
             healthBarImage.fillAmount = (float)currentHealth / maxHealth;
-            healthTxt.text = currentHealth.ToString() + "/" + maxHealth.ToString();
+            healthTxt.text = currentHealth + "/" + maxHealth;
+
+            // ===== BLOOD VIGNETTE =====
+            if (bloodVignetteImg != null)
+            {
+                if (currentHealth <= 60)
+                {
+                    float hpPercent = (float)currentHealth / maxHealth;
+                    float targetAlpha = Mathf.Lerp(maxVignetteAlpha, 0f, hpPercent);
+
+                    Color c = bloodVignetteImg.color;
+                    c.a = Mathf.Lerp(c.a, targetAlpha, Time.deltaTime * vignetteSmooth);
+                    bloodVignetteImg.color = c;
+                }
+                else
+                {
+                    // Скрываем виньетку, если HP > 60
+                    Color c = bloodVignetteImg.color;
+                    c.a = 0;
+                    bloodVignetteImg.color = c;
+                }
+            }
         }
     }
+
     public bool HasDebuffs()
     {
         return hasAnxiety;
-        //maybe in the future i will add more debuffs, but now only anxiety
     }
 }

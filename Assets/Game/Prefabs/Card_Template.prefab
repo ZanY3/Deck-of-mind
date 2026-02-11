@@ -907,8 +907,8 @@ MonoBehaviour:
   cardEndDragSound: {fileID: 8300000, guid: 4732d15f5f90dbc49b26d662d4be4557, type: 3}
   notEnoughEnergySound: {fileID: 8300000, guid: 6bea17e2453e77e43bd342ac03e862ca, type: 3}
   cardPointerEnterExitVolume: 0.025
-  cardStartDragVolume: 0.04
-  cardEndDragVolume: 0.1
+  cardStartDragVolume: 0.025
+  cardEndDragVolume: 0.15
   notEnoughEnergyVolume: 0.025
 --- !u!1 &8958904942587321123
 GameObject:

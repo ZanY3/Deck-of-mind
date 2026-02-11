@@ -11,12 +11,20 @@ public class CardRewardManager : MonoBehaviour
     [SerializeField] private DeckManager deckManager;
     [SerializeField] private PlayerHealth player;
 
+    [Header("Sounds")]
+    [SerializeField] private AudioClip rewardOpenedSound;
+    [SerializeField] private AudioClip healSound;
+    [Range(0f, 1f)][SerializeField] private float healVolume;
+    [Range(0f, 1f)][SerializeField] private float rewardOpenVolume;
+
     [HideInInspector] public bool hasChosenCard = false;
 
     private int cardsCount;
 
     public void GetRewardCards(int count)
     {
+        float randPitch = Random.Range(0.85f, 1.05f);
+        SoundManager.Instance.PlaySFX(rewardOpenedSound, randPitch, rewardOpenVolume);
         if (cards == null || cards.Count < count)
         {
             cards = new List<CardData>(allCards);
@@ -71,6 +79,9 @@ public class CardRewardManager : MonoBehaviour
 
     public void SkipReward()
     {
+        float randPitch = Random.Range(0.85f, 1.05f);
+        SoundManager.Instance.PlaySFX(healSound, randPitch, healVolume);
+
         player.Heal(10);
         hasChosenCard = true;
         SetCardsInteractable(false);
