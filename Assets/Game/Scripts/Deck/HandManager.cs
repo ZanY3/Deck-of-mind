@@ -1,7 +1,5 @@
 using DG.Tweening;
-using System;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class HandManager : MonoBehaviour
 {
@@ -9,10 +7,17 @@ public class HandManager : MonoBehaviour
     [SerializeField] private Transform handParent;
     [SerializeField] private DeckManager deckManager;
 
+    [Header("Sounds")]
+    [SerializeField] private AudioClip handDrawSound;
+    [Range(0f, 1f)][SerializeField] private float handDrawVolume = 0.075f;
+
     private int handSize = 3;
 
     public void DrawHand()
     {
+        Random.Range(0, handSize);
+        float randPitch = Random.Range(0.9f, 1.1f);
+        SoundManager.Instance.PlaySFX(handDrawSound, randPitch, handDrawVolume);
         ClearHand();
         for (int i = 0; i < handSize; i++)
         {

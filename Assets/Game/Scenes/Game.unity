@@ -470,7 +470,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1920, y: 1080}
+  m_SizeDelta: {x: 2880, y: 1920}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &84449538
 MonoBehaviour:
@@ -1585,7 +1585,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 442.51364, y: -25.900024}
+  m_AnchoredPosition: {x: 442.51364, y: -458.24536}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &348637504
@@ -1919,7 +1919,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1920, y: 1080}
+  m_SizeDelta: {x: 2880, y: 1920}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &390209336
 MonoBehaviour:
@@ -1941,7 +1941,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -3608912103015566366, guid: ec22041b69f9c39478c10b7fed55a267, type: 3}
+  m_Sprite: {fileID: -1901738928865669850, guid: deb5189c17beee14aa689fcfd0d82a30, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2307,6 +2307,8 @@ MonoBehaviour:
   cardPrefab: {fileID: 8565312338920324948, guid: 250a55201e6cb714dabecd3487501e43, type: 3}
   handParent: {fileID: 1975157957}
   deckManager: {fileID: 1702557157}
+  handDrawSound: {fileID: 8300000, guid: 88ca841498829be49bbf3fbf12492734, type: 3}
+  handDrawVolume: 0.065
 --- !u!4 &461268575
 Transform:
   m_ObjectHideFlags: 0
@@ -2361,8 +2363,10 @@ MonoBehaviour:
   loseFinalPanel: {fileID: 694664844}
   winSound: {fileID: 8300000, guid: 1f31d68306d2a8640a08ccd64f25e525, type: 3}
   defeatSound: {fileID: 8300000, guid: c49b0c19b63a43b4ea3d0ae4910bc8bb, type: 3}
+  endTurnSound: {fileID: 8300000, guid: 7304cac41699cfb49a98170269e369d3, type: 3}
   winVolume: 0.1
   defeatVolume: 0.15
+  endTurnVolume: 0.1
   isPlayerTurn: 1
   enemies: []
 --- !u!4 &495381522
@@ -4162,7 +4166,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1920, y: 1080}
+  m_SizeDelta: {x: 2880, y: 1920}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &860749723
 MonoBehaviour:
@@ -4184,7 +4188,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -4424862009886281113, guid: e9f71b26d97d56f4c92615b0568caf95, type: 3}
+  m_Sprite: {fileID: 4246303957927079408, guid: a73ff4338855b494aa32b4a2977af8f8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5086,7 +5090,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 459.91367, y: -112}
+  m_AnchoredPosition: {x: 459.91367, y: -544.34534}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1183053602
@@ -5981,8 +5985,6 @@ MonoBehaviour:
   bloodVignetteImg: {fileID: 1429717391}
   takeDamageSound: {fileID: 8300000, guid: 3ca989f2f4eb10a4cb6d5399963c284d, type: 3}
   takeDamageVolume: 0.125
-  lowHpSound: {fileID: 8300000, guid: d943995915e96244fbc4c871a0ed6c49, type: 3}
-  lowHpVolume: 0.2
   turnsUntilStunRemove: 0
 --- !u!114 &1397727169
 MonoBehaviour:
@@ -8332,7 +8334,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1950, y: 1100}
+  m_SizeDelta: {x: 2880, y: 1920}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1879493840
 MonoBehaviour:
@@ -8354,7 +8356,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 2532542396221328345, guid: 497471c1bd7393e4897af468142a162a, type: 3}
+  m_Sprite: {fileID: -1564224717261592645, guid: 7fe47111cfc880a4cbb27613d773c2d1, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -8407,7 +8409,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 568, y: -204}
+  m_AnchoredPosition: {x: 568, y: -636.34534}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1892049688
@@ -8645,7 +8647,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 22}
+  m_AnchoredPosition: {x: 0, y: -391}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1965467914

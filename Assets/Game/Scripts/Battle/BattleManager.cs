@@ -23,8 +23,10 @@ public class BattleManager : MonoBehaviour
     [Header("Sounds")]
     [SerializeField] private AudioClip winSound;
     [SerializeField] private AudioClip defeatSound;
+    [SerializeField] private AudioClip endTurnSound;
     [Range(0f, 1f)][SerializeField] private float winVolume;
     [Range(0f, 1f)][SerializeField] private float defeatVolume;
+    [Range(0f, 1f)][SerializeField] private float endTurnVolume;
 
     [HideInInspector] public bool isPlayerTurn = true;
 
@@ -55,6 +57,9 @@ public class BattleManager : MonoBehaviour
     }
     public void EndPlayerTurn() //When we press "End turn"
     {
+        float randPitch = Random.Range(0.9f, 1.1f);
+        SoundManager.Instance.PlaySFX(endTurnSound, randPitch, winVolume);
+
         energyManager.RefillEnergy();
         handManager.ClearHand();
         isPlayerTurn = false;
