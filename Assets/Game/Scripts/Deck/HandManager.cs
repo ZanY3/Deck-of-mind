@@ -18,6 +18,7 @@ public class HandManager : MonoBehaviour
         Random.Range(0, handSize);
         float randPitch = Random.Range(0.9f, 1.1f);
         SoundManager.Instance.PlaySFX(handDrawSound, randPitch, handDrawVolume);
+
         ClearHand();
         for (int i = 0; i < handSize; i++)
         {
