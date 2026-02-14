@@ -32,7 +32,8 @@ public class PlayerDropTarget : MonoBehaviour, IDropHandler
             {
                 cardEffects.Cleansing(GetComponent<PlayerHealth>());
                 energyManager.DecreaseEnergy(card.energyCost);
-                
+                GetComponent<PlayerHealth>().ChangeDraggingClueState(false);
+                InteractionState.isDraggingCard = false;
                 Destroy(eventData.pointerDrag);
             }
             if(cardTemp.effect == CardData.Effect.BloodPact)

@@ -45,7 +45,7 @@ public class EnemyToolTip : MonoBehaviour,IPointerEnterHandler, IPointerExitHand
         descriptionTxt.text = enemyData.description;
         typeTxt.text = enemyData.enemyType.ToString();
         iconImg.sprite = enemyData.artwork;
-        if(GetComponentInParent<AnxietyDebuff>() != null)
+        if(GetComponentInParent<AnxietyDebuff>() != null && anxietyDamageTxt != null)
         {
             anxietyDamageTxt.text = GetComponentInParent<AnxietyDebuff>().anxietyDamage.ToString();
         }

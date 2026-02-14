@@ -25,6 +25,7 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     private Vector3 startScale;
 
     private bool canStartDragging = true;
+    private bool isLockedDuringDrag = false; // замок для предотвращения зависаний
 
     private void Awake()
     {
@@ -45,6 +46,7 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             return;
         }
         if (InteractionState.isDraggingCard) return;
+
         float randPitch = Random.Range(0.85f, 1.15f);
         SoundManager.Instance.PlaySFX(cardEnterSound, randPitch, cardPointerEnterExitVolume);
         transform.DOScale(startScale * 1.15f, 0.1f).SetAutoKill(true).SetUpdate(true);
@@ -59,6 +61,7 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             return;
         }
         if (InteractionState.isDraggingCard) return;
+
         float randPitch = Random.Range(0.85f, 1.15f);
         SoundManager.Instance.PlaySFX(cardExitSound, randPitch, cardPointerEnterExitVolume);
         transform.DOScale(startScale, 0.1f).SetAutoKill(true).SetUpdate(true);
@@ -67,8 +70,11 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void OnBeginDrag(PointerEventData eventData)
     {
         if (!canStartDragging || InteractionState.isDraggingCard) return;
+
         startPosition = rectTransform.anchoredPosition;
         InteractionState.isDraggingCard = true;
+        isLockedDuringDrag = true; // включаем замок
+
         if (!energyManager.CheckIsEnoughOnCard(cardDisplay.cardToDisplay.energyCost))
         {
             CameraShake.Instance.OnShake(0.1f, 0.1f);
@@ -76,13 +82,17 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             SoundManager.Instance.PlaySFX(notEnoughEnergySound, randPitch1, notEnoughEnergyVolume);
             eventData.pointerDrag = null;
             InteractionState.isDraggingCard = false;
+            isLockedDuringDrag = false; // снимаем замок
             return;
         }
+
         float randPitch = Random.Range(0.85f, 1.15f);
         SoundManager.Instance.PlaySFX(cardStartDragSound, randPitch, cardStartDragVolume);
+
         CardData.CardType type = cardDisplay.cardToDisplay.type;
         if (type == CardData.CardType.Attack || type == CardData.CardType.SkillOnEnemy) draggingManager.SetEnemiesTooltipState(true);
         if (type == CardData.CardType.Defence || type == CardData.CardType.SkillOnPlayer) draggingManager.SetPlayerTooltipState(true);
+
         transform.DOScale(startScale * 0.7f, 0.1f).SetAutoKill(true).SetUpdate(true);
         GetComponent<CanvasGroup>().blocksRaycasts = false;
         cardCanvas.overrideSorting = true;
@@ -91,6 +101,8 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (!isLockedDuringDrag) return;
+
         Vector3 worldPos;
         RectTransformUtility.ScreenPointToWorldPointInRectangle(rectTransform, eventData.position, eventData.pressEventCamera, out worldPos);
         rectTransform.position = worldPos;
@@ -98,48 +110,59 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        isLockedDuringDrag = false; // снимаем замок
         canStartDragging = false;
         InteractionState.isDraggingCard = false;
+
         transform.DOScale(startScale, 0.1f).SetAutoKill(true).SetUpdate(true);
         GetComponent<CanvasGroup>().blocksRaycasts = true;
         cardCanvas.overrideSorting = false;
+
         CardData card = cardDisplay.cardToDisplay;
+
         if (card.type == CardData.CardType.Attack || card.type == CardData.CardType.SkillOnEnemy) draggingManager.SetEnemiesTooltipState(false);
         if (card.type == CardData.CardType.Defence || card.type == CardData.CardType.SkillOnPlayer) draggingManager.SetPlayerTooltipState(false);
-        GameObject target = eventData.pointerEnter;
-        if (target == null)
-        {
-            rectTransform.DOAnchorPos(startPosition, 0.2f)
-                .SetEase(Ease.OutBack)
-                .SetAutoKill(true)
-                .SetUpdate(true)
-                .OnComplete(() => canStartDragging = true);
-            return;
-        }
-        Enemy enemy = target.GetComponentInParent<Enemy>();
-        PlayerHealth player = target.GetComponent<PlayerHealth>();
 
+        GameObject target = eventData.pointerEnter;
+        Enemy enemy = target?.GetComponentInParent<Enemy>();
+        PlayerHealth player = target?.GetComponent<PlayerHealth>();
+
+        // --- Cleansing карта ---
+        if (card.effect == CardData.Effect.Cleansing)
+        {
+            if (player != null && player.HasDebuffs())
+            {
+                FindAnyObjectByType<CardEffects>().Cleansing(player); // применяем эффект
+                energyManager.DecreaseEnergy(card.energyCost);
+                float randPitchC = Random.Range(0.85f, 1.15f);
+                SoundManager.Instance.PlaySFX(cardEndDragSound, randPitchC, cardEndDragVolume);
+                transform.DOKill();
+                Destroy(gameObject);
+                return;
+            }
+            else
+            {
+                ReturnCard();
+                return;
+            }
+        }
+
+        // --- Проверка на валидность цели ---
         bool valid = true;
-        if ((card.type == CardData.CardType.Attack || card.type == CardData.CardType.SkillOnEnemy) && enemy == null) 
-            valid = false;
-        if ((card.type == CardData.CardType.Defence || card.type == CardData.CardType.SkillOnPlayer) && player == null)
-            valid = false;
-        if(card.effect == CardData.Effect.Cleansing && player == null)
-            valid = false;
-        else if (card.effect == CardData.Effect.Cleansing && !player.HasDebuffs())
-            valid = false;
+        if ((card.type == CardData.CardType.Attack || card.type == CardData.CardType.SkillOnEnemy) && enemy == null) valid = false;
+        if ((card.type == CardData.CardType.Defence || card.type == CardData.CardType.SkillOnPlayer) && player == null) valid = false;
+        if (!CanApplyEnemySkill(card, enemy)) valid = false;
 
         if (!valid)
         {
-            rectTransform.DOAnchorPos(startPosition, 0.2f)
-                .SetEase(Ease.OutBack)
-                .SetAutoKill(true)
-                .SetUpdate(true)
-                .OnComplete(() => canStartDragging = true);
+            ReturnCard();
             return;
         }
+
         float randPitch = Random.Range(0.85f, 1.15f);
         SoundManager.Instance.PlaySFX(cardEndDragSound, randPitch, cardEndDragVolume);
+
+        // --- Работа с врагами и щитами ---
         if ((card.type == CardData.CardType.Attack || card.type == CardData.CardType.SkillOnEnemy) && enemy != null)
         {
             DefenseCell shield = enemy.GetComponentInChildren<DefenseCell>(true);
@@ -163,11 +186,7 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                     }
                     else
                     {
-                        rectTransform.DOAnchorPos(startPosition, 0.2f)
-                            .SetEase(Ease.OutBack)
-                            .SetAutoKill(true)
-                            .SetUpdate(true)
-                            .OnComplete(() => canStartDragging = true);
+                        ReturnCard();
                         return;
                     }
                 }
@@ -181,6 +200,8 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                 return;
             }
         }
+
+        // --- Стандартное применение на врага ---
         if (enemy != null)
         {
             var dropTarget = enemy.GetComponent<EnemyDropTarget>();
@@ -195,15 +216,13 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                 }
                 else
                 {
-                    rectTransform.DOAnchorPos(startPosition, 0.2f)
-                        .SetEase(Ease.OutBack)
-                        .SetAutoKill(true)
-                        .SetUpdate(true)
-                        .OnComplete(() => canStartDragging = true);
+                    ReturnCard();
                 }
                 return;
             }
         }
+
+        // --- Если карта не применена на кого-либо ---
         transform.DOKill();
         Destroy(gameObject);
     }
@@ -215,14 +234,21 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         {
             case CardData.Effect.Stun: return !enemy.stunned;
             case CardData.Effect.HealthDrain:
-                if(enemy.currentHealth == 1)
-                    return false;
+                if (enemy.currentHealth == 1) return false;
                 return !enemy.hpWeakened;
             case CardData.Effect.StrengthDrain:
-                if (enemy.damage == 1)
-                    return false;
+                if (enemy.damage == 1) return false;
                 return !enemy.strengthWeakened;
         }
         return true;
+    }
+
+    private void ReturnCard()
+    {
+        rectTransform.DOAnchorPos(startPosition, 0.2f)
+            .SetEase(Ease.OutBack)
+            .SetAutoKill(true)
+            .SetUpdate(true)
+            .OnComplete(() => canStartDragging = true);
     }
 }
