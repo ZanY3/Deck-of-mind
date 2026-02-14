@@ -35,6 +35,10 @@ public class IntroTextManager : MonoBehaviour
     [Header("Other")]
     [SerializeField] private TutorialManager tutorialManager;
 
+    [Header("Sound")]
+    [SerializeField] private AudioClip allTimeMusic;
+    [Range(0f, 1f)][SerializeField] private float allTimeMusicVolume;
+
     private int currentSentence = 0;
     private bool isTyping = false;
     private Coroutine typingCoroutine;
@@ -45,6 +49,7 @@ public class IntroTextManager : MonoBehaviour
 
     private void Start()
     {
+        SoundManager.Instance.PlayMusic(allTimeMusic, allTimeMusicVolume);
         canvasGroup.alpha = 0f;
         canvasGroup.DOFade(1f, 0.5f);
         StartCoroutine(PlayIntro());

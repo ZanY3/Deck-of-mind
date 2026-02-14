@@ -5,8 +5,16 @@ public class SoundManager : MonoBehaviour
 {
     public static SoundManager Instance;
 
+    [Header("Sources")]
     [SerializeField] private AudioSource sfxSource;
     [SerializeField] private AudioSource musicSource;
+
+    [Header("Music")]
+    [SerializeField] private float musicFadeTime = 1.5f;
+
+    Coroutine musicRoutine;
+    private AudioClip currentClip;
+    private float currentTime = 0f; // время трека для возврата
 
     private void Awake()
     {
@@ -19,6 +27,8 @@ public class SoundManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }
+
+    // ---------------- SFX ----------------
 
     public void PlaySFX(AudioClip clip, float pitch = 1f, float volume = 1f)
     {
@@ -40,13 +50,47 @@ public class SoundManager : MonoBehaviour
         sfxSource.pitch = originalPitch;
         sfxSource.volume = originalVolume;
     }
-    public void PlayMusic(AudioClip clip, float volume = 1f)
+
+    // ---------------- MUSIC ----------------
+
+    public void PlayMusic(AudioClip clip, float volume = 0.3f, bool resume = false)
     {
         if (clip == null) return;
 
-        musicSource.clip = clip;
-        musicSource.loop = true;
-        musicSource.volume = volume;
+        if (musicRoutine != null)
+            StopCoroutine(musicRoutine);
+
+        musicRoutine = StartCoroutine(MusicTransition(clip, volume, resume));
+    }
+
+    private IEnumerator MusicTransition(AudioClip newClip, float targetVolume, bool resume)
+    {
+        // Fade out текущего трека
+        while (musicSource.volume > 0.01f)
+        {
+            musicSource.volume -= Time.deltaTime / musicFadeTime;
+            yield return null;
+        }
+
+        // Сохраняем время текущего трека
+        if (musicSource.clip != null)
+            currentTime = musicSource.time;
+
+        musicSource.Stop();
+        musicSource.clip = newClip;
+        currentClip = newClip;
+
+        // Если resume и трек такой же, продолжаем с сохранённого момента
+        musicSource.time = (resume && newClip == currentClip) ? currentTime : 0f;
         musicSource.Play();
+
+        // Fade in
+        while (musicSource.volume < targetVolume)
+        {
+            musicSource.volume += Time.deltaTime / musicFadeTime;
+            yield return null;
+        }
+
+        musicSource.volume = targetVolume;
     }
 }

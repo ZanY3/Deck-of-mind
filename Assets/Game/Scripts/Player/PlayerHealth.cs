@@ -151,8 +151,8 @@ public class PlayerHealth : MonoBehaviour
             {
                 if (currentHealth <= 60)
                 {
-                    float hpPercent = (float)currentHealth / maxHealth;
-                    float targetAlpha = Mathf.Lerp(maxVignetteAlpha, 0f, hpPercent);
+                    float t = Mathf.InverseLerp(60, 0, currentHealth); // 0 → 1
+                    float targetAlpha = Mathf.Lerp(0f, maxVignetteAlpha, t);
 
                     Color c = bloodVignetteImg.color;
                     c.a = Mathf.Lerp(c.a, targetAlpha, Time.deltaTime * vignetteSmooth);
@@ -160,9 +160,8 @@ public class PlayerHealth : MonoBehaviour
                 }
                 else
                 {
-                    // Скрываем виньетку, если HP > 60
                     Color c = bloodVignetteImg.color;
-                    c.a = 0;
+                    c.a = Mathf.Lerp(c.a, 0f, Time.deltaTime * vignetteSmooth);
                     bloodVignetteImg.color = c;
                 }
             }

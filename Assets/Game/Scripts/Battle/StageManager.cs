@@ -17,6 +17,7 @@ public class StageManager : MonoBehaviour
 
     [Header("Enemies")]
     [SerializeField] private List<GameObject> enemiesPrefabs;
+    [SerializeField] private int[] stagesWithStrongEnemies;
 
     [Header("Managers/Objects")]
     [SerializeField] private GameObject endingPanel;
@@ -27,6 +28,14 @@ public class StageManager : MonoBehaviour
     [SerializeField] private GameObject gameCanvas;
     [SerializeField] private CardRewardManager rewardManager;
     [SerializeField] private DeckManager deckManager;
+
+    [Space]
+    [Header("Sounds")]
+    [SerializeField] private AudioClip allTimeMusic;
+    [SerializeField] private AudioClip[] musicForBosses;
+    [Range(0f, 1f)][SerializeField] private float allTimeMusicVolume;
+    [Range(0f, 1f)][SerializeField] private float bossesMusicVolume;
+
 
     private float playerY; // фиксированная позиция по Y
 
@@ -80,6 +89,18 @@ public class StageManager : MonoBehaviour
 
     public void StartStage()
     {
+        for(int i = 0; i < stagesWithStrongEnemies.Length; i++)
+        {
+            if(currentStage == stagesWithStrongEnemies[i])
+            {
+                int randNum = Random.Range(0, musicForBosses.Length);
+                SoundManager.Instance.PlayMusic(musicForBosses[randNum], bossesMusicVolume);
+            }
+            if(currentStage == stagesWithStrongEnemies[i] + 1)
+            {
+                SoundManager.Instance.PlayMusic(allTimeMusic, allTimeMusicVolume, resume: true);
+            }
+        }
         InteractionState.isDraggingCard = false;
         var enemy = Instantiate(enemiesPrefabs[currentStage - 1], enemySlotPos.position, Quaternion.identity);
         enemy.transform.SetParent(enemySlotPos.transform, false);
