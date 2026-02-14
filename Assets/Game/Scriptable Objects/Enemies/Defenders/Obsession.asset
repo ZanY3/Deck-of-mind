@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42ab2beddd371f3498c55b6fa7a44ed3, type: 3}
   m_Name: Obsession
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
-  description: Shield regenerates every round. Break it to deal damage
+  description: Shield restores every turn. Destroy it to hit HP.
   health: 4
   damage: 2
   artwork: {fileID: 7977958819643115831, guid: eb6ea3d331549ab40a8c92414b536b50, type: 3}

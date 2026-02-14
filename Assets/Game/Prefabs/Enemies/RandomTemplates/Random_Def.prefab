@@ -519,6 +519,10 @@ MonoBehaviour:
   refreshDefenseEveryTurn: 0
   dropTarget: {fileID: 3308693822043084406}
   defenseAmoutTxt: {fileID: 7096613361027704169}
+  debuffSound: {fileID: 8300000, guid: 2d1157a97d61a014eb21f9efbf5ceffb, type: 3}
+  defenseBreakSound: {fileID: 8300000, guid: efc04501d98186445a948c3475e838d4, type: 3}
+  debuffVolume: 0.05
+  defenseBreakVolume: 0.05
   defenseIsActive: 1
 --- !u!1 &971439624113134997
 GameObject:
@@ -720,6 +724,8 @@ MonoBehaviour:
   healthTxt: {fileID: 1020006459840935090}
   damageTxt: {fileID: 4508267159312989986}
   debuffDamageTxt: {fileID: 0}
+  bossDefeatedSound: {fileID: 0}
+  bossDefeatedVolume: 0
   stunned: 0
   strengthWeakened: 0
   hpWeakened: 0
@@ -757,6 +763,11 @@ MonoBehaviour:
   enemyList:
   - {fileID: 11400000, guid: 7ec449b0cb0fc404baed712fbf7484e3, type: 2}
   - {fileID: 11400000, guid: a53aaa9ac47d159478e59b4bc8d43271, type: 2}
+  colorForStunner: {r: 0, g: 0, b: 0, a: 0}
+  shadowColorForStunner: {r: 0, g: 0, b: 0, a: 0}
+  shadowImg: {fileID: 0}
+  typeTxt: {fileID: 0}
+  anxietyIcon: {fileID: 0}
 --- !u!1 &2928379777010867997
 GameObject:
   m_ObjectHideFlags: 0
@@ -1987,6 +1998,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b067aace4d0bb9e41b9295094682445a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyUI
+  enemyData: {fileID: 0}
   tooltip: {fileID: 203799437581049679}
   cardDragTooltip: {fileID: 6066262253699981193}
   stunTooltip: {fileID: 2928379777010867997}
@@ -1999,6 +2011,7 @@ MonoBehaviour:
   descriptionTxt: {fileID: 5317813464043943778}
   typeTxt: {fileID: 2592859273104497301}
   stunnerClue: {fileID: 0}
+  anxietyDamageTxt: {fileID: 0}
 --- !u!1001 &7216614895987164743
 PrefabInstance:
   m_ObjectHideFlags: 0

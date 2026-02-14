@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42ab2beddd371f3498c55b6fa7a44ed3, type: 3}
   m_Name: Brain Leech
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
-  description: Just deals 2 damage
+  description: Deals 2 damage each turn.
   health: 2
   damage: 2
   artwork: {fileID: -7531849489225381479, guid: 9499b1c49decc0141a0599bc0bd5b2b1, type: 3}

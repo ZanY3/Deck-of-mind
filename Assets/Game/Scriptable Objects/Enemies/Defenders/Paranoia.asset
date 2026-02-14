@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42ab2beddd371f3498c55b6fa7a44ed3, type: 3}
   m_Name: Paranoia
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
-  description: Has a shield slot that must be broken before damaging the enemy.
+  description: Shield blocks damage. Break it first to hit HP.
   health: 4
   damage: 2
   artwork: {fileID: -6646689344434563298, guid: 4507b9073e511fb48a3af7d2371cfb5a, type: 3}

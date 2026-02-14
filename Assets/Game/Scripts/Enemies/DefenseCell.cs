@@ -14,6 +14,14 @@ public class DefenseCell : MonoBehaviour//, IDropHandler
     [Header("UI")]
     [SerializeField] private TMP_Text defenseAmoutTxt;
 
+    [Space]
+    [Header("Sounds")]
+    [SerializeField] private AudioClip debuffSound;
+    [SerializeField] private AudioClip defenseBreakSound;
+    [Range(0f, 1f)][SerializeField] private float debuffVolume;
+    [Range(0f, 1f)][SerializeField] private float defenseBreakVolume;
+
+
     //[HideInInspector] public bool canAttackEnemy = false;
 
     private Enemy enemy;
@@ -33,7 +41,9 @@ public class DefenseCell : MonoBehaviour//, IDropHandler
 //--------------------------------------------------------------------------------------
     public void RefillDefense()
     {
-        if(refreshDefenseEveryTurn)
+        float randPitch = Random.Range(0.9f, 1.1f);
+        SoundManager.Instance.PlaySFX(debuffSound, randPitch, debuffVolume);
+        if (refreshDefenseEveryTurn)
         {
             defenseAmout = startDefenseAmout;
             UpdateUI();
@@ -47,6 +57,8 @@ public class DefenseCell : MonoBehaviour//, IDropHandler
         }
         else if (defenseAmout <= value)
         {
+            float randPitch = Random.Range(0.9f, 1.1f);
+            SoundManager.Instance.PlaySFX(defenseBreakSound, randPitch, defenseBreakVolume);
             defenseIsActive = false;
             dropTarget.canBeAttacked = true;
             //dropTarget.enabled = true;
@@ -59,24 +71,4 @@ public class DefenseCell : MonoBehaviour//, IDropHandler
     {
        defenseAmoutTxt.text = defenseAmout.ToString();
     }
-    /*
-    public void OnDrop(PointerEventData eventData) //OnCardDrop
-    {
-        CardData card = eventData.pointerDrag.GetComponent<CardDisplay>().cardToDisplay;
-
-        if (card.type != CardData.CardType.Attack && card.effect != CardData.Effect.RandomPower)
-        {
-            return;
-        }
-        if(card.effect == CardData.Effect.RandomPower)
-        {
-            int damage = FindAnyObjectByType<CardEffects>().RandomPower();
-            DecreaseDefense(damage);
-        }
-        else
-        {
-            DecreaseDefense(card.power);
-        }
-    }
-    */
 }

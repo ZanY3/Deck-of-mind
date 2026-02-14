@@ -2386,7 +2386,7 @@ MonoBehaviour:
   sentenceEndSound: {fileID: 8300000, guid: 7034fe7885494354084db9fa84480b6e, type: 3}
   endChoirSound: {fileID: 8300000, guid: 02f83721da81d774ba47fc0c542003ac, type: 3}
   letterAndSentenceSoundVolume: 0.075
-  endChoirVolume: 0.05
+  endChoirVolume: 0.075
 --- !u!114 &400765825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2876,9 +2876,11 @@ MonoBehaviour:
   winSound: {fileID: 8300000, guid: 1f31d68306d2a8640a08ccd64f25e525, type: 3}
   defeatSound: {fileID: 8300000, guid: c49b0c19b63a43b4ea3d0ae4910bc8bb, type: 3}
   endTurnSound: {fileID: 8300000, guid: 7304cac41699cfb49a98170269e369d3, type: 3}
+  debuffSound: {fileID: 8300000, guid: 2d1157a97d61a014eb21f9efbf5ceffb, type: 3}
   winVolume: 0.1
-  defeatVolume: 0.15
+  defeatVolume: 0.2
   endTurnVolume: 0.1
+  debuffVolume: 0.05
   isPlayerTurn: 1
   enemies: []
 --- !u!4 &495381522
@@ -7488,6 +7490,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDropTarget
   cardEffects: {fileID: 377841814}
   energyManager: {fileID: 1020069}
+  cleansingSound: {fileID: 8300000, guid: 4cedba11ab080e24592d70baaf322db7, type: 3}
+  cleansingVolume: 0.05
 --- !u!1 &1416197536
 GameObject:
   m_ObjectHideFlags: 0
@@ -10347,7 +10351,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SoundManager
   sfxSource: {fileID: 939797446}
   musicSource: {fileID: 1985789170}
-  musicFadeTime: 1.5
+  musicFadeTime: 1
 --- !u!1 &1915514491
 GameObject:
   m_ObjectHideFlags: 0
@@ -10874,7 +10878,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 0
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

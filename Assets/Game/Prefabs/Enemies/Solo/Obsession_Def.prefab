@@ -411,6 +411,8 @@ MonoBehaviour:
   healthTxt: {fileID: 4788876836633006048}
   damageTxt: {fileID: 8876353055663977263}
   debuffDamageTxt: {fileID: 0}
+  bossDefeatedSound: {fileID: 0}
+  bossDefeatedVolume: 0
   stunned: 0
   strengthWeakened: 0
   hpWeakened: 0
@@ -1438,6 +1440,7 @@ MonoBehaviour:
   descriptionTxt: {fileID: 78617502293861676}
   typeTxt: {fileID: 390024016144634986}
   stunnerClue: {fileID: 0}
+  anxietyDamageTxt: {fileID: 0}
 --- !u!1 &5555153871413618810
 GameObject:
   m_ObjectHideFlags: 0
@@ -1743,6 +1746,10 @@ MonoBehaviour:
   refreshDefenseEveryTurn: 1
   dropTarget: {fileID: 2624775108063096083}
   defenseAmoutTxt: {fileID: 1291598772849002118}
+  debuffSound: {fileID: 8300000, guid: 2d1157a97d61a014eb21f9efbf5ceffb, type: 3}
+  defenseBreakSound: {fileID: 8300000, guid: efc04501d98186445a948c3475e838d4, type: 3}
+  debuffVolume: 0.05
+  defenseBreakVolume: 0.05
   defenseIsActive: 1
 --- !u!1 &7582138770143909450
 GameObject:

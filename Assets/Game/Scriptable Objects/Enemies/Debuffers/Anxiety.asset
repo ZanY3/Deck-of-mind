@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42ab2beddd371f3498c55b6fa7a44ed3, type: 3}
   m_Name: Anxiety
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
-  description: Applies an effect one time at start of the round, that deals 2 damage
-    each turn until the end of the round.
+  description: 'At round start, applies effect: 2 damage each round.'
   health: 4
   damage: 2
   artwork: {fileID: -6548194495405350998, guid: 66f66cccdc43e01409e75d33c2219837, type: 3}

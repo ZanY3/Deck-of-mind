@@ -34,37 +34,37 @@ public class CardRewardManager : MonoBehaviour
         SoundManager.Instance.PlaySFX(rewardOpenedSound, randPitch, rewardOpenVolume);
 
         if (cards == null || cards.Count < count)
-        {
             cards = new List<CardData>(allCards);
-        }
 
         cardsCount = count;
         SetCardsInteractable(true);
 
         List<CardData> rewardCards = new List<CardData>();
-        List<CardData> availableNewCards = new List<CardData>();
 
-        foreach (var card in allCards)
+        // Получаем список новых карт (которых нет в колоде)
+        List<CardData> newCards = allCards.FindAll(c => !deckManager.HasCard(c));
+        List<CardData> oldCards = new List<CardData>(allCards);
+        oldCards.RemoveAll(c => newCards.Contains(c)); // карты которые уже есть
+
+        // Берем максимум 2 новые карты
+        int newCardsToAdd = Mathf.Min(2, newCards.Count);
+        for (int i = 0; i < newCardsToAdd; i++)
         {
-            if (!deckManager.HasCard(card))
-                availableNewCards.Add(card);
+            int randIndex = Random.Range(0, newCards.Count);
+            rewardCards.Add(newCards[randIndex]);
+            newCards.RemoveAt(randIndex);
         }
 
-        if (availableNewCards.Count > 0)
-        {
-            int randIndex = Random.Range(0, availableNewCards.Count);
-            rewardCards.Add(availableNewCards[randIndex]);
-            availableNewCards.RemoveAt(randIndex);
-        }
+        // Создаем единый pool для всех оставшихся карт (новых и старых), исключая уже выбранные
+        List<CardData> pool = new List<CardData>(allCards);
+        pool.RemoveAll(c => rewardCards.Contains(c));
 
-        List<CardData> tempCards = new List<CardData>(allCards);
-        tempCards.RemoveAll(c => rewardCards.Contains(c));
-
-        while (rewardCards.Count < count && tempCards.Count > 0)
+        // Заполняем оставшиеся слоты
+        while (rewardCards.Count < count && pool.Count > 0)
         {
-            int randIndex = Random.Range(0, tempCards.Count);
-            rewardCards.Add(tempCards[randIndex]);
-            tempCards.RemoveAt(randIndex);
+            int randIndex = Random.Range(0, pool.Count);
+            rewardCards.Add(pool[randIndex]);
+            pool.RemoveAt(randIndex);
         }
 
         for (int i = 0; i < count; i++)

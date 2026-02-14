@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42ab2beddd371f3498c55b6fa7a44ed3, type: 3}
   m_Name: The Mind
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
-  description: Final boss
+  description: The final barrier. Clarity awaits.
   health: 30
-  damage: 4
+  damage: 3
   artwork: {fileID: 1218224322633961778, guid: ac9da45b9e060f34db6699fb0276ca9b, type: 3}
   enemyType: 3

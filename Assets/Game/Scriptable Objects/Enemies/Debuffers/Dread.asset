@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42ab2beddd371f3498c55b6fa7a44ed3, type: 3}
   m_Name: Dread
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
-  description: Applies an effect one time at start of the round, that deals 2 damage
-    each turn until the end of the round.
+  description: 'At round start, applies effect: 4 damage each round.'
   health: 6
   damage: 1
   artwork: {fileID: -3304044434589319186, guid: 37f4e7ce9c694ad40a7b6fe12cf223f7, type: 3}

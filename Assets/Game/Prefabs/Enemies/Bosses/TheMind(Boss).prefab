@@ -1525,10 +1525,8 @@ MonoBehaviour:
   healthTxt: {fileID: 4136722545596480442}
   damageTxt: {fileID: 5757631363332776634}
   debuffDamageTxt: {fileID: 0}
-  bossPhaseTransitionSound: {fileID: 8300000, guid: e680068d003672d45817b8331f5266ac, type: 3}
   bossDefeatedSound: {fileID: 8300000, guid: b13abe7dced8e3c4ba6c7c65e0a6c532, type: 3}
-  bossDefeatedVolume: 0.025
-  bossPhaseTransitionVolume: 0.025
+  bossDefeatedVolume: 0.075
   stunned: 0
   strengthWeakened: 0
   hpWeakened: 0
@@ -1541,8 +1539,8 @@ MonoBehaviour:
   phase2Sprite: {fileID: -1974071570951473406, guid: a635dc1f8ad6ada48950b234b5934f1a, type: 3}
   bossPhaseTransitionSound: {fileID: 0}
   summonSound: {fileID: 8300000, guid: 31fd5273582ec77428db56062f06073b, type: 3}
-  bossPhaseTransitionVolume: 0
-  summonVolume: 0.025
+  bossPhaseTransitionVolume: 0.1
+  summonVolume: 0.1
 --- !u!114 &1269699023576059515
 MonoBehaviour:
   m_ObjectHideFlags: 0

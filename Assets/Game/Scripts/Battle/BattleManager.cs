@@ -24,9 +24,11 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private AudioClip winSound;
     [SerializeField] private AudioClip defeatSound;
     [SerializeField] private AudioClip endTurnSound;
+    [SerializeField] private AudioClip debuffSound;
     [Range(0f, 1f)][SerializeField] private float winVolume;
     [Range(0f, 1f)][SerializeField] private float defeatVolume;
     [Range(0f, 1f)][SerializeField] private float endTurnVolume;
+    [Range(0f, 1f)][SerializeField] private float debuffVolume;
 
     [HideInInspector] public bool isPlayerTurn = true;
 
@@ -148,6 +150,9 @@ public class BattleManager : MonoBehaviour
                 {
                     if (!player.hasAnxiety && !enemies[i].GetComponent<AnxietyDebuff>().startAnxietyApplied && enemies[i].stunned == false)
                     {
+                        float randPitch = Random.Range(0.9f, 1.1f);
+                        SoundManager.Instance.PlaySFX(debuffSound, randPitch, debuffVolume);
+
                         Enemy enemy = enemies[i];
 
                         Tween castTween = enemy.transform.DOShakePosition(0.25f, new Vector3(6f, 3f, 0), 12, 90, false, true);
@@ -171,6 +176,9 @@ public class BattleManager : MonoBehaviour
                     }
                     if (enemyStun.turnsUntilStun <= 0)
                     {
+                        float randPitch = Random.Range(0.9f, 1.1f);
+                        SoundManager.Instance.PlaySFX(debuffSound, randPitch, debuffVolume);
+
                         Debug.Log("Applying stun to player!");
                         enemyStun.DealStun();
                         enemyToolTip.UpdateStunClue(false);

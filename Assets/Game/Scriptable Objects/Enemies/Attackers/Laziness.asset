@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42ab2beddd371f3498c55b6fa7a44ed3, type: 3}
   m_Name: Laziness
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
-  description: Just deals 4 damage
+  description: Deals 4 damage each turn.
   health: 6
   damage: 4
   artwork: {fileID: -7254190925466319087, guid: 41c5d4b4cd8292d469dde02fe1d1504c, type: 3}

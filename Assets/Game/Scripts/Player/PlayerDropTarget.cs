@@ -5,7 +5,15 @@ public class PlayerDropTarget : MonoBehaviour, IDropHandler
 {
     [SerializeField] private CardEffects cardEffects;
     [SerializeField] private EnergyManager energyManager;
+
+    [Space]
+    [Header("Sounds")]
+    [SerializeField] private AudioClip cleansingSound;
+    [Range(0f, 1f)][SerializeField] private float cleansingVolume;
+
     private PlayerDefense defense;
+
+
 
     private void Start()
     {
@@ -30,6 +38,9 @@ public class PlayerDropTarget : MonoBehaviour, IDropHandler
             CardData cardTemp = eventData.pointerDrag.GetComponent<CardDisplay>().cardToDisplay;
             if (cardTemp.effect == CardData.Effect.Cleansing && GetComponent<PlayerHealth>().hasAnxiety)
             {
+                float randPitch = Random.Range(0.9f, 1.1f);
+                SoundManager.Instance.PlaySFX(cleansingSound, randPitch, cleansingVolume);
+
                 cardEffects.Cleansing(GetComponent<PlayerHealth>());
                 energyManager.DecreaseEnergy(card.energyCost);
                 GetComponent<PlayerHealth>().ChangeDraggingClueState(false);
