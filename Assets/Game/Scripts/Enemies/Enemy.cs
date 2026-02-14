@@ -7,10 +7,15 @@ public class Enemy : MonoBehaviour
     public EnemyData enemyData;
     [SerializeField] private TMP_Text healthTxt;
     [SerializeField] private TMP_Text damageTxt;
+    [Space]
+
 
     [Space]
     [Header("Not required")]
     [SerializeField] private TMP_Text debuffDamageTxt;
+    [Header("Sounds")]
+    [SerializeField] private AudioClip bossDefeatedSound;
+    [Range(0f, 1f)][SerializeField] private float bossDefeatedVolume;
 
     [HideInInspector] public bool stunned = false;
     [HideInInspector] public bool strengthWeakened = false;
@@ -81,6 +86,7 @@ public class Enemy : MonoBehaviour
 
             if (GetComponent<Boss>() != null)
             {
+                SoundManager.Instance.PlaySFX(bossDefeatedSound, 1, bossDefeatedVolume);
                 battleManager.EndBtnSetActive(false);
 
                 transform.DOShakeScale(1f, 2f, 10)

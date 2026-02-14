@@ -34,7 +34,7 @@ public class EnemyDropTarget : MonoBehaviour
                     break;
 
                 case CardData.Effect.HealthDrain:
-                    if (!enemy.hpWeakened)
+                    if (!enemy.hpWeakened && enemy.currentHealth != 1)
                     {
                         enemy.transform.DOShakeScale(0.15f, new Vector3(0.15f, 0.15f, 0)).SetAutoKill(true).SetUpdate(true);
                         effects.HealthWeaken(enemy, true, 2);
@@ -42,7 +42,7 @@ public class EnemyDropTarget : MonoBehaviour
                     break;
 
                 case CardData.Effect.StrengthDrain:
-                    if (!enemy.strengthWeakened)
+                    if (!enemy.strengthWeakened && enemy.damage != 1)
                     {
                         enemy.transform.DOShakeScale(0.15f, new Vector3(0.15f, 0.15f, 0)).SetAutoKill(true).SetUpdate(true);
                         effects.StrengthWeaken(enemy, true, 2);

@@ -36,21 +36,29 @@ public class StageManager : MonoBehaviour
     [Range(0f, 1f)][SerializeField] private float allTimeMusicVolume;
     [Range(0f, 1f)][SerializeField] private float bossesMusicVolume;
 
-
     private float playerY; // фиксированная позиция по Y
 
     private void Start()
     {
         playerY = playerIcon.transform.position.y; // зафиксировали Y
         StartStage();
-        // ставим игрока над первой точкой по X
         playerIcon.transform.position = new Vector3(stagePointsImg[currentStage - 1].transform.position.x, playerY, 0);
     }
 
     public void WinBattle()
     {
-        rewardManager.GetRewardCards(3);
-        StartCoroutine(HandleLevelCompletion());
+        PlayAllGameMusic();
+        if(currentStage == numberOfStages)
+        {
+            gameCanvas.SetActive(false);
+            endingPanel.SetActive(true);
+        }
+        else
+        {
+            rewardManager.GetRewardCards(3);
+            StartCoroutine(HandleLevelCompletion());
+        }
+
     }
 
     private IEnumerator HandleLevelCompletion()
@@ -73,7 +81,6 @@ public class StageManager : MonoBehaviour
         if (currentStage < numberOfStages)
         {
             currentStage++;
-            // двигаем игрока только по X
             Vector3 targetPos = new Vector3(stagePointsImg[currentStage - 1].transform.position.x, playerY, 0);
             StartCoroutine(MovePlayerIcon(targetPos));
 
@@ -81,30 +88,29 @@ public class StageManager : MonoBehaviour
             battleManager.StartBattle();
             StartStage();
         }
-        else
-        {
-            endingPanel.SetActive(true);
-        }
     }
 
     public void StartStage()
     {
-        for(int i = 0; i < stagesWithStrongEnemies.Length; i++)
+        // музыка босса на стадии
+        for (int i = 0; i < stagesWithStrongEnemies.Length; i++)
         {
-            if(currentStage == stagesWithStrongEnemies[i])
+            if (currentStage == stagesWithStrongEnemies[i])
             {
                 int randNum = Random.Range(0, musicForBosses.Length);
                 SoundManager.Instance.PlayMusic(musicForBosses[randNum], bossesMusicVolume);
             }
-            if(currentStage == stagesWithStrongEnemies[i] + 1)
-            {
-                SoundManager.Instance.PlayMusic(allTimeMusic, allTimeMusicVolume, resume: true);
-            }
         }
+
         InteractionState.isDraggingCard = false;
         var enemy = Instantiate(enemiesPrefabs[currentStage - 1], enemySlotPos.position, Quaternion.identity);
         enemy.transform.SetParent(enemySlotPos.transform, false);
         handManager.DrawHand();
+    }
+
+    public void PlayAllGameMusic()
+    {
+        SoundManager.Instance.PlayMusic(allTimeMusic, allTimeMusicVolume, resume: true);
     }
 
     public void RestartGame()

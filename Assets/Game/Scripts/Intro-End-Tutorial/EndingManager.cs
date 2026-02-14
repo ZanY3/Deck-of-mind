@@ -44,7 +44,10 @@ public class EndingManager : MonoBehaviour
     [Header("Sounds")]
     [SerializeField] private AudioClip letterTypeSound;
     [SerializeField] private AudioClip sentenceEndSound;
+    [SerializeField] private AudioClip endChoirSound;
     [Range(0f, 1f)][SerializeField] private float letterAndSentenceSoundVolume = 0.075f;
+    [Range(0f, 1f)][SerializeField] private float endChoirVolume;
+
 
     private int currentSentence = 0;
     private bool isTyping = false;
@@ -190,7 +193,7 @@ public class EndingManager : MonoBehaviour
     {
         swayTween?.Kill();
         zoomTween?.Kill();
-
+        SoundManager.Instance.PlaySFX(endChoirSound, 1, endChoirVolume);
         FadeToWhiteAndShowTitle();
     }
 

@@ -55,7 +55,7 @@ public class CardEffects : MonoBehaviour
         }
         else
         {
-            enemy.damage *= 2;
+            enemy.damage = enemy.enemyData.damage;
             enemy.strengthWeakened = false;
         }
         enemy.GetComponentInChildren<EnemyToolTip>().UpdateStrengthTooltip(state, turns);

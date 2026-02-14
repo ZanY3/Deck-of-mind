@@ -10,6 +10,7 @@ public class CardRewardManager : MonoBehaviour
     [SerializeField] private CardDisplay[] cardTemplates;
     [SerializeField] private DeckManager deckManager;
     [SerializeField] private PlayerHealth player;
+    [SerializeField] private StageManager stageManager;
 
     [Header("Sounds")]
     [SerializeField] private AudioClip rewardOpenedSound;
@@ -21,10 +22,17 @@ public class CardRewardManager : MonoBehaviour
 
     private int cardsCount;
 
+    private void Start()
+    {
+        // В stage manager музыка меняется сама
+        stageManager.PlayAllGameMusic();
+    }
+
     public void GetRewardCards(int count)
     {
         float randPitch = Random.Range(0.85f, 1.05f);
         SoundManager.Instance.PlaySFX(rewardOpenedSound, randPitch, rewardOpenVolume);
+
         if (cards == null || cards.Count < count)
         {
             cards = new List<CardData>(allCards);

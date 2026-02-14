@@ -755,7 +755,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 09940e4278e592543a292a0f6fcd054f, type: 3}
   - {fileID: 8300000, guid: 19ad67f484e0535428522dfc6d6029c1, type: 3}
   allTimeMusicVolume: 0.025
-  bossesMusicVolume: 0.015
+  bossesMusicVolume: 0.03
 --- !u!1 &154507790
 GameObject:
   m_ObjectHideFlags: 0
@@ -2381,10 +2381,12 @@ MonoBehaviour:
   sceneToLoadName: Game
   titleText: {fileID: 1800799324}
   titleFadeDuration: 0.1
-  titleDisplayDuration: 4
+  titleDisplayDuration: 8
   letterTypeSound: {fileID: 8300000, guid: 2824a655cabc2c44c8a55fb61b386fe5, type: 3}
   sentenceEndSound: {fileID: 8300000, guid: 7034fe7885494354084db9fa84480b6e, type: 3}
+  endChoirSound: {fileID: 8300000, guid: 02f83721da81d774ba47fc0c542003ac, type: 3}
   letterAndSentenceSoundVolume: 0.075
+  endChoirVolume: 0.05
 --- !u!114 &400765825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6175,6 +6177,7 @@ MonoBehaviour:
   - {fileID: 981637748}
   deckManager: {fileID: 1702557157}
   player: {fileID: 1397727168}
+  stageManager: {fileID: 135264087}
   rewardOpenedSound: {fileID: 8300000, guid: 75e5975cd3b38b943bde5c5c4320f5b5, type: 3}
   healSound: {fileID: 8300000, guid: 2a467511626920f41b1eaf8c7d717f17, type: 3}
   healVolume: 0.35
