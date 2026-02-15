@@ -15,6 +15,6 @@ MonoBehaviour:
   type: 2
   effect: 1
   icon: {fileID: 2899872175095402712, guid: d3ca4e9b90cac0f418412cf3d1adfb4f, type: 3}
-  description: Removes all debuffs on the player.
+  description: Removes all debuffs on the player and heals 4 HP.
   power: 0
   energyCost: 1

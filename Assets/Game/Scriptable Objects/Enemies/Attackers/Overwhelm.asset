@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42ab2beddd371f3498c55b6fa7a44ed3, type: 3}
   m_Name: Overwhelm
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
-  description: Deals 4 damage each turn.
-  health: 18
-  damage: 4
+  description: Deals 3 damage each turn.
+  health: 20
+  damage: 3
   artwork: {fileID: -5545626719615784092, guid: 674b551bbc872af4db243108d10cc8a1, type: 3}
   enemyType: 0

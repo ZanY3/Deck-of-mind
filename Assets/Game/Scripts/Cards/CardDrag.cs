@@ -101,15 +101,38 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (!isLockedDuringDrag) return;
+        // Если замок снят или произошла ошибка — возвращаем карту
+        if (!isLockedDuringDrag)
+        {
+            ReturnCard();
+            return;
+        }
 
         Vector3 worldPos;
-        RectTransformUtility.ScreenPointToWorldPointInRectangle(rectTransform, eventData.position, eventData.pressEventCamera, out worldPos);
-        rectTransform.position = worldPos;
+        if (RectTransformUtility.ScreenPointToWorldPointInRectangle(rectTransform, eventData.position, eventData.pressEventCamera, out worldPos))
+        {
+            rectTransform.position = worldPos;
+        }
+        else
+        {
+            // На случай ошибки с worldPos
+            ReturnCard();
+            isLockedDuringDrag = false;
+            InteractionState.isDraggingCard = false;
+        }
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (!isLockedDuringDrag)
+        {
+            // Если карта "зависла", сразу возвращаем
+            ReturnCard();
+            canStartDragging = true;
+            InteractionState.isDraggingCard = false;
+            return;
+        }
+
         isLockedDuringDrag = false; // снимаем замок
         canStartDragging = false;
         InteractionState.isDraggingCard = false;
@@ -132,7 +155,7 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         {
             if (player != null && player.HasDebuffs())
             {
-                FindAnyObjectByType<CardEffects>().Cleansing(player); // применяем эффект
+                FindAnyObjectByType<CardEffects>().Cleansing(player);
                 energyManager.DecreaseEnergy(card.energyCost);
                 float randPitchC = Random.Range(0.85f, 1.15f);
                 SoundManager.Instance.PlaySFX(cardEndDragSound, randPitchC, cardEndDragVolume);

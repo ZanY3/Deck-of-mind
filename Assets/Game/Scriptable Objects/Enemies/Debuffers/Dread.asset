@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Dread
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   description: 'At round start, applies effect: 4 damage each round.'
-  health: 6
+  health: 4
   damage: 1
   artwork: {fileID: -3304044434589319186, guid: 37f4e7ce9c694ad40a7b6fe12cf223f7, type: 3}
   enemyType: 1

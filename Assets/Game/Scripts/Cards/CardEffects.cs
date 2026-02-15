@@ -5,6 +5,7 @@ public class CardEffects : MonoBehaviour
 //--------------Effects on player---------------------------
     public void Cleansing(PlayerHealth playerHealth)
     {
+        playerHealth.Heal(4);
         playerHealth.ClearAllDebuffs();
         Debug.Log("All debufs had cleaned!");
     }
