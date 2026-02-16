@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -45,17 +46,19 @@ public class PlayerDropTarget : MonoBehaviour, IDropHandler
                 energyManager.DecreaseEnergy(card.energyCost);
                 GetComponent<PlayerHealth>().ChangeDraggingClueState(false);
                 InteractionState.isDraggingCard = false;
-                Destroy(eventData.pointerDrag);
+                eventData.pointerDrag.GetComponent<CardDrag>().DestroySafely();
             }
             if(cardTemp.effect == CardData.Effect.BloodPact)
             {
                 cardEffects.BloodPact(GetComponent<PlayerHealth>());
                 energyManager.DecreaseEnergy(card.energyCost);
             }
-            if(cardTemp.effect == CardData.Effect.BloodDraw)
+            HandManager handManager = FindAnyObjectByType<HandManager>();
+            if(cardTemp.effect == CardData.Effect.BloodDraw && handManager.HandCount() < 4)
             {
                 cardEffects.BloodDraw(GetComponent<PlayerHealth>());
                 energyManager.DecreaseEnergy(card.energyCost);
+                eventData.pointerDrag.GetComponent<CardDrag>().DestroySafely();
             }
         }
     }

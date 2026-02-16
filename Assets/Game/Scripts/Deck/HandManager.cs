@@ -1,4 +1,4 @@
-using DG.Tweening;
+﻿using DG.Tweening;
 using UnityEngine;
 
 public class HandManager : MonoBehaviour
@@ -31,6 +31,10 @@ public class HandManager : MonoBehaviour
     {
         CardData data = deckManager.DrawCard();
         SpawnCard(data);
+    }
+    public int HandCount()
+    {
+        return handParent.childCount;
     }
     public void SpawnCard(CardData data)
     {

@@ -11,12 +11,13 @@ public class CardEffects : MonoBehaviour
     }
     public void BloodPact(PlayerHealth playerHealth)
     {
-        playerHealth.TakeDamage(4, false);
+        playerHealth.TakeDamage(2, false);
         FindAnyObjectByType<EnergyManager>().IncreaseEnergy(1);
     }
     public void BloodDraw(PlayerHealth playerHealth)
     {
         playerHealth.TakeDamage(2, false);
+        FindAnyObjectByType<HandManager>().DrawOneCard();
         FindAnyObjectByType<HandManager>().DrawOneCard();
     }
 

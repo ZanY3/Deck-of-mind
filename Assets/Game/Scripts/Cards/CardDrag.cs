@@ -27,6 +27,9 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     private bool canStartDragging = true;
     private bool isLockedDuringDrag = false; // замок для предотвращения зависаний
 
+    [SerializeField] private float dragCooldown = 0.25f;
+    private void AllowNextDrag() => canStartDragging = true;
+
     private void Awake()
     {
         cardDisplay = GetComponent<CardDisplay>();
@@ -73,7 +76,7 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
         startPosition = rectTransform.anchoredPosition;
         InteractionState.isDraggingCard = true;
-        isLockedDuringDrag = true; // включаем замок
+        isLockedDuringDrag = true;
 
         if (!energyManager.CheckIsEnoughOnCard(cardDisplay.cardToDisplay.energyCost))
         {
@@ -82,8 +85,17 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             SoundManager.Instance.PlaySFX(notEnoughEnergySound, randPitch1, notEnoughEnergyVolume);
             eventData.pointerDrag = null;
             InteractionState.isDraggingCard = false;
-            isLockedDuringDrag = false; // снимаем замок
+            isLockedDuringDrag = false;
             return;
+        }
+
+        // --- МИНИМАЛЬНЫЙ ФИКС ---
+        foreach (var otherCard in FindObjectsByType<CardDrag>(FindObjectsSortMode.None))
+        {
+            if (otherCard != this)
+            {
+                otherCard.GetComponent<CanvasGroup>().blocksRaycasts = false;
+            }
         }
 
         float randPitch = Random.Range(0.85f, 1.15f);
@@ -101,7 +113,6 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void OnDrag(PointerEventData eventData)
     {
-        // Если замок снят или произошла ошибка — возвращаем карту
         if (!isLockedDuringDrag)
         {
             ReturnCard();
@@ -115,7 +126,6 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         }
         else
         {
-            // На случай ошибки с worldPos
             ReturnCard();
             isLockedDuringDrag = false;
             InteractionState.isDraggingCard = false;
@@ -124,16 +134,24 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        // --- ВОССТАНАВЛИВАЕМ интерактивность других карт ---
+        foreach (var otherCard in FindObjectsByType<CardDrag>(FindObjectsSortMode.None))
+        {
+            if (otherCard != this)
+            {
+                otherCard.GetComponent<CanvasGroup>().blocksRaycasts = true;
+            }
+        }
+
         if (!isLockedDuringDrag)
         {
-            // Если карта "зависла", сразу возвращаем
             ReturnCard();
-            canStartDragging = true;
+            Invoke(nameof(AllowNextDrag), dragCooldown);
             InteractionState.isDraggingCard = false;
             return;
         }
 
-        isLockedDuringDrag = false; // снимаем замок
+        isLockedDuringDrag = false;
         canStartDragging = false;
         InteractionState.isDraggingCard = false;
 
@@ -150,7 +168,6 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         Enemy enemy = target?.GetComponentInParent<Enemy>();
         PlayerHealth player = target?.GetComponent<PlayerHealth>();
 
-        // --- Cleansing карта ---
         if (card.effect == CardData.Effect.Cleansing)
         {
             if (player != null && player.HasDebuffs())
@@ -161,16 +178,27 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                 SoundManager.Instance.PlaySFX(cardEndDragSound, randPitchC, cardEndDragVolume);
                 transform.DOKill();
                 Destroy(gameObject);
+                Invoke(nameof(AllowNextDrag), dragCooldown);
                 return;
             }
             else
             {
                 ReturnCard();
+                Invoke(nameof(AllowNextDrag), dragCooldown);
+                return;
+            }
+        }
+        if(card.effect == CardData.Effect.BloodDraw)
+        {
+            HandManager handManager = FindAnyObjectByType<HandManager>();
+            if (player != null || handManager.HandCount() >= 4)
+            {
+                ReturnCard();
+                Invoke(nameof(AllowNextDrag), dragCooldown);
                 return;
             }
         }
 
-        // --- Проверка на валидность цели ---
         bool valid = true;
         if ((card.type == CardData.CardType.Attack || card.type == CardData.CardType.SkillOnEnemy) && enemy == null) valid = false;
         if ((card.type == CardData.CardType.Defence || card.type == CardData.CardType.SkillOnPlayer) && player == null) valid = false;
@@ -179,13 +207,13 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         if (!valid)
         {
             ReturnCard();
+            Invoke(nameof(AllowNextDrag), dragCooldown);
             return;
         }
 
-        float randPitch = Random.Range(0.85f, 1.15f);
-        SoundManager.Instance.PlaySFX(cardEndDragSound, randPitch, cardEndDragVolume);
+        float randPitch2 = Random.Range(0.85f, 1.15f);
+        SoundManager.Instance.PlaySFX(cardEndDragSound, randPitch2, cardEndDragVolume);
 
-        // --- Работа с врагами и щитами ---
         if ((card.type == CardData.CardType.Attack || card.type == CardData.CardType.SkillOnEnemy) && enemy != null)
         {
             DefenseCell shield = enemy.GetComponentInChildren<DefenseCell>(true);
@@ -205,11 +233,13 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                         energyManager.DecreaseEnergy(card.energyCost);
                         transform.DOKill();
                         Destroy(gameObject);
+                        Invoke(nameof(AllowNextDrag), dragCooldown);
                         return;
                     }
                     else
                     {
                         ReturnCard();
+                        Invoke(nameof(AllowNextDrag), dragCooldown);
                         return;
                     }
                 }
@@ -220,11 +250,11 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                 energyManager.DecreaseEnergy(card.energyCost);
                 transform.DOKill();
                 Destroy(gameObject);
+                Invoke(nameof(AllowNextDrag), dragCooldown);
                 return;
             }
         }
 
-        // --- Стандартное применение на врага ---
         if (enemy != null)
         {
             var dropTarget = enemy.GetComponent<EnemyDropTarget>();
@@ -236,18 +266,20 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                     energyManager.DecreaseEnergy(card.energyCost);
                     transform.DOKill();
                     Destroy(gameObject);
+                    Invoke(nameof(AllowNextDrag), dragCooldown);
                 }
                 else
                 {
                     ReturnCard();
+                    Invoke(nameof(AllowNextDrag), dragCooldown);
                 }
                 return;
             }
         }
 
-        // --- Если карта не применена на кого-либо ---
         transform.DOKill();
         Destroy(gameObject);
+        Invoke(nameof(AllowNextDrag), dragCooldown);
     }
 
     private bool CanApplyEnemySkill(CardData card, Enemy enemy)
@@ -265,13 +297,35 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         }
         return true;
     }
+    public void DestroySafely()
+    {
+        // снимаем глобальный drag
+        InteractionState.isDraggingCard = false;
+        isLockedDuringDrag = false;
+        canStartDragging = true;
 
+        // возвращаем всем картам raycast
+        foreach (var card in FindObjectsByType<CardDrag>(FindObjectsSortMode.None))
+        {
+            card.GetComponent<CanvasGroup>().blocksRaycasts = true;
+        }
+
+        // выключаем тултипы
+        draggingManager.SetEnemiesTooltipState(false);
+        draggingManager.SetPlayerTooltipState(false);
+
+        GetComponent<CanvasGroup>().blocksRaycasts = true;
+        cardCanvas.overrideSorting = false;
+
+        transform.DOKill();
+        Destroy(gameObject);
+    }
     private void ReturnCard()
     {
         rectTransform.DOAnchorPos(startPosition, 0.2f)
             .SetEase(Ease.OutBack)
             .SetAutoKill(true)
             .SetUpdate(true)
-            .OnComplete(() => canStartDragging = true);
+            .OnComplete(() => Invoke(nameof(AllowNextDrag), dragCooldown));
     }
 }

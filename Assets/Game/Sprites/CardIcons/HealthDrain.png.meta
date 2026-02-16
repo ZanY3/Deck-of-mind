@@ -142,10 +142,10 @@ TextureImporter:
       name: HealthDrain_0
       rect:
         serializedVersion: 2
-        x: 1
-        y: 0
-        width: 30
-        height: 32
+        x: 2
+        y: 3
+        width: 29
+        height: 29
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

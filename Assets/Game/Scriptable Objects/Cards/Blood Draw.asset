@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   type: 2
   effect: 5
-  icon: {fileID: 4192703083720529211, guid: f8928284bc4d142468cccc511dcf7e63, type: 3}
-  description: Draws a card from the deck at the cost of 2 health.
+  icon: {fileID: 4192703083720529211, guid: c78744c2c77b9944384314eaf2596eb3, type: 3}
+  description: Draws 2 cards from the deck at the cost of 2 health.
   power: 0
   energyCost: 0

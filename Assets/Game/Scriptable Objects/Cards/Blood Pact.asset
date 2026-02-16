@@ -15,6 +15,6 @@ MonoBehaviour:
   type: 2
   effect: 4
   icon: {fileID: -3809215768242116176, guid: f4307f293a84b4c41ae5dd66eb1363c1, type: 3}
-  description: Gives 1 energy in exchange for 4 HP.
+  description: Gives 1 energy in exchange for 2 HP.
   power: 0
   energyCost: 0
