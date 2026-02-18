@@ -15,6 +15,6 @@ MonoBehaviour:
   type: 2
   effect: 5
   icon: {fileID: 4192703083720529211, guid: c78744c2c77b9944384314eaf2596eb3, type: 3}
-  description: Draws 2 cards from the deck at the cost of 2 health.
+  description: Draw 2 cards and lose 2 health. Cannot be played with 4 cards in hand.
   power: 0
   energyCost: 0

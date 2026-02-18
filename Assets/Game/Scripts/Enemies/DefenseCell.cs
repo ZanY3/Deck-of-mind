@@ -51,20 +51,31 @@ public class DefenseCell : MonoBehaviour//, IDropHandler
     }
     public void DecreaseDefense(int value)
     {
-        if(defenseAmout > value)
+        if (!defenseIsActive) return;
+
+        if (defenseAmout > value)
         {
             defenseAmout -= value;
         }
-        else if (defenseAmout <= value)
+        else
         {
+            int remainingDamage = value - defenseAmout; // ← остаток
+
             float randPitch = Random.Range(0.9f, 1.1f);
             SoundManager.Instance.PlaySFX(defenseBreakSound, randPitch, defenseBreakVolume);
+
+            defenseAmout = 0;
             defenseIsActive = false;
             dropTarget.canBeAttacked = true;
-            //dropTarget.enabled = true;
 
             gameObject.SetActive(false);
+
+            if (remainingDamage > 0)
+            {
+                enemy.TakeDamage(remainingDamage);
+            }
         }
+
         UpdateUI();
     }
     public void UpdateUI()

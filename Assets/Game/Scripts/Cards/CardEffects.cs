@@ -29,7 +29,7 @@ public class CardEffects : MonoBehaviour
     }
     public int RandomPower()
     {
-        return Random.Range(1, 4);
+        return Random.Range(1, 5);
     }
     public void HealthWeaken(Enemy enemy, bool state, int turns)
     {

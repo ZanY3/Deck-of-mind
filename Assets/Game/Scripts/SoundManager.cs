@@ -12,7 +12,7 @@ public class SoundManager : MonoBehaviour
     [Header("Music")]
     [SerializeField] private float musicFadeTime = 1.5f;
 
-    Coroutine musicRoutine;
+    private Coroutine musicRoutine;
     private AudioClip currentClip;
     private float currentTime = 0f; // время трека для возврата
 
@@ -57,6 +57,10 @@ public class SoundManager : MonoBehaviour
     {
         if (clip == null) return;
 
+        // Если уже играет тот же трек и resume, ничего не делаем
+        if (resume && clip == currentClip && musicSource.isPlaying)
+            return;
+
         if (musicRoutine != null)
             StopCoroutine(musicRoutine);
 
@@ -78,10 +82,11 @@ public class SoundManager : MonoBehaviour
 
         musicSource.Stop();
         musicSource.clip = newClip;
-        currentClip = newClip;
 
-        // Если resume и трек такой же, продолжаем с сохранённого момента
+        // Если resume и трек тот же, продолжаем с сохранённого момента
         musicSource.time = (resume && newClip == currentClip) ? currentTime : 0f;
+
+        currentClip = newClip; // обновляем currentClip только после установки времени
         musicSource.Play();
 
         // Fade in
