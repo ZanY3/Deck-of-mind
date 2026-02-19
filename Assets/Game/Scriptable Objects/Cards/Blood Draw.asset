@@ -12,9 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6931a1dcfcd5084da9ad8d9da1cd526, type: 3}
   m_Name: Blood Draw
   m_EditorClassIdentifier: Assembly-CSharp::CardData
+  nameOnEnglish: Blood Draw
+  nameOnRussian: "\u041A\u0440\u043E\u0432\u0430\u0432\u044B\u0439 \u0434\u043E\u0431\u043E\u0440"
+  descriptionOnEnglish: Draw 2 cards and lose 2 health. Cannot be played with 4 cards
+    in hand
+  descriptionOnRussian: "\u0412\u043E\u0437\u044C\u043C\u0438 2 \u043A\u0430\u0440\u0442\u044B
+    \u0438 \u043F\u043E\u0442\u0435\u0440\u044F\u0439 2 \u0437\u0434\u043E\u0440\u043E\u0432\u044C\u044F.
+    \u041D\u0435\u043B\u044C\u0437\u044F \u0440\u0430\u0437\u044B\u0433\u0440\u0430\u0442\u044C,
+    \u0435\u0441\u043B\u0438 \u0432 \u0440\u0443\u043A\u0435 4 \u043A\u0430\u0440\u0442\u044B"
   type: 2
   effect: 5
   icon: {fileID: 4192703083720529211, guid: c78744c2c77b9944384314eaf2596eb3, type: 3}
-  description: Draw 2 cards and lose 2 health. Cannot be played with 4 cards in hand.
   power: 0
   energyCost: 0

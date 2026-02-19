@@ -12,9 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6931a1dcfcd5084da9ad8d9da1cd526, type: 3}
   m_Name: Big shield
   m_EditorClassIdentifier: Assembly-CSharp::CardData
+  nameOnEnglish: Big shield
+  nameOnRussian: "\u0411\u043E\u043B\u044C\u0448\u043E\u0439 \u0449\u0438\u0442"
+  descriptionOnEnglish: Blocks 5 damage
+  descriptionOnRussian: "\u0411\u043B\u043E\u043A\u0438\u0440\u0443\u0435\u0442 5
+    \u0443\u0440\u043E\u043D\u0430"
   type: 1
   effect: 0
   icon: {fileID: -5481982821090430704, guid: fe39158caab41b142a6efa13686e21ca, type: 3}
-  description: Blocks 5 damage
   power: 5
   energyCost: 2

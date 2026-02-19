@@ -179,7 +179,7 @@ RectTransform:
   m_GameObject: {fileID: 4953910860931989479}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -9713.989}
-  m_LocalScale: {x: 0.99946153, y: 0.99946153, z: 0.99946153}
+  m_LocalScale: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1971379747749210186}
@@ -330,6 +330,7 @@ MonoBehaviour:
   descriptionTxt: {fileID: 8108810243098680750}
   typeTxt: {fileID: 1827288480086747024}
   stunnerClue: {fileID: 0}
+  anxietyDamageTxt: {fileID: 0}
 --- !u!1 &5978665549588100378
 GameObject:
   m_ObjectHideFlags: 0
@@ -394,6 +395,8 @@ MonoBehaviour:
   healthTxt: {fileID: 2181226508334473729}
   damageTxt: {fileID: 5395908084412173313}
   debuffDamageTxt: {fileID: 1873730021137453429}
+  bossDefeatedSound: {fileID: 0}
+  bossDefeatedVolume: 0
   stunned: 0
   strengthWeakened: 0
   hpWeakened: 0
@@ -607,6 +610,7 @@ GameObject:
   - component: {fileID: 2377796842284612965}
   - component: {fileID: 7115719213035844005}
   - component: {fileID: 3693839415544439864}
+  - component: {fileID: 2881872483211484164}
   m_Layer: 5
   m_Name: DescriptionTxt
   m_TagString: Untagged
@@ -732,6 +736,21 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &2881872483211484164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6137953709367906624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cba286463e1e56c46afd2379f51a7fcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TextTranslation
+  russianVariant: "\u0412\u0440\u0430\u0433 \u043E\u0433\u043B\u0443\u0448\u0435\u043D
+    \u0434\u043E \u043A\u043E\u043D\u0446\u0430 \u0445\u043E\u0434\u0430."
+  englishVariant: The enemy is stunned until the end of the round.
 --- !u!1 &6195408979049408015
 GameObject:
   m_ObjectHideFlags: 0
@@ -1226,6 +1245,7 @@ GameObject:
   - component: {fileID: 1971379747749210186}
   - component: {fileID: 2973679944503035941}
   - component: {fileID: 4154817448718610675}
+  - component: {fileID: 2555262286399923110}
   m_Layer: 5
   m_Name: NameTxt
   m_TagString: Untagged
@@ -1351,6 +1371,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &2555262286399923110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8731255733242444761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cba286463e1e56c46afd2379f51a7fcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TextTranslation
+  russianVariant: "\u041E\u0433\u043B\u0443\u0448\u0435\u043D\u0438\u0435"
+  englishVariant: Stun
 --- !u!1001 &1206915808582298104
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1636,6 +1670,18 @@ PrefabInstance:
       value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 337129653541186093, guid: 6cb99ad7804ee924a9a07059912dbcab, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 337129653541186093, guid: 6cb99ad7804ee924a9a07059912dbcab, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 337129653541186093, guid: 6cb99ad7804ee924a9a07059912dbcab, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 337129653541186093, guid: 6cb99ad7804ee924a9a07059912dbcab, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -1669,7 +1715,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 337129653541186093, guid: 6cb99ad7804ee924a9a07059912dbcab, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 25.199997
+      value: 41.3
       objectReference: {fileID: 0}
     - target: {fileID: 337129653541186093, guid: 6cb99ad7804ee924a9a07059912dbcab, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

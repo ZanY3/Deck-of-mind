@@ -16,7 +16,8 @@ public class EndingManager : MonoBehaviour
     [SerializeField] private Image fadeImage;
 
     [Header("Text & Images")]
-    [SerializeField] private List<string> sentences;
+    [SerializeField] private List<string> sentencesOnEnglish;
+    [SerializeField] private List<string> sentencesOnRussian;
     [SerializeField] private List<Sprite> images;
 
     [Header("Settings")]
@@ -61,6 +62,7 @@ public class EndingManager : MonoBehaviour
 
     private void Start()
     {
+        textField.font = InteractionState.currentFont;
         canvasGroup.alpha = 0f;
         canvasGroup.DOFade(1f, 0.5f);
 
@@ -77,7 +79,14 @@ public class EndingManager : MonoBehaviour
         Color tc = textField.color;
         textField.color = new Color(tc.r, tc.g, tc.b, 0f);
 
-        typingCoroutine = StartCoroutine(TypeSentence(sentences[currentSentence]));
+        if(InteractionState.language == InteractionState.Language.English)
+        {
+            typingCoroutine = StartCoroutine(TypeSentence(sentencesOnEnglish[currentSentence]));
+        }
+        else if(InteractionState.language == InteractionState.Language.Russian)
+        {
+            typingCoroutine = StartCoroutine(TypeSentence(sentencesOnRussian[currentSentence]));
+        }
     }
 
     private void Update()
@@ -88,7 +97,14 @@ public class EndingManager : MonoBehaviour
             {
                 StopCoroutine(typingCoroutine);
 
-                textField.text = sentences[currentSentence];
+                if(InteractionState.language == InteractionState.Language.English)
+                {
+                    textField.text = sentencesOnEnglish[currentSentence];
+                }
+                else if(InteractionState.language == InteractionState.Language.Russian)
+                {
+                    textField.text = sentencesOnRussian[currentSentence];
+                }
                 isTyping = false;
                 waitingForNext = true;
 
@@ -107,9 +123,16 @@ public class EndingManager : MonoBehaviour
                 waitingForNext = false;
                 currentSentence++;
 
-                if (currentSentence < sentences.Count)
+                if (currentSentence < sentencesOnEnglish.Count)
                 {
-                    typingCoroutine = StartCoroutine(TypeSentence(sentences[currentSentence]));
+                    if(InteractionState.language == InteractionState.Language.English)
+                    {
+                        typingCoroutine = StartCoroutine(TypeSentence(sentencesOnEnglish[currentSentence]));
+                    }
+                    else if(InteractionState.language == InteractionState.Language.Russian)
+                    {
+                        typingCoroutine = StartCoroutine(TypeSentence(sentencesOnRussian[currentSentence]));
+                    }
                     UpdateImage();
                 }
                 else

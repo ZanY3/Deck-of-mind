@@ -3,7 +3,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New_Enemy", menuName = "Scriptable Objects/Enemy")]
 public class EnemyData : ScriptableObject
 {
-    public string description;
+    public string nameOnEnglish;
+    public string nameOnRussian;
+    public string descriptionOnEnglish;
+    public string descriptionOnRussian;
     [Space]
     public int health;
     public int damage;

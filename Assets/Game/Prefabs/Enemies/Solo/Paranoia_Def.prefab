@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6062180846985631209}
   - component: {fileID: 320526244423643774}
   - component: {fileID: 1259267860926144681}
+  - component: {fileID: 4479371098175717868}
   m_Layer: 5
   m_Name: NameTxt
   m_TagString: Untagged
@@ -136,6 +137,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &4479371098175717868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 27315551993379744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cba286463e1e56c46afd2379f51a7fcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TextTranslation
+  russianVariant: "\u041E\u0433\u043B\u0443\u0448\u0435\u043D\u0438\u0435"
+  englishVariant: Stun
 --- !u!1 &203799437581049679
 GameObject:
   m_ObjectHideFlags: 0
@@ -163,7 +178,7 @@ RectTransform:
   m_GameObject: {fileID: 203799437581049679}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1181273885962484118}
@@ -173,7 +188,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -103, y: 25.199997}
+  m_AnchoredPosition: {x: -103, y: 56}
   m_SizeDelta: {x: 300, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1328798343631698219
@@ -301,6 +316,7 @@ GameObject:
   - component: {fileID: 7536132404694206765}
   - component: {fileID: 6502119626172704873}
   - component: {fileID: 7533858057683688801}
+  - component: {fileID: 4178436540665217830}
   m_Layer: 5
   m_Name: DescriptionTxt
   m_TagString: Untagged
@@ -426,6 +442,21 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &4178436540665217830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 474500104384421306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cba286463e1e56c46afd2379f51a7fcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TextTranslation
+  russianVariant: "\u0412\u0440\u0430\u0433 \u043E\u0433\u043B\u0443\u0448\u0435\u043D
+    \u0434\u043E \u043A\u043E\u043D\u0446\u0430 \u0445\u043E\u0434\u0430."
+  englishVariant: The enemy is stunned until the end of the round.
 --- !u!1 &522215905328282678
 GameObject:
   m_ObjectHideFlags: 0

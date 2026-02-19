@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42ab2beddd371f3498c55b6fa7a44ed3, type: 3}
   m_Name: Paralysis
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
-  description: Stuns the player after 1 turn.
+  nameOnEnglish: Paralysis
+  nameOnRussian: "\u041F\u0430\u0440\u0430\u043B\u0438\u0447"
+  descriptionOnEnglish: Stuns the player every 2 turns
+  descriptionOnRussian: "\u041E\u0433\u043B\u0443\u0448\u0430\u0435\u0442 \u0438\u0433\u0440\u043E\u043A\u0430
+    \u0440\u0430\u0437 \u0432 2 \u0445\u043E\u0434\u0430"
   health: 4
   damage: 2
   artwork: {fileID: 395672018297170279, guid: 627233a9c2610e84d91ce938dc536893, type: 3}

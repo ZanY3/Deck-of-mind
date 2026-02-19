@@ -12,8 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6931a1dcfcd5084da9ad8d9da1cd526, type: 3}
   m_Name: Shield
   m_EditorClassIdentifier: Assembly-CSharp::CardData
+  nameOnEnglish: Shield
+  nameOnRussian: "\u0429\u0438\u0442"
+  descriptionOnEnglish: Blocks 2 damage
+  descriptionOnRussian: "\u0411\u043B\u043E\u043A\u0438\u0440\u0443\u0435\u0442 2
+    \u0443\u0440\u043E\u043D\u0430"
   type: 1
+  effect: 0
   icon: {fileID: -6717884257390833292, guid: 4aa5702bfec7a0844af755a5292fbec1, type: 3}
-  description: Blocks 2 damage
   power: 2
   energyCost: 1

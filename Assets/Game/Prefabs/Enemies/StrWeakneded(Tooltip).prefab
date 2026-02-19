@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3566662775232783088}
   - component: {fileID: 6188236664613687837}
   - component: {fileID: 964047327040361319}
+  - component: {fileID: 830316016297365871}
   m_Layer: 5
   m_Name: DescriptionTxt
   m_TagString: Untagged
@@ -136,6 +137,21 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &830316016297365871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1275121754551679761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cba286463e1e56c46afd2379f51a7fcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TextTranslation
+  russianVariant: "\u0423\u0440\u043E\u043D \u0443\u043C\u0435\u043D\u044C\u0448\u0435\u043D
+    \u043D\u0430\u043F\u043E\u043B\u043E\u0432\u0438\u043D\u0443"
+  englishVariant: Damage is weakened by half
 --- !u!1 &1364679884951216787
 GameObject:
   m_ObjectHideFlags: 0
@@ -228,8 +244,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 14
-  m_fontSizeBase: 14
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 16
@@ -266,7 +282,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 4.1514587, y: 3.21739, z: -23.098671, w: 29.457949}
+  m_margin: {x: 4.1514587, y: 0.16051292, z: -23.098671, w: 29.457949}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -449,7 +465,7 @@ RectTransform:
   m_GameObject: {fileID: 8149817697754483243}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 13877.336}
-  m_LocalScale: {x: 1.3, y: 1.3, z: 0.015039334}
+  m_LocalScale: {x: 1.35, y: 1.35, z: 0.01561777}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8264775404150062523}
@@ -563,6 +579,7 @@ GameObject:
   - component: {fileID: 8264775404150062523}
   - component: {fileID: 5106191971911526619}
   - component: {fileID: 7192017384336605669}
+  - component: {fileID: 7861792991805998722}
   m_Layer: 5
   m_Name: NameTxt
   m_TagString: Untagged
@@ -688,3 +705,17 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &7861792991805998722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8383473295007656870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cba286463e1e56c46afd2379f51a7fcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TextTranslation
+  russianVariant: Power drain
+  englishVariant: "\u0421\u0436\u0438\u0433\u0430\u043D\u0438\u0435 \u0441\u0438\u043B\u044B"

@@ -12,9 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6931a1dcfcd5084da9ad8d9da1cd526, type: 3}
   m_Name: Dice Slash
   m_EditorClassIdentifier: Assembly-CSharp::CardData
+  nameOnEnglish: Dice Slash
+  nameOnRussian: "\u041A\u043B\u0438\u043D\u043E\u043A \u0441\u0443\u0434\u044C\u0431\u044B"
+  descriptionOnEnglish: Deals a random damage from 1 to 4
+  descriptionOnRussian: "\u041D\u0430\u043D\u043E\u0441\u0438\u0442 \u0441\u043B\u0443\u0447\u0430\u0439\u043D\u044B\u0439
+    \u0443\u0440\u043E\u043D \u043E\u0442 1 \u0434\u043E 4"
   type: 0
   effect: 3
   icon: {fileID: -3836494406197171394, guid: 8d3cff6fddef098468c8b2ef6d5e7539, type: 3}
-  description: Deals a random damage from 1 to 4
   power: 0
   energyCost: 1

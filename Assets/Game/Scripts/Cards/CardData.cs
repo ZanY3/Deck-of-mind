@@ -23,10 +23,14 @@ public class CardData : ScriptableObject
         StrengthDrain
     }
 
+    public string nameOnEnglish;
+    public string nameOnRussian;
+    public string descriptionOnEnglish;
+    public string descriptionOnRussian;
+    [Space]
     public CardType type;
     public Effect effect;
     public Sprite icon;
-    public string description;
     public int power; //like attack damage or defence value
     public int energyCost;
 }

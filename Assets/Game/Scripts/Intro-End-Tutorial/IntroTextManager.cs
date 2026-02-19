@@ -13,7 +13,8 @@ public class IntroTextManager : MonoBehaviour
     [SerializeField] private CanvasGroup canvasGroup;
 
     [Header("Text")]
-    [SerializeField] private List<string> sentences;
+    [SerializeField] private List<string> sentencesOnEnglish;
+    [SerializeField] private List<string> sentencesOnRussian;
 
     [Header("Settings")]
     [SerializeField] private float typeSpeed = 0.05f;
@@ -53,6 +54,7 @@ public class IntroTextManager : MonoBehaviour
         canvasGroup.alpha = 0f;
         canvasGroup.DOFade(1f, 0.5f);
         StartCoroutine(PlayIntro());
+        textField.font = InteractionState.currentFont;
     }
 
     private void Update()
@@ -64,7 +66,12 @@ public class IntroTextManager : MonoBehaviour
                 if (typingCoroutine != null)
                     StopCoroutine(typingCoroutine);
 
-                textField.text = sentences[currentSentence];
+                if (InteractionState.language == InteractionState.Language.English)
+                    textField.text = sentencesOnEnglish[currentSentence];
+
+                else if (InteractionState.language == InteractionState.Language.Russian)
+                    textField.text = sentencesOnRussian[currentSentence];
+
                 isTyping = false;
                 waitingForNext = true;
 
@@ -82,9 +89,16 @@ public class IntroTextManager : MonoBehaviour
             {
                 waitingForNext = false;
                 currentSentence++;
-                if (currentSentence < sentences.Count)
+                if (currentSentence < sentencesOnEnglish.Count)
                 {
-                    typingCoroutine = StartCoroutine(TypeSentence(sentences[currentSentence]));
+                    if (InteractionState.language == InteractionState.Language.English)
+                    {
+                        typingCoroutine = StartCoroutine(TypeSentence(sentencesOnEnglish[currentSentence]));
+                    }
+                    else if (InteractionState.language == InteractionState.Language.Russian)
+                    {
+                        typingCoroutine = StartCoroutine(TypeSentence(sentencesOnRussian[currentSentence]));
+                    }
                 }
                 else
                 {
@@ -98,8 +112,17 @@ public class IntroTextManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
 
-        if (sentences.Count > 0)
-            typingCoroutine = StartCoroutine(TypeSentence(sentences[currentSentence]));
+        if (sentencesOnEnglish.Count > 0)
+        {
+            if (InteractionState.language == InteractionState.Language.English)
+            {
+                typingCoroutine = StartCoroutine(TypeSentence(sentencesOnEnglish[currentSentence]));
+            }
+            else if (InteractionState.language == InteractionState.Language.Russian)
+            {
+                typingCoroutine = StartCoroutine(TypeSentence(sentencesOnRussian[currentSentence]));
+            }
+        }
     }
 
     private IEnumerator TypeSentence(string sentence)

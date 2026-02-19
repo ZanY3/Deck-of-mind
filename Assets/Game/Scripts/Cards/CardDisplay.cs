@@ -48,8 +48,21 @@ public class CardDisplay : MonoBehaviour
         }
         energyImg.color = Darken(energyImg.color, energyImgDarkerFactor);
 
-        nameTxt.text = cardToDisplay.name;
-        descriptionTxt.text = cardToDisplay.description;
+        nameTxt.font = InteractionState.currentFont;
+        descriptionTxt.font = InteractionState.currentFont;
+        typeTxt.font = InteractionState.currentFont;
+
+        if(InteractionState.language == InteractionState.Language.English)
+        {
+            nameTxt.text = cardToDisplay.nameOnEnglish;
+            descriptionTxt.text = cardToDisplay.descriptionOnEnglish;
+        }
+        else if(InteractionState.language == InteractionState.Language.Russian)
+        {
+            nameTxt.text = cardToDisplay.nameOnRussian;
+            descriptionTxt.text = cardToDisplay.descriptionOnRussian;
+        }
+
         typeTxt.text = cardToDisplay.type.ToString();
         energyCostTxt.text = cardToDisplay.energyCost.ToString();
 

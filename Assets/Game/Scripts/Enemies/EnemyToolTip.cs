@@ -1,5 +1,6 @@
-using DG.Tweening;
+﻿using DG.Tweening;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -36,14 +37,39 @@ public class EnemyToolTip : MonoBehaviour,IPointerEnterHandler, IPointerExitHand
     {
         startScale = tooltip.GetComponent<RectTransform>().localScale;
         tooltip.transform.DOScale(0, 0); //to make an animation in the future
+
+        strWeaknededTurnsLeftText.font = InteractionState.currentFont;
+        hpWeaknededTurnsLeftText.font = InteractionState.currentFont;
+        nameTxt.font = InteractionState.currentFont;
+        descriptionTxt.font = InteractionState.currentFont;
+        typeTxt.font = InteractionState.currentFont;
+
         FillUI();
     }
 //--------------------------------------------------------------------------------------
     public void FillUI()
     {
-        nameTxt.text = enemyData.name;
-        descriptionTxt.text = enemyData.description;
-        typeTxt.text = enemyData.enemyType.ToString();
+        if(InteractionState.language == InteractionState.Language.English)
+        {
+            nameTxt.text = enemyData.nameOnEnglish;
+            descriptionTxt.text = enemyData.descriptionOnEnglish;
+            typeTxt.text = enemyData.enemyType.ToString();
+        }
+        else if(InteractionState.language == InteractionState.Language.Russian)
+        {
+            nameTxt.text = enemyData.nameOnRussian;
+            descriptionTxt.text = enemyData.descriptionOnRussian;
+            EnemyData.EnemyType type = enemyData.enemyType;
+            if (type == EnemyData.EnemyType.Attacker)
+                typeTxt.text = "Атакующий";
+            else if (type == EnemyData.EnemyType.Debuffer)
+                typeTxt.text = "Дебаффер";
+            else if (type == EnemyData.EnemyType.Defender)
+                typeTxt.text = "Защитник";
+            else if(type == EnemyData.EnemyType.Boss)
+                typeTxt.text = "Босс";
+        }
+
         iconImg.sprite = enemyData.artwork;
         if(GetComponentInParent<AnxietyDebuff>() != null && anxietyDamageTxt != null)
         {
@@ -64,12 +90,20 @@ public class EnemyToolTip : MonoBehaviour,IPointerEnterHandler, IPointerExitHand
     }
     public void UpdateHpWeaknededTooltip(bool state, int turnsLeft)
     {
-        hpWeaknededTurnsLeftText.text = "Turns left: " + turnsLeft.ToString();
+        if(InteractionState.language == InteractionState.Language.English)
+            hpWeaknededTurnsLeftText.text = "Turns left: " + turnsLeft.ToString();
+        else if(InteractionState.language == InteractionState.Language.Russian)
+            hpWeaknededTurnsLeftText.text = "Осталось ходов: " + turnsLeft.ToString();
+
         hpWeaknededTooltip.SetActive(state);
     }
     public void UpdateStrengthTooltip(bool state, int turnsLeft)
     {
-        strWeaknededTurnsLeftText.text = "Turns left: " + turnsLeft.ToString();
+        if (InteractionState.language == InteractionState.Language.English)
+            strWeaknededTurnsLeftText.text = "Turns left: " + turnsLeft.ToString();
+        else if (InteractionState.language == InteractionState.Language.Russian)
+            strWeaknededTurnsLeftText.text = "Осталось ходов: " + turnsLeft.ToString();
+
         strWeaknededTooltip.SetActive(state);
     }
     public void UpdateDragTooltip(bool state)
