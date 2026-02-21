@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,26 +15,16 @@ public class TutorialManager : MonoBehaviour
     private bool tutorialIsActive = false;
     private int step = 0;
 
-    public void StartTutorial()
-    {
-        if (InteractionState.showTutorial)
-        {
-            step = 0;
-            tutorialIsActive = true;
-            handHint.SetActive(true);
-            enemyHint.SetActive(false);
-            endBtnHint.SetActive(false);
-            finalHint.SetActive(false);
-        }
-        else
-        {
-            return;
-        }
-    }
 
-    void Update()
+    private void Update()
     {
-        if (!InteractionState.showTutorial) return;
+        if (!InteractionState.showTutorial)
+            return;
+
+        if (!tutorialIsActive)
+        {
+            StartTutorial();
+        }
 
         if (tutorialIsActive && Mouse.current.leftButton.wasPressedThisFrame)
         {
@@ -44,6 +32,19 @@ public class TutorialManager : MonoBehaviour
             SoundManager.Instance.PlaySFX(clickSound, randPitch, clickSoundVolume);
             NextStep();
         }
+    }
+
+    public void StartTutorial()
+    {
+        gameObject.SetActive(true);
+
+        step = 0;
+        tutorialIsActive = true;
+
+        handHint.SetActive(true);
+        enemyHint.SetActive(false);
+        endBtnHint.SetActive(false);
+        finalHint.SetActive(false);
     }
 
     void NextStep()
@@ -70,8 +71,8 @@ public class TutorialManager : MonoBehaviour
             case 4:
                 finalHint.SetActive(false);
                 InteractionState.showTutorial = false;
-                gameObject.SetActive(false);
                 tutorialIsActive = false;
+                gameObject.SetActive(false);
                 break;
         }
     }

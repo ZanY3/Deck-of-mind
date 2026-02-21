@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3647238ba02d3044685d0978b86ff812, type: 3}
+  m_Name: Act 1
+  m_EditorClassIdentifier: Assembly-CSharp::ActData
+  actNameOnEnglish: First steps
+  actNameOnRussian: "\u041F\u0435\u0440\u0432\u044B\u0435 \u0448\u0430\u0433\u0438"
+  index: 1
+  stagesAtAll: 11
+  enemiesPrefabs:
+  - {fileID: 1816550486874978644, guid: 7faffba7115f81f4a9bd2173b03dfe20, type: 3}
+  - {fileID: 5978665549588100378, guid: f49653eceae247343b971868c3e648f0, type: 3}
+  - {fileID: 296436791887354713, guid: ef006ba9935a7db4c9eb2200453d24d9, type: 3}
+  - {fileID: 2601725641773459835, guid: 56af6b3f5ce814449b0fa57a38aff326, type: 3}
+  - {fileID: 1816550486874978644, guid: fc7f97af029b7dd469dae28f10218c16, type: 3}
+  - {fileID: 1816550486874978644, guid: 14e4e1a177ebe4e4aa5188db4531f05c, type: 3}
+  - {fileID: 2601725641773459835, guid: f0695d20b3fa3324bac51cad7fe1448c, type: 3}
+  - {fileID: 2601725641773459835, guid: d9938f30a3fe3fc4ba354f836c7375e4, type: 3}
+  - {fileID: 3576302214709595720, guid: a4ced8783cf488841ac3e6b27ba3464a, type: 3}
+  - {fileID: 296436791887354713, guid: 27b70d20e3e9372468f606e111850142, type: 3}
+  - {fileID: 8944439527343392059, guid: 4640360e6c03d0044a2424edf227f5a8, type: 3}
+  stagesWithStrongEnemies: 050000000b000000
