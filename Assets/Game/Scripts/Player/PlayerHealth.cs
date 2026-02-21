@@ -28,6 +28,8 @@ public class PlayerHealth : MonoBehaviour
 
     [Header("Sound")]
     [SerializeField] private AudioClip takeDamageSound;
+    [SerializeField] private AudioClip healSound;
+    [Range(0f, 1f)][SerializeField] private float healVolume;
     [Range(0f, 1f)][SerializeField] private float takeDamageVolume = 0.1f;
 
     [HideInInspector] public int turnsUntilStunRemove = 0;
@@ -115,11 +117,20 @@ public class PlayerHealth : MonoBehaviour
 
     public void Heal(int amoutToHeal)
     {
+        float randPitch = Random.Range(0.85f, 1.05f);
+        SoundManager.Instance.PlaySFX(healSound, randPitch, healVolume);
         currentHealth += amoutToHeal;
         if (currentHealth > maxHealth)
             currentHealth = maxHealth;
 
         UpdateUI();
+    }
+    public bool CanApplyHeal(int amout)
+    {
+        if(currentHealth == maxHealth)
+            return false;
+
+        return true;
     }
 
     public void UpdateUI()

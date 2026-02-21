@@ -132,13 +132,15 @@ public class BattleManager : MonoBehaviour
             yield return new WaitForSeconds(1.5f);
         }
 
-        for (int i = 0; i < enemies.Count; i++) // All enemies attack in turn
+        for (int i = 0; i < enemies.Count; i++)
         {
-            if (enemies[i].Data.enemyType == EnemyData.EnemyType.Defender && enemies[i].GetComponentInChildren<DefenseCell>() != null && enemies[i].stunned == false)
+            if (enemies[i].Data.enemyType == EnemyData.EnemyType.Defender &&
+                enemies[i].GetComponentInChildren<DefenseCell>() != null &&
+                enemies[i].stunned == false)
             {
                 if (enemies[i].GetComponentInChildren<DefenseCell>().RefreshDefenseEveryTurn)
                 {
-                    enemies[i].transform.DOShakeScale(duration: 0.15f, strength: new Vector3(0.15f, 0.15f, 0));
+                    enemies[i].transform.DOShakeScale(0.15f, new Vector3(0.15f, 0.15f, 0));
                     enemies[i].GetComponentInChildren<DefenseCell>().RefillDefense();
                     yield return new WaitForSeconds(1.5f);
                 }
@@ -148,41 +150,50 @@ public class BattleManager : MonoBehaviour
             {
                 if (enemies[i].GetComponent<AnxietyDebuff>() != null)
                 {
-                    if (!player.hasAnxiety && !enemies[i].GetComponent<AnxietyDebuff>().startAnxietyApplied && enemies[i].stunned == false)
+                    if (!player.hasAnxiety &&
+                        !enemies[i].GetComponent<AnxietyDebuff>().startAnxietyApplied &&
+                        enemies[i].stunned == false)
                     {
                         float randPitch = Random.Range(0.9f, 1.1f);
                         SoundManager.Instance.PlaySFX(debuffSound, randPitch, debuffVolume);
 
                         Enemy enemy = enemies[i];
 
-                        Tween castTween = enemy.transform.DOShakePosition(0.25f, new Vector3(6f, 3f, 0), 12, 90, false, true);
+                        Tween castTween = enemy.transform.DOShakePosition(
+                            0.25f,
+                            new Vector3(6f, 3f, 0),
+                            12, 90, false, true);
+
                         enemy.GetComponent<AnxietyDebuff>().startAnxietyApplied = true;
                         player.hasAnxiety = true;
-                        player.anxietyDamage = enemy.GetComponent<AnxietyDebuff>().anxietyDamage;
+                        player.anxietyDamage =
+                            enemy.GetComponent<AnxietyDebuff>().anxietyDamage;
                         player.UpdateUI();
 
                         yield return castTween.WaitForCompletion();
                     }
                 }
-                else if (enemies[i].GetComponent<StunDebuff>() != null && enemies[i].stunned == false)
+                else if (enemies[i].GetComponent<StunDebuff>() != null &&
+                         enemies[i].stunned == false)
                 {
                     StunDebuff enemyStun = enemies[i].GetComponent<StunDebuff>();
-                    EnemyToolTip enemyToolTip = enemies[i].GetComponentInChildren<EnemyToolTip>();
+                    EnemyToolTip enemyToolTip =
+                        enemies[i].GetComponentInChildren<EnemyToolTip>();
 
                     if (enemyStun.turnsUntilStun > 0)
                     {
                         enemyStun.turnsUntilStun--;
-                        Debug.Log("Stun charging... turns until stun: " + enemyStun.turnsUntilStun);
                     }
+
                     if (enemyStun.turnsUntilStun <= 0)
                     {
                         float randPitch = Random.Range(0.9f, 1.1f);
                         SoundManager.Instance.PlaySFX(debuffSound, randPitch, debuffVolume);
 
-                        Debug.Log("Applying stun to player!");
                         enemyStun.DealStun();
                         enemyToolTip.UpdateStunClue(false);
                     }
+
                     if (enemyStun.turnsUntilStun == 1)
                     {
                         enemyToolTip.UpdateStunClue(true);
@@ -195,51 +206,72 @@ public class BattleManager : MonoBehaviour
             if (enemies[i].stunned)
             {
                 enemies[i].stunTurnsLeft--;
+
                 if (enemies[i].stunTurnsLeft <= 0)
                 {
-                    enemies[i].GetComponentInChildren<EnemyToolTip>().UpdateStunToolTip(false);
+                    enemies[i].GetComponentInChildren<EnemyToolTip>()
+                        .UpdateStunToolTip(false);
                     enemies[i].stunned = false;
                 }
+
                 continue;
             }
+
+            // =============================
+            // АТАКА
+            // =============================
+
+            enemies[i].AttackPlayer();
+            yield return new WaitForSeconds(1.5f);
+
+            // =============================
+            // ДЕБАФФЫ СПАДАЮТ ТЕПЕРЬ ПОСЛЕ АТАКИ
+            // =============================
+
             if (enemies[i].hpWeakened)
             {
                 enemies[i].hpWeakenedTurnsLeft--;
-                enemies[i].GetComponentInChildren<EnemyToolTip>().UpdateHpWeaknededTooltip(true, enemies[i].hpWeakenedTurnsLeft);
+
+                enemies[i].GetComponentInChildren<EnemyToolTip>()
+                    .UpdateHpWeaknededTooltip(true,
+                        enemies[i].hpWeakenedTurnsLeft);
+
                 if (enemies[i].hpWeakenedTurnsLeft <= 0)
                 {
                     effects.HealthWeaken(enemies[i], false, 0);
                 }
             }
+
             if (enemies[i].strengthWeakened)
             {
                 enemies[i].strengthWeakenedTurnsLeft--;
-                enemies[i].GetComponentInChildren<EnemyToolTip>().UpdateStrengthTooltip(true, enemies[i].strengthWeakenedTurnsLeft);
+
+                enemies[i].GetComponentInChildren<EnemyToolTip>()
+                    .UpdateStrengthTooltip(true,
+                        enemies[i].strengthWeakenedTurnsLeft);
+
                 if (enemies[i].strengthWeakenedTurnsLeft <= 0)
                 {
                     effects.StrengthWeaken(enemies[i], false, 0);
                 }
             }
-            enemies[i].AttackPlayer();
-            yield return new WaitForSeconds(1.5f);
         }
 
-        Debug.Log("=== After enemy attacks === Player stunned: " + player.stunned + ", turns: " + player.turnsUntilStunRemove);
+        Debug.Log("=== After enemy attacks === Player stunned: " +
+                  player.stunned + ", turns: " +
+                  player.turnsUntilStunRemove);
 
         if (player.stunned)
         {
-            Debug.Log("Player is stunned branch");
             player.ChangeStunClueState(true);
 
             if (player.turnsUntilStunRemove > 0)
             {
                 player.turnsUntilStunRemove--;
-                Debug.Log("Decreased stun turns, now: " + player.turnsUntilStunRemove);
             }
 
             if (player.turnsUntilStunRemove <= 0)
             {
-                Debug.Log("Stun removed!");
                 player.ChangeStunState(false);
                 player.ChangeStunClueState(false);
 
@@ -249,7 +281,6 @@ public class BattleManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("Player still stunned, starting new enemy turn");
                 isPlayerTurn = false;
                 EndBtnSetActive(false);
                 StartCoroutine(EnemyAttack());
@@ -257,7 +288,6 @@ public class BattleManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Player is NOT stunned branch");
             player.ChangeStunClueState(false);
             isPlayerTurn = true;
             EndBtnSetActive(true);

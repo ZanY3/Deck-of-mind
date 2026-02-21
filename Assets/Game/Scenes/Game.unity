@@ -6219,6 +6219,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 224293e1d4fa8044289e526d0ae1cb0c, type: 2}
   - {fileID: 11400000, guid: 0701b4e738ee2234eb924cce0b020d04, type: 2}
   - {fileID: 11400000, guid: 1dccc7642d3d1624ab34d22591f4552c, type: 2}
+  - {fileID: 11400000, guid: 8333bafefdffc9e4cac369c210127b4b, type: 2}
+  - {fileID: 11400000, guid: 25965ac605516cf4190bfe1a05d4d020, type: 2}
   cardTemplates:
   - {fileID: 1784755404}
   - {fileID: 1252442360}
@@ -6227,8 +6229,6 @@ MonoBehaviour:
   player: {fileID: 1397727168}
   stageManager: {fileID: 135264087}
   rewardOpenedSound: {fileID: 8300000, guid: 75e5975cd3b38b943bde5c5c4320f5b5, type: 3}
-  healSound: {fileID: 8300000, guid: 2a467511626920f41b1eaf8c7d717f17, type: 3}
-  healVolume: 0.35
   rewardOpenVolume: 0.03
   hasChosenCard: 0
 --- !u!224 &1003521139
@@ -7536,6 +7536,8 @@ MonoBehaviour:
   healthTxt: {fileID: 1299669800}
   bloodVignetteImg: {fileID: 1429717391}
   takeDamageSound: {fileID: 8300000, guid: 3ca989f2f4eb10a4cb6d5399963c284d, type: 3}
+  healSound: {fileID: 8300000, guid: 2a467511626920f41b1eaf8c7d717f17, type: 3}
+  healVolume: 0.1
   takeDamageVolume: 0.125
   turnsUntilStunRemove: 0
 --- !u!114 &1397727169

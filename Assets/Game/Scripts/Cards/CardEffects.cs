@@ -5,10 +5,14 @@ public class CardEffects : MonoBehaviour
 //--------------Effects on player---------------------------
     public void Cleansing(PlayerHealth playerHealth)
     {
-        playerHealth.Heal(4);
         playerHealth.ClearAllDebuffs();
         Debug.Log("All debufs had cleaned!");
     }
+    public void HealEffect(PlayerHealth playerHealth, int amout)
+    {
+        playerHealth.Heal(amout);
+    }
+
     public void BloodPact(PlayerHealth playerHealth)
     {
         playerHealth.TakeDamage(2, false);

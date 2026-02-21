@@ -60,6 +60,12 @@ public class PlayerDropTarget : MonoBehaviour, IDropHandler
                 energyManager.DecreaseEnergy(card.energyCost);
                 eventData.pointerDrag.GetComponent<CardDrag>().DestroySafely();
             }
+            if(cardTemp.effect == CardData.Effect.Heal)
+            {
+                cardEffects.HealEffect(GetComponent<PlayerHealth>(), card.power);
+                energyManager.DecreaseEnergy(card.energyCost);
+                eventData.pointerDrag.GetComponent<CardDrag>().DestroySafely();
+            }
         }
     }
 }

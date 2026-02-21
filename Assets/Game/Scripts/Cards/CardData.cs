@@ -20,7 +20,8 @@ public class CardData : ScriptableObject
         BloodPact,
         BloodDraw,
         HealthDrain,
-        StrengthDrain
+        StrengthDrain,
+        Heal
     }
 
     public string nameOnEnglish;
