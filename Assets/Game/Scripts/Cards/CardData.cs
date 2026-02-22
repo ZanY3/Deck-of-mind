@@ -21,7 +21,9 @@ public class CardData : ScriptableObject
         BloodDraw,
         HealthDrain,
         StrengthDrain,
-        Heal
+        Heal,
+        ShieldSlam,
+        StrikeTheHelpless
     }
 
     public string nameOnEnglish;

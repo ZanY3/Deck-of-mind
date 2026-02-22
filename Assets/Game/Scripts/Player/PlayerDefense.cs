@@ -7,6 +7,7 @@ public class PlayerDefense : MonoBehaviour
     [SerializeField] private GameObject armorIcon;
     [SerializeField] private TMP_Text armorTxt;
     private int armor = 0;
+    [HideInInspector] public int Armor => armor;
 
     public void AddArmor(int value)
     {

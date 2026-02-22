@@ -17,6 +17,7 @@ public class Enemy : MonoBehaviour
 
     [Space]
     [Header("Not required")]
+    [SerializeField] private bool increaseHpEveryTurn = false;
     [Header("For scaling pattern")]
     [SerializeField] private int damageScaleAmout;
     [Header("For random pattern")]
@@ -179,9 +180,17 @@ public class Enemy : MonoBehaviour
         {
             damage = Random.Range(minRandDamage, maxRandDamage + 1);
         }
-        if (attackPattern == AttackPattern.Scaling)
+        else if (attackPattern == AttackPattern.Scaling)
         {
             damage += damageScaleAmout;
+        }
+        if(increaseHpEveryTurn && enemyData.enemyType == EnemyData.EnemyType.Defender)
+        {
+            if(GetComponentInChildren<DefenseCell>() != null && GetComponentInChildren<DefenseCell>().defenseIsActive)
+            {
+                maxHealth += 1;
+                currentHealth += 1;
+            }
         }
         UpdateUI();
     }

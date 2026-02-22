@@ -1,7 +1,9 @@
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
 
 public class CardEffects : MonoBehaviour
 {
+    [SerializeField] private PlayerDefense playerDefense;
 //--------------Effects on player---------------------------
     public void Cleansing(PlayerHealth playerHealth)
     {
@@ -34,6 +36,26 @@ public class CardEffects : MonoBehaviour
     public int RandomPower()
     {
         return Random.Range(1, 5);
+    }
+    public int ShieldSlam()
+    {
+        if (playerDefense.Armor == 0)
+            return 1;
+
+        return playerDefense.Armor+1;
+    }
+    public int StrikeTheHelpless(Enemy enemy)
+    {
+        int dmg;
+        if (enemy.stunned)
+        {
+            dmg = 4;
+        }
+        else
+        {
+            dmg = 2;
+        }
+        return dmg;
     }
     public void HealthWeaken(Enemy enemy, bool state, int turns)
     {

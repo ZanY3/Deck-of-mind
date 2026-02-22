@@ -2291,6 +2291,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c25cf8d58c25be428071917249493c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardEffects
+  playerDefense: {fileID: 1397727169}
 --- !u!1 &388825771
 GameObject:
   m_ObjectHideFlags: 0
@@ -11461,6 +11462,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1dccc7642d3d1624ab34d22591f4552c, type: 2}
   - {fileID: 11400000, guid: 8333bafefdffc9e4cac369c210127b4b, type: 2}
   - {fileID: 11400000, guid: 25965ac605516cf4190bfe1a05d4d020, type: 2}
+  - {fileID: 11400000, guid: 33d197531aa3cf841ae13cf3f0ac4482, type: 2}
+  - {fileID: 11400000, guid: 6f7aaf378064ffc449917601a37f6de4, type: 2}
   cardTemplates:
   - {fileID: 1784755404}
   - {fileID: 1252442360}

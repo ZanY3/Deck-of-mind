@@ -18,8 +18,19 @@ public class EnemyDropTarget : MonoBehaviour
     {
         if (card.type == CardData.CardType.Attack)
         {
-            int dmg = card.effect == CardData.Effect.RandomPower ? effects.RandomPower() : card.power;
-            enemy.TakeDamage(dmg);
+            if(card.effect == CardData.Effect.ShieldSlam)
+            {
+                enemy.TakeDamage(effects.ShieldSlam());
+            }
+            else if(card.effect == CardData.Effect.StrikeTheHelpless)
+            {
+                enemy.TakeDamage(effects.StrikeTheHelpless(enemy));
+            }
+            else
+            {
+                int dmg = card.effect == CardData.Effect.RandomPower ? effects.RandomPower() : card.power;
+                enemy.TakeDamage(dmg);
+            }
         }
         else if (card.type == CardData.CardType.SkillOnEnemy)
         {
