@@ -29,6 +29,7 @@ public class ActIntroUI : MonoBehaviour
 
     public void Show(ActData actData)
     {
+        InteractionState.showTutorial = false;
         panelCanvasGroup.alpha = 1f;
         textCanvasGroup.alpha = 0f;
 
@@ -75,6 +76,7 @@ public class ActIntroUI : MonoBehaviour
 
         seq.OnComplete(() =>
         {
+            InteractionState.showTutorial = true;
             gameObject.SetActive(false);
         });
     }

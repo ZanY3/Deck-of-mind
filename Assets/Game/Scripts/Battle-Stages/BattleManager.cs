@@ -255,6 +255,7 @@ public class BattleManager : MonoBehaviour
                     effects.StrengthWeaken(enemies[i], false, 0);
                 }
             }
+            enemies[i].EnemyEndTurn();
         }
 
         Debug.Log("=== After enemy attacks === Player stunned: " +

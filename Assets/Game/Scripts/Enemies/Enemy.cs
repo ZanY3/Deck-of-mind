@@ -7,12 +7,28 @@ public class Enemy : MonoBehaviour
     public EnemyData enemyData;
     [SerializeField] private TMP_Text healthTxt;
     [SerializeField] private TMP_Text damageTxt;
-    [Space]
-
+    public AttackPattern attackPattern;
+    public enum AttackPattern
+    {
+        Normal,
+        Scaling,
+        Random
+    }
 
     [Space]
     [Header("Not required")]
+    [Header("For scaling pattern")]
+    [SerializeField] private int damageScaleAmout;
+    [Header("For random pattern")]
+    [SerializeField] private int minRandDamage;
+    [SerializeField] private int maxRandDamage;
+
+    [SerializeField] private AudioClip damageChangeSound;
+    [SerializeField] private float damageChangeVolume;
+
+    [Space]
     [SerializeField] private TMP_Text debuffDamageTxt;
+
     [Header("Sounds")]
     [SerializeField] private AudioClip bossDefeatedSound;
     [Range(0f, 1f)][SerializeField] private float bossDefeatedVolume;
@@ -40,8 +56,13 @@ public class Enemy : MonoBehaviour
         battleManager = FindAnyObjectByType<BattleManager>();
         GetComponentInChildren<EnemyToolTip>().enemyData = this.enemyData;
         battleManager.AddEnemy(this);
-
         ReadData();
+        if(attackPattern == AttackPattern.Random)
+        {
+            float randPitch = Random.Range(0.9f, 1.1f);
+            SoundManager.Instance.PlaySFX(damageChangeSound, randPitch, damageChangeVolume);
+            damage = Random.Range(minRandDamage, maxRandDamage+1);
+        }
         UpdateUI();
     }
 
@@ -150,4 +171,19 @@ public class Enemy : MonoBehaviour
                 transform.DOMoveX(startPos.x, duration).SetEase(Ease.InOutQuad).SetAutoKill(true).SetUpdate(true);
             });
     }
+    public void EnemyEndTurn()
+    {
+        float randPitch = Random.Range(0.9f, 1.1f);
+        SoundManager.Instance.PlaySFX(damageChangeSound, randPitch, damageChangeVolume);
+        if (attackPattern == AttackPattern.Random)
+        {
+            damage = Random.Range(minRandDamage, maxRandDamage + 1);
+        }
+        if (attackPattern == AttackPattern.Scaling)
+        {
+            damage += damageScaleAmout;
+        }
+        UpdateUI();
+    }
+
 }

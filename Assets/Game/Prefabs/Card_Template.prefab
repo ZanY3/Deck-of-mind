@@ -92,8 +92,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 28
-  m_fontSizeBase: 28
+  m_fontSize: 27
+  m_fontSizeBase: 27
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -130,7 +130,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0.40084982, y: 1.2139721, z: -3.3102932, w: 6.069952}
+  m_margin: {x: -22.964354, y: 1.2139721, z: -25.1957, w: 6.069952}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -910,6 +910,7 @@ MonoBehaviour:
   cardStartDragVolume: 0.025
   cardEndDragVolume: 0.15
   notEnoughEnergyVolume: 0.025
+  dragCooldown: 0.25
 --- !u!1 &8958904942587321123
 GameObject:
   m_ObjectHideFlags: 0

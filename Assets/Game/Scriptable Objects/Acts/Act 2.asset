@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3647238ba02d3044685d0978b86ff812, type: 3}
   m_Name: Act 2
   m_EditorClassIdentifier: Assembly-CSharp::ActData
-  actNameOnEnglish: The mind
-  actNameOnRussian: "\u0420\u0430\u0437\u0443\u043C"
+  actNameOnEnglish: THE CORE
+  actNameOnRussian: "\u042F\u0414\u0420\u041E"
   index: 2
   stagesAtAll: 5
   enemiesPrefabs:
