@@ -29,6 +29,8 @@ public class EnemyToolTip : MonoBehaviour,IPointerEnterHandler, IPointerExitHand
     [Space]
     [Header("Not required")]
     [SerializeField] private GameObject stunnerClue;
+    [SerializeField] private GameObject burnoutClue;
+
     [SerializeField] private TMP_Text anxietyDamageTxt;
     private Vector3 startScale;
     private Tween clueTween;
@@ -124,6 +126,10 @@ public class EnemyToolTip : MonoBehaviour,IPointerEnterHandler, IPointerExitHand
     public void UpdateStunClue(bool state)
     {
         stunnerClue.SetActive(state);
+    }
+    public void UpdateBurnoutClue(bool state)
+    {
+        burnoutClue.SetActive(state);
     }
     public void OnPointerEnter(PointerEventData eventData)
     {

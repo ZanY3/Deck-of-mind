@@ -201,6 +201,48 @@ public class BattleManager : MonoBehaviour
 
                     yield return new WaitForSeconds(1.5f);
                 }
+                else if (!enemies[i].stunned && enemies[i].GetComponent<BurnoutDebuff>() != null)
+                {
+                    BurnoutDebuff enemyBurnout = enemies[i].GetComponent<BurnoutDebuff>();
+                    EnemyToolTip enemyToolTip = enemies[i].GetComponentInChildren<EnemyToolTip>();
+
+                    if (enemyBurnout.turnsUntilDebuff > 0)
+                    {
+                        enemyBurnout.turnsUntilDebuff--;
+                    }
+
+                    if (enemyBurnout.turnsUntilDebuff <= 0)
+                    {
+                        float randPitch = Random.Range(0.9f, 1.1f);
+                        SoundManager.Instance.PlaySFX(debuffSound, randPitch, debuffVolume);
+
+                        enemyBurnout.DealBurnout();
+                        enemyToolTip.UpdateBurnoutClue(false);
+                    }
+
+                    if (enemyBurnout.turnsUntilDebuff == 1)
+                    {
+                        enemyToolTip.UpdateBurnoutClue(true);
+                    }
+
+                    yield return new WaitForSeconds(1.5f);
+                }
+                else if(!enemies[i].stunned && enemies[i].GetComponent<FearDebuff>() != null)
+                {
+                    if (!player.hasFear &&!enemies[i].GetComponent<FearDebuff>().fearApplied)
+                    {
+                        Enemy enemy = enemies[i];
+                        Tween castTween = enemy.transform.DOShakePosition(
+                            0.25f,
+                            new Vector3(6f, 3f, 0),
+                            12, 90, false, true);
+
+                        enemy.GetComponent<FearDebuff>().fearApplied = true;
+                        player.hasFear = true;
+                        player.UpdateUI();
+                        yield return castTween.WaitForCompletion();
+                    }
+                }
             }
 
             if (enemies[i].stunned)

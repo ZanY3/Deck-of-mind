@@ -19,22 +19,38 @@ public class RandomEnemy : MonoBehaviour
     {
         enemy = GetComponent<Enemy>();
         enemy.enemyData = enemyList[Random.Range(0, enemyList.Length)];
-        if(enemy.enemyData.enemyType == EnemyData.EnemyType.Debuffer && enemy.enemyData.name == "Paralysis")
+        if (enemy.enemyData.enemyType == EnemyData.EnemyType.Debuffer && enemy.enemyData.name == "Paralysis")
         {
             Destroy(GetComponent<AnxietyDebuff>());
+            Destroy(GetComponent<BurnoutDebuff>());
+            Destroy(GetComponent<FearDebuff>());
             shadowImg.color = shadowColorForStunner;
             typeTxt.color = colorForStunner;
             anxietyIcon.SetActive(false);
         }
-        else if(enemy.enemyData.enemyType == EnemyData.EnemyType.Debuffer && enemy.enemyData.name != "Paralysis")
+        else if (enemy.enemyData.enemyType == EnemyData.EnemyType.Debuffer && enemy.enemyData.name != "Paralysis" || enemy.enemyData.name != "Burnout" || enemy.enemyData.name != "Fear")
         {
             Destroy(GetComponent<StunDebuff>());
-            if(enemy.enemyData.name == "Dread")
+            Destroy(GetComponent<BurnoutDebuff>());
+            Destroy(GetComponent<FearDebuff>());
+            if (enemy.enemyData.name == "Dread")
             {
                 GetComponent<AnxietyDebuff>().anxietyDamage = 4;
             }
         }
-        if(enemy.enemyData.enemyType == EnemyData.EnemyType.Defender && enemy.enemyData.name == "Obsession")
+        else if (enemy.enemyData.enemyType == EnemyData.EnemyType.Debuffer && enemy.enemyData.name == "Burnout")
+        {
+            Destroy(GetComponent<StunDebuff>());
+            Destroy(GetComponent<AnxietyDebuff>());
+            Destroy(GetComponent<FearDebuff>());
+        }
+        else if (enemy.enemyData.enemyType == EnemyData.EnemyType.Debuffer && enemy.enemyData.name == "Fear")
+        {
+            Destroy(GetComponent<StunDebuff>());
+            Destroy(GetComponent<AnxietyDebuff>());
+            Destroy(GetComponent<BurnoutDebuff>());
+        }
+        if (enemy.enemyData.enemyType == EnemyData.EnemyType.Defender && enemy.enemyData.name == "Obsession")
         {
             enemy.GetComponentInChildren<DefenseCell>().refreshDefenseEveryTurn = true;
         }

@@ -12,6 +12,7 @@ public class PlayerHealth : MonoBehaviour
     private PlayerDefense defense;
 
     [HideInInspector] public bool hasAnxiety = false;
+    [HideInInspector] public bool hasFear = false;
     [HideInInspector] public int anxietyDamage = 0;
     [HideInInspector] public bool stunned = false;
 
@@ -20,6 +21,8 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private GameObject stunClue;
     [SerializeField] private GameObject anxietyDebuffImg;
     [SerializeField] private GameObject stunDebuffImg;
+    [SerializeField] private GameObject fearDebuffImg;
+
     [SerializeField] private GameObject cardDraggingImg;
     [SerializeField] private Image healthBarImage;
     [SerializeField] private TMP_Text healthTxt;
@@ -56,6 +59,9 @@ public class PlayerHealth : MonoBehaviour
         if (currentHealth > 0)
         {
             CameraShake.Shake(0.2f, 0.3f);
+
+            if (hasFear)
+                damage *= 2;
 
             if (useShield)
                 currentHealth -= defense.CalculateDamage(damage);
@@ -109,6 +115,7 @@ public class PlayerHealth : MonoBehaviour
     public void ClearAllDebuffs()
     {
         anxietyDamage = 0;
+        hasFear = false;
         hasAnxiety = false;
         turnsUntilStunRemove = 0;
         ChangeStunState(false);
@@ -139,6 +146,7 @@ public class PlayerHealth : MonoBehaviour
         {
             anxietyDebuffImg.SetActive(hasAnxiety);
             stunDebuffImg.SetActive(stunned);
+            fearDebuffImg.SetActive(hasFear);
 
             // ===== ВОЗВРАЩЕНО: цвет игрока по дебаффам =====
             if (hasAnxiety && !stunned)
@@ -148,6 +156,10 @@ public class PlayerHealth : MonoBehaviour
             else if (stunned)
             {
                 GetComponent<Image>().color = new Color32(206, 126, 255, 255); // #CE7EFF
+            }
+            else if(hasFear)
+            {
+                GetComponent<Image>().color = new Color32(59, 255, 132, 255); // #3BFF84
             }
             else
             {
@@ -181,6 +193,9 @@ public class PlayerHealth : MonoBehaviour
 
     public bool HasDebuffs()
     {
-        return hasAnxiety;
+        if(hasAnxiety || hasFear)
+            return true;
+
+        return false;
     }
 }
