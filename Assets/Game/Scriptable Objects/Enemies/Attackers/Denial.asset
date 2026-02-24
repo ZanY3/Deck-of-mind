@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42ab2beddd371f3498c55b6fa7a44ed3, type: 3}
+  m_Name: Denial
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyData
+  nameOnEnglish: Denial
+  nameOnRussian: "\u041E\u0442\u0440\u0438\u0446\u0430\u043D\u0438\u0435"
+  descriptionOnEnglish: Cancels all skills applied to it
+  descriptionOnRussian: "\u041E\u0442\u043C\u0435\u043D\u044F\u0435\u0442 \u0432\u0441\u0435
+    \u0441\u043A\u0438\u043B\u043B\u044B \u043D\u0430\u043B\u043E\u0436\u0435\u043D\u043D\u044B\u0435
+    \u043D\u0430 \u043D\u0435\u0433\u043E"
+  health: 20
+  damage: 3
+  artwork: {fileID: 9006058441422148256, guid: 6d4631ee0557991479fce2d9165cd02c, type: 3}
+  enemyType: 0
