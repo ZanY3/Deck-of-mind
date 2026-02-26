@@ -1,12 +1,20 @@
 using DG.Tweening;
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Boss : Enemy
 {
+    public enum BossType
+    {
+        TheMind,
+        MindGuardian
+    };
     public Sprite phase2Sprite;
-    private BossPhaseController phaseController;
+    public Sprite phase3Sprite;
+
+    [SerializeField] private BossType type;
 
     [Header("Sounds")]
     [SerializeField] private AudioClip bossPhaseTransitionSound;
@@ -16,6 +24,7 @@ public class Boss : Enemy
 
     private int attackTurnCounter = 0;
     private Image image;
+    private BossPhaseController phaseController;
 
     protected override void Start()
     {
@@ -28,24 +37,41 @@ public class Boss : Enemy
     {
         attackTurnCounter++;
         base.AttackPlayer();
-
-        if((attackTurnCounter == 2 || attackTurnCounter == 6 || attackTurnCounter == 10) && stunned == false)
+        if (type == BossType.TheMind)
         {
-            float randPitch = Random.Range(0.95f, 1.05f);
-            SoundManager.Instance.PlaySFX(summonSound, randPitch, summonVolume);
-            DOVirtual.DelayedCall(0.5f, () =>
+            if((attackTurnCounter == 2 || attackTurnCounter == 6 || attackTurnCounter == 10) && stunned == false)
             {
-                phaseController.SummonEnemies();
-            });
-        }
+                float randPitch = Random.Range(0.95f, 1.05f);
+                SoundManager.Instance.PlaySFX(summonSound, randPitch, summonVolume);
+                DOVirtual.DelayedCall(0.5f, () =>
+                {
+                    phaseController.SummonEnemies();
+                });
+            }
 
-        if(currentHealth < maxHealth / 2.5f)// PHASE 2
+            if(currentHealth <= maxHealth / 2.5f)// PHASE 2
+            {
+                SoundManager.Instance.PlaySFX(bossPhaseTransitionSound, 1, bossPhaseTransitionVolume);
+                image.sprite = phase2Sprite;
+                damage += 2;
+                UpdateUI();
+                attackTurnCounter = 0;
+            }
+        }
+        else if(type == BossType.MindGuardian)
         {
-            SoundManager.Instance.PlaySFX(bossPhaseTransitionSound, 1, bossPhaseTransitionVolume);
-            image.sprite = phase2Sprite;
-            damage += 2;
-            UpdateUI();
-            attackTurnCounter = 0;
+            if(currentHealth <= maxHealth / 1.5f)
+            {
+                SoundManager.Instance.PlaySFX(bossPhaseTransitionSound, 1, bossPhaseTransitionVolume);
+                image.sprite = phase2Sprite;
+                attackPattern = AttackPattern.Scaling;
+            }
+            if(currentHealth <= maxHealth / 5)
+            {
+                SoundManager.Instance.PlaySFX(bossPhaseTransitionSound, 1, bossPhaseTransitionVolume);
+                image.sprite = phase3Sprite;
+                attackPattern = AttackPattern.Random;
+            }
         }
     }
 }

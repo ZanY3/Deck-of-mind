@@ -17,8 +17,8 @@ MonoBehaviour:
   index: 1
   stagesAtAll: 11
   enemiesPrefabs:
+  - {fileID: 1816550486874978644, guid: 811ac15f779b95c47b744ba087166c93, type: 3}
   - {fileID: 1816550486874978644, guid: 7faffba7115f81f4a9bd2173b03dfe20, type: 3}
-  - {fileID: 1816550486874978644, guid: 19f7bc84a2b352e4c8222e1c5bdb30be, type: 3}
   - {fileID: 5978665549588100378, guid: f49653eceae247343b971868c3e648f0, type: 3}
   - {fileID: 296436791887354713, guid: ef006ba9935a7db4c9eb2200453d24d9, type: 3}
   - {fileID: 1816550486874978644, guid: fc7f97af029b7dd469dae28f10218c16, type: 3}

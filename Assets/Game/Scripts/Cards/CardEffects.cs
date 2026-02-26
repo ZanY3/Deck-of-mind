@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Experimental.GlobalIllumination;
 
 public class CardEffects : MonoBehaviour

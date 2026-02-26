@@ -113,9 +113,13 @@ public class CardRewardManager : MonoBehaviour
             CanvasGroup cg = cardTemplates[i].GetComponent<CanvasGroup>();
             Transform t = cardTemplates[i].transform;
 
+            seq.AppendCallback(() =>
+            {
+                SoundManager.Instance.PlaySFX(rerollSound, 1, rerollVolume);
+            });
+
             seq.Append(cg.DOFade(1f, 0.25f));
             seq.Join(t.DOScale(1f, 0.25f).SetEase(Ease.OutBack));
-            SoundManager.Instance.PlaySFX(rerollSound, 1, rerollVolume);
         }
     }
 
