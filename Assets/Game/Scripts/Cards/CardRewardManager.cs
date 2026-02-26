@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using DG.Tweening;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class CardRewardManager : MonoBehaviour
 {
@@ -7,6 +9,7 @@ public class CardRewardManager : MonoBehaviour
 
     private List<CardData> cards;
 
+    [SerializeField] private Button rerollBtn;
     [SerializeField] private CardDisplay[] cardTemplates;
     [SerializeField] private DeckManager deckManager;
     [SerializeField] private PlayerHealth player;
@@ -14,7 +17,9 @@ public class CardRewardManager : MonoBehaviour
 
     [Header("Sounds")]
     [SerializeField] private AudioClip rewardOpenedSound;
+    [SerializeField] private AudioClip rerollSound;
     [Range(0f, 1f)][SerializeField] private float rewardOpenVolume;
+    [Range(0f, 1f)][SerializeField] private float rerollVolume;
 
     [HideInInspector] public bool hasChosenCard = false;
 
@@ -22,7 +27,6 @@ public class CardRewardManager : MonoBehaviour
 
     private void Start()
     {
-        // В stage manager музыка меняется сама
         stageManager.PlayAllGameMusic();
     }
 
@@ -31,20 +35,21 @@ public class CardRewardManager : MonoBehaviour
         float randPitch = Random.Range(0.85f, 1.05f);
         SoundManager.Instance.PlaySFX(rewardOpenedSound, randPitch, rewardOpenVolume);
 
-        if (cards == null || cards.Count < count)
-            cards = new List<CardData>(allCards);
-
         cardsCount = count;
+        rerollBtn.interactable = true;
+
+        GenerateRewardCards(count);
+    }
+    private void GenerateRewardCards(int count)
+    {
         SetCardsInteractable(true);
 
         List<CardData> rewardCards = new List<CardData>();
 
-        // Получаем список новых карт (которых нет в колоде)
         List<CardData> newCards = allCards.FindAll(c => !deckManager.HasCard(c));
         List<CardData> oldCards = new List<CardData>(allCards);
-        oldCards.RemoveAll(c => newCards.Contains(c)); // карты которые уже есть
+        oldCards.RemoveAll(c => newCards.Contains(c));
 
-        // Берем максимум 2 новые карты
         int newCardsToAdd = Mathf.Min(2, newCards.Count);
         for (int i = 0; i < newCardsToAdd; i++)
         {
@@ -53,11 +58,9 @@ public class CardRewardManager : MonoBehaviour
             newCards.RemoveAt(randIndex);
         }
 
-        // Создаем единый pool для всех оставшихся карт (новых и старых), исключая уже выбранные
         List<CardData> pool = new List<CardData>(allCards);
         pool.RemoveAll(c => rewardCards.Contains(c));
 
-        // Заполняем оставшиеся слоты
         while (rewardCards.Count < count && pool.Count > 0)
         {
             int randIndex = Random.Range(0, pool.Count);
@@ -80,6 +83,39 @@ public class CardRewardManager : MonoBehaviour
             CanvasGroup cg = cardTemplates[i].GetComponent<CanvasGroup>();
             cg.interactable = state;
             cg.blocksRaycasts = state;
+        }
+    }
+    public void RerollRewards()
+    {
+        rerollBtn.interactable = false;
+
+        Sequence seq = DOTween.Sequence();
+
+        // 1. Анимация исчезновения
+        for (int i = 0; i < cardsCount; i++)
+        {
+            CanvasGroup cg = cardTemplates[i].GetComponent<CanvasGroup>();
+            Transform t = cardTemplates[i].transform;
+
+            seq.Join(cg.DOFade(0f, 0.2f));
+            seq.Join(t.DOScale(0.8f, 0.2f));
+        }
+
+        // 2. После исчезновения — меняем карты
+        seq.AppendCallback(() =>
+        {
+            GenerateRewardCards(cardsCount);
+        });
+
+        // 3. Анимация появления
+        for (int i = 0; i < cardsCount; i++)
+        {
+            CanvasGroup cg = cardTemplates[i].GetComponent<CanvasGroup>();
+            Transform t = cardTemplates[i].transform;
+
+            seq.Append(cg.DOFade(1f, 0.25f));
+            seq.Join(t.DOScale(1f, 0.25f).SetEase(Ease.OutBack));
+            SoundManager.Instance.PlaySFX(rerollSound, 1, rerollVolume);
         }
     }
 
