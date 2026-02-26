@@ -393,7 +393,7 @@ GameObject:
   - component: {fileID: 3308693822043084406}
   - component: {fileID: -6312699009752183584}
   m_Layer: 5
-  m_Name: Random_A
+  m_Name: 2A_Random_A
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -442,6 +442,13 @@ MonoBehaviour:
   enemyData: {fileID: 0}
   healthTxt: {fileID: 1020006459840935090}
   damageTxt: {fileID: 4508267159312989986}
+  attackPattern: 0
+  increaseHpEveryTurn: 0
+  damageScaleAmout: 0
+  minRandDamage: 0
+  maxRandDamage: 0
+  damageChangeSound: {fileID: 0}
+  damageChangeVolume: 0
   debuffDamageTxt: {fileID: 0}
   bossDefeatedSound: {fileID: 0}
   bossDefeatedVolume: 0
@@ -466,6 +473,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bedee2d305a0424fb504bcc289044b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDropTarget
+  skillCanceledClue: {fileID: 0}
+  immuneToDebuffs: 0
+  deniedSound: {fileID: 0}
+  deniedVolume: 0
   canBeAttacked: 1
 --- !u!114 &-6312699009752183584
 MonoBehaviour:
@@ -480,8 +491,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RandomEnemy
   enemyList:
-  - {fileID: 11400000, guid: afa52cee35a8dbf41963349d2ce5e7ed, type: 2}
-  - {fileID: 11400000, guid: b2178ca69d5b4fb48926462339e56530, type: 2}
+  - {fileID: 11400000, guid: 471ccb0d03070944094a3195a2af3bd2, type: 2}
+  - {fileID: 11400000, guid: b6cb9503717fb7241b66a991c8da188e, type: 2}
   colorForStunner: {r: 0, g: 0, b: 0, a: 0}
   shadowColorForStunner: {r: 0, g: 0, b: 0, a: 0}
   shadowImg: {fileID: 0}
@@ -1663,6 +1674,7 @@ MonoBehaviour:
   descriptionTxt: {fileID: 5317813464043943778}
   typeTxt: {fileID: 2592859273104497301}
   stunnerClue: {fileID: 0}
+  burnoutClue: {fileID: 0}
   anxietyDamageTxt: {fileID: 0}
 --- !u!1001 &3838840480285493324
 PrefabInstance:

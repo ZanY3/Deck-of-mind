@@ -73,7 +73,7 @@ public class EnemyDropTarget : MonoBehaviour
                         break;
 
                     case CardData.Effect.HealthDrain:
-                        if (!enemy.hpWeakened && enemy.currentHealth != 1)
+                        if (!enemy.hpWeakened && enemy.currentHealth != 1 && enemy.enemyData.enemyType != EnemyData.EnemyType.Boss)
                         {
                             enemy.transform.DOShakeScale(0.15f, new Vector3(0.15f, 0.15f, 0)).SetAutoKill(true).SetUpdate(true);
                             effects.HealthWeaken(enemy, true, 2);

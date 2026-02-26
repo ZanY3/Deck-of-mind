@@ -198,6 +198,15 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                 return;
             }
         }
+        if(card.effect == CardData.Effect.HealthDrain && enemy != null)
+        {
+            if(enemy.enemyData.enemyType == EnemyData.EnemyType.Boss)
+            {
+                ReturnCard();
+                Invoke(nameof(AllowNextDrag), dragCooldown);
+                return;
+            }
+        }
 
         bool valid = true;
         if ((card.type == CardData.CardType.Attack || card.type == CardData.CardType.SkillOnEnemy) && enemy == null) valid = false;

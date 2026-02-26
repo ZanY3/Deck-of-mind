@@ -60,13 +60,13 @@ public class Boss : Enemy
         }
         else if(type == BossType.MindGuardian)
         {
-            if(currentHealth <= maxHealth / 1.5f)
+            if(currentHealth <= 16)
             {
                 SoundManager.Instance.PlaySFX(bossPhaseTransitionSound, 1, bossPhaseTransitionVolume);
                 image.sprite = phase2Sprite;
                 attackPattern = AttackPattern.Scaling;
             }
-            if(currentHealth <= maxHealth / 5)
+            if(currentHealth <= 10)
             {
                 SoundManager.Instance.PlaySFX(bossPhaseTransitionSound, 1, bossPhaseTransitionVolume);
                 image.sprite = phase3Sprite;

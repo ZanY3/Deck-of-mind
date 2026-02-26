@@ -17,7 +17,7 @@ MonoBehaviour:
   descriptionOnEnglish: The final barrier. Clarity awaits!
   descriptionOnRussian: "\u041F\u043E\u0441\u043B\u0435\u0434\u043D\u0438\u0439 \u0431\u0430\u0440\u044C\u0435\u0440.
     \u042F\u0441\u043D\u043E\u0441\u0442\u044C \u0436\u0434\u0451\u0442!"
-  health: 25
+  health: 16
   damage: 2
   artwork: {fileID: 1218224322633961778, guid: ac9da45b9e060f34db6699fb0276ca9b, type: 3}
   enemyType: 3
