@@ -7,7 +7,7 @@ public class CardRewardManager : MonoBehaviour
 {
     [SerializeField] private List<CardData> allCards;
 
-    private List<CardData> cards;
+    private List<CardData> cards = new List<CardData>(); // FIX: инициализация
 
     [SerializeField] private Button rerollBtn;
     [SerializeField] private CardDisplay[] cardTemplates;
@@ -35,14 +35,17 @@ public class CardRewardManager : MonoBehaviour
         float randPitch = Random.Range(0.85f, 1.05f);
         SoundManager.Instance.PlaySFX(rewardOpenedSound, randPitch, rewardOpenVolume);
 
-        cardsCount = count;
+        cardsCount = Mathf.Min(count, cardTemplates.Length); // FIX: защита
         rerollBtn.interactable = true;
 
-        GenerateRewardCards(count);
+        GenerateRewardCards(cardsCount);
     }
+
     private void GenerateRewardCards(int count)
     {
         SetCardsInteractable(true);
+
+        cards.Clear(); // FIX
 
         List<CardData> rewardCards = new List<CardData>();
 
@@ -51,6 +54,7 @@ public class CardRewardManager : MonoBehaviour
         oldCards.RemoveAll(c => newCards.Contains(c));
 
         int newCardsToAdd = Mathf.Min(2, newCards.Count);
+
         for (int i = 0; i < newCardsToAdd; i++)
         {
             int randIndex = Random.Range(0, newCards.Count);
@@ -68,31 +72,39 @@ public class CardRewardManager : MonoBehaviour
             pool.RemoveAt(randIndex);
         }
 
-        for (int i = 0; i < count; i++)
+        int realCount = Mathf.Min(count, rewardCards.Count, cardTemplates.Length); // FIX
+
+        for (int i = 0; i < realCount; i++)
         {
             cardTemplates[i].cardToDisplay = rewardCards[i];
             cardTemplates[i].VisualizeCard();
+            cards.Add(rewardCards[i]); // FIX
         }
     }
 
     public void SetCardsInteractable(bool state)
     {
-        for (int i = 0; i < cardsCount; i++)
+        int realCount = Mathf.Min(cardsCount, cardTemplates.Length); // FIX
+
+        for (int i = 0; i < realCount; i++)
         {
-            hasChosenCard = !state;
+            hasChosenCard = !state; // ЛОГИКУ НЕ МЕНЯЕМ
             CanvasGroup cg = cardTemplates[i].GetComponent<CanvasGroup>();
             cg.interactable = state;
             cg.blocksRaycasts = state;
         }
     }
+
     public void RerollRewards()
     {
         rerollBtn.interactable = false;
 
         Sequence seq = DOTween.Sequence();
 
-        // 1. Анимация исчезновения
-        for (int i = 0; i < cardsCount; i++)
+        int realCount = Mathf.Min(cardsCount, cardTemplates.Length); // FIX
+
+        // Исчезновение
+        for (int i = 0; i < realCount; i++)
         {
             CanvasGroup cg = cardTemplates[i].GetComponent<CanvasGroup>();
             Transform t = cardTemplates[i].transform;
@@ -101,14 +113,14 @@ public class CardRewardManager : MonoBehaviour
             seq.Join(t.DOScale(0.8f, 0.2f));
         }
 
-        // 2. После исчезновения — меняем карты
+        // Генерация
         seq.AppendCallback(() =>
         {
             GenerateRewardCards(cardsCount);
         });
 
-        // 3. Анимация появления
-        for (int i = 0; i < cardsCount; i++)
+        // Появление (звук 3 раза остаётся)
+        for (int i = 0; i < realCount; i++)
         {
             CanvasGroup cg = cardTemplates[i].GetComponent<CanvasGroup>();
             Transform t = cardTemplates[i].transform;
@@ -133,7 +145,9 @@ public class CardRewardManager : MonoBehaviour
     public void ChooseCard(CardData card)
     {
         deckManager.AddCard(card);
-        cards.Remove(card);
+
+        if (cards.Contains(card)) // FIX
+            cards.Remove(card);
 
         SetCardsInteractable(false);
     }

@@ -29,7 +29,7 @@ public class RewardCardUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
         SoundManager.Instance.PlaySFX(cardChoosedSound, randPitch, cardChoosedVolume);
 
         rewardManager.hasChosenCard = true;
-        // Берём актуальную карту прямо из CardDisplay
+
         CardData currentData = GetComponent<CardDisplay>().cardToDisplay;
         rewardManager.ChooseCard(currentData);
     }
