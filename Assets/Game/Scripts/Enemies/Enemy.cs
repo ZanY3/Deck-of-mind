@@ -1,19 +1,14 @@
 ﻿using TMPro;
 using UnityEngine;
 using DG.Tweening;
+using Unity.VisualScripting;
 
 public class Enemy : MonoBehaviour
 {
     public EnemyData enemyData;
     [SerializeField] private TMP_Text healthTxt;
     [SerializeField] private TMP_Text damageTxt;
-    public AttackPattern attackPattern;
-    public enum AttackPattern
-    {
-        Normal,
-        Scaling,
-        Random
-    }
+    [HideInInspector] public EnemyData.AttackPattern atkPattern;
 
     [Space]
     [Header("Not required")]
@@ -58,7 +53,7 @@ public class Enemy : MonoBehaviour
         GetComponentInChildren<EnemyToolTip>().enemyData = this.enemyData;
         battleManager.AddEnemy(this);
         ReadData();
-        if(attackPattern == AttackPattern.Random)
+        if(atkPattern == EnemyData.AttackPattern.Random)
         {
             float randPitch = Random.Range(0.9f, 1.1f);
             SoundManager.Instance.PlaySFX(damageChangeSound, randPitch, damageChangeVolume);
@@ -72,6 +67,7 @@ public class Enemy : MonoBehaviour
         currentHealth = enemyData.health;
         maxHealth = currentHealth;
         damage = enemyData.damage;
+        atkPattern = enemyData.attackPattern;
     }
 
     public void UpdateUI()
@@ -176,11 +172,11 @@ public class Enemy : MonoBehaviour
     {
         float randPitch = Random.Range(0.9f, 1.1f);
         SoundManager.Instance.PlaySFX(damageChangeSound, randPitch, damageChangeVolume);
-        if (attackPattern == AttackPattern.Random)
+        if (atkPattern == EnemyData.AttackPattern.Random)
         {
             damage = Random.Range(minRandDamage, maxRandDamage + 1);
         }
-        else if (attackPattern == AttackPattern.Scaling)
+        else if (atkPattern == EnemyData.AttackPattern.Scaling)
         {
             damage += damageScaleAmout;
         }

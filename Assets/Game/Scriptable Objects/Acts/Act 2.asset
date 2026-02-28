@@ -15,9 +15,15 @@ MonoBehaviour:
   actNameOnEnglish: THE CORE
   actNameOnRussian: "\u042F\u0414\u0420\u041E"
   index: 2
-  stagesAtAll: 5
+  stagesAtAll: 9
   enemiesPrefabs:
   - {fileID: 1816550486874978644, guid: f857d796ec73a6344bf1ef2416a48b3b, type: 3}
   - {fileID: 1816550486874978644, guid: e5aaa10144a777c48af032b663bb520e, type: 3}
-  - {fileID: 1816550486874978644, guid: e5aaa10144a777c48af032b663bb520e, type: 3}
-  stagesWithStrongEnemies: 05000000
+  - {fileID: 2601725641773459835, guid: e147a4e327209664ea0410e8b6039f07, type: 3}
+  - {fileID: 1816550486874978644, guid: aa3a322fe080dfe46b695112569862da, type: 3}
+  - {fileID: 1816550486874978644, guid: 19f7bc84a2b352e4c8222e1c5bdb30be, type: 3}
+  - {fileID: 2601725641773459835, guid: 8051e9c97009ff5468d48e81d5467608, type: 3}
+  - {fileID: 2601725641773459835, guid: ed18ebe72ef66324aaa634ed7e5d757d, type: 3}
+  - {fileID: 2601725641773459835, guid: bad27a8bcfc8f994a9799bdf3901b177, type: 3}
+  - {fileID: 8944439527343392059, guid: 4640360e6c03d0044a2424edf227f5a8, type: 3}
+  stagesWithStrongEnemies: 0500000009000000

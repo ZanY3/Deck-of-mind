@@ -19,8 +19,14 @@ public class EnemyData : ScriptableObject
         Defender,
         Boss
     }
-
+    public enum AttackPattern
+    {
+        Normal,
+        Scaling,
+        Random
+    }
     public EnemyType enemyType;
+    public AttackPattern attackPattern;
 
     //Attacker - just deals fixed amout of damage every turn COLORS: WHITE AND RED(MB)
     //Debuffer - also damage us, but value of damage is small and enemy gives some kind of negative effect on player(like poison) COLORS: WHITE + GREEN + YELLOW EYES

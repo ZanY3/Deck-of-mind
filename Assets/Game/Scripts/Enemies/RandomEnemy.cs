@@ -19,7 +19,7 @@ public class RandomEnemy : MonoBehaviour
     {
         enemy = GetComponent<Enemy>();
         enemy.enemyData = enemyList[Random.Range(0, enemyList.Length)];
-        if (enemy.enemyData.enemyType == EnemyData.EnemyType.Debuffer && enemy.enemyData.name == "Paralysis")
+        if (enemy.enemyData.enemyType == EnemyData.EnemyType.Debuffer && enemy.enemyData.nameOnEnglish == "Paralysis")
         {
             Destroy(GetComponent<AnxietyDebuff>());
             Destroy(GetComponent<BurnoutDebuff>());
@@ -28,31 +28,31 @@ public class RandomEnemy : MonoBehaviour
             typeTxt.color = colorForStunner;
             anxietyIcon.SetActive(false);
         }
-        else if (enemy.enemyData.enemyType == EnemyData.EnemyType.Debuffer && enemy.enemyData.name != "Paralysis" || enemy.enemyData.name != "Burnout" || enemy.enemyData.name != "Fear")
+        if (enemy.enemyData.enemyType == EnemyData.EnemyType.Debuffer && enemy.enemyData.nameOnEnglish == "Burnout")
+        {
+            Destroy(GetComponent<StunDebuff>());
+            Destroy(GetComponent<AnxietyDebuff>());
+            Destroy(GetComponent<FearDebuff>());
+        }
+        if (enemy.enemyData.enemyType == EnemyData.EnemyType.Debuffer && enemy.enemyData.nameOnEnglish == "Fear")
+        {
+            Destroy(GetComponent<StunDebuff>());
+            Destroy(GetComponent<AnxietyDebuff>());
+            Destroy(GetComponent<BurnoutDebuff>());
+        }
+        if (enemy.enemyData.enemyType == EnemyData.EnemyType.Defender && enemy.enemyData.nameOnEnglish == "Obsession")
+        {
+            enemy.GetComponentInChildren<DefenseCell>().refreshDefenseEveryTurn = true;
+        }
+        if (enemy.enemyData.enemyType == EnemyData.EnemyType.Debuffer && enemy.enemyData.nameOnEnglish != "Paralysis" || enemy.enemyData.name != "Burnout" || enemy.enemyData.name != "Fear")
         {
             Destroy(GetComponent<StunDebuff>());
             Destroy(GetComponent<BurnoutDebuff>());
             Destroy(GetComponent<FearDebuff>());
-            if (enemy.enemyData.name == "Dread")
+            if (enemy.enemyData.nameOnEnglish == "Dread")
             {
                 GetComponent<AnxietyDebuff>().anxietyDamage = 4;
             }
-        }
-        else if (enemy.enemyData.enemyType == EnemyData.EnemyType.Debuffer && enemy.enemyData.name == "Burnout")
-        {
-            Destroy(GetComponent<StunDebuff>());
-            Destroy(GetComponent<AnxietyDebuff>());
-            Destroy(GetComponent<FearDebuff>());
-        }
-        else if (enemy.enemyData.enemyType == EnemyData.EnemyType.Debuffer && enemy.enemyData.name == "Fear")
-        {
-            Destroy(GetComponent<StunDebuff>());
-            Destroy(GetComponent<AnxietyDebuff>());
-            Destroy(GetComponent<BurnoutDebuff>());
-        }
-        if (enemy.enemyData.enemyType == EnemyData.EnemyType.Defender && enemy.enemyData.name == "Obsession")
-        {
-            enemy.GetComponentInChildren<DefenseCell>().refreshDefenseEveryTurn = true;
         }
     }
 }

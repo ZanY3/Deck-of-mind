@@ -21,6 +21,7 @@ MonoBehaviour:
     \u0421\u0442\u0440\u0430\u0445: \u0432\u0435\u0441\u044C \u043F\u043E\u043B\u0443\u0447\u0430\u0435\u043C\u044B\u0439
     \u0432\u0430\u043C\u0438 \u0443\u0440\u043E\u043D \u0443\u0434\u0432\u0430\u0438\u0432\u0430\u0435\u0442\u0441\u044F"
   health: 4
-  damage: 2
+  damage: 1
   artwork: {fileID: -5252977781323943493, guid: 04bfc46c604099341b59003696b2e91c, type: 3}
   enemyType: 1
+  attackPattern: 0

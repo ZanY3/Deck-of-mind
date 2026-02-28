@@ -49,7 +49,7 @@ public class Boss : Enemy
                 });
             }
 
-            if(currentHealth <= maxHealth / 2.5f)// PHASE 2
+            if(currentHealth <= 10)// PHASE 2
             {
                 SoundManager.Instance.PlaySFX(bossPhaseTransitionSound, 1, bossPhaseTransitionVolume);
                 image.sprite = phase2Sprite;
@@ -64,13 +64,13 @@ public class Boss : Enemy
             {
                 SoundManager.Instance.PlaySFX(bossPhaseTransitionSound, 1, bossPhaseTransitionVolume);
                 image.sprite = phase2Sprite;
-                attackPattern = AttackPattern.Scaling;
+                atkPattern = EnemyData.AttackPattern.Scaling;
             }
             if(currentHealth <= 10)
             {
                 SoundManager.Instance.PlaySFX(bossPhaseTransitionSound, 1, bossPhaseTransitionVolume);
                 image.sprite = phase3Sprite;
-                attackPattern = AttackPattern.Random;
+                atkPattern = EnemyData.AttackPattern.Random;
             }
         }
     }

@@ -135,6 +135,7 @@ public class StageManager : MonoBehaviour
             StartCoroutine(MovePlayerIcon(targetPos));
 
             playerDefense.RemoveAllArmor();
+            playerDefense.GetComponent<PlayerHealth>().ClearAllDebuffs();
             battleManager.StartBattle();
 
             ClearEnemies();
