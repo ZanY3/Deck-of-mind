@@ -233,6 +233,16 @@ public class CardDrag : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                     int damage = FindAnyObjectByType<CardEffects>().RandomPower();
                     shield.DecreaseDefense(damage);
                 }
+                if(card.effect == CardData.Effect.ShieldSlam)
+                {
+                    int damage = FindAnyObjectByType<CardEffects>().ShieldSlam();
+                    shield.DecreaseDefense(damage);
+                }
+                if(card.effect == CardData.Effect.StrikeTheHelpless)
+                {
+                    int damage = FindAnyObjectByType<CardEffects>().StrikeTheHelpless(enemy);
+                    shield.DecreaseDefense(damage);
+                }
                 else if (card.type == CardData.CardType.SkillOnEnemy)
                 {
                     var dropTarget = enemy.GetComponent<EnemyDropTarget>();
