@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
-using UnityEngine.EventSystems;
 using DG.Tweening;
-using Unity.VisualScripting;
 
 public class EnemyDropTarget : MonoBehaviour
 {

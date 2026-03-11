@@ -9,25 +9,41 @@ public class LanguageManager : MonoBehaviour
 
     [Header("Sounds")]
     [SerializeField] private AudioClip clickSound;
+
     private AudioSource source;
+
+    private void Awake()
+    {
+        source = GetComponent<AudioSource>();
+    }
 
     private void Start()
     {
-        source = GetComponent<AudioSource>();
-        ChangeLanguageToEnglish();
+        ChangeLanguage(InteractionState.Language.English);
     }
 
     public void ChangeLanguageToRussian()
     {
-        source.PlayOneShot(clickSound);
-        InteractionState.SetLanguage(InteractionState.Language.Russian, russianFont);
+        ChangeLanguage(InteractionState.Language.Russian);
     }
 
     public void ChangeLanguageToEnglish()
     {
-        source.PlayOneShot(clickSound);
-        InteractionState.SetLanguage(InteractionState.Language.English, englishFont);
+        ChangeLanguage(InteractionState.Language.English);
     }
+
+    private void ChangeLanguage(InteractionState.Language language)
+    {
+        if (source && clickSound)
+            source.PlayOneShot(clickSound);
+
+        TMP_FontAsset font = language == InteractionState.Language.Russian
+            ? russianFont
+            : englishFont;
+
+        InteractionState.SetLanguage(language, font);
+    }
+
     public void LoadGame()
     {
         SceneManager.LoadScene("Game");

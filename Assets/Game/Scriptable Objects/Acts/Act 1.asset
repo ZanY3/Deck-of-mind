@@ -15,7 +15,7 @@ MonoBehaviour:
   actNameOnEnglish: Awakening
   actNameOnRussian: "\u041F\u0440\u043E\u0431\u0443\u0436\u0434\u0435\u043D\u0438\u0435"
   index: 1
-  stagesAtAll: 11
+  stagesAtAll: 9
   enemiesPrefabs:
   - {fileID: 1816550486874978644, guid: 7faffba7115f81f4a9bd2173b03dfe20, type: 3}
   - {fileID: 5978665549588100378, guid: f49653eceae247343b971868c3e648f0, type: 3}
