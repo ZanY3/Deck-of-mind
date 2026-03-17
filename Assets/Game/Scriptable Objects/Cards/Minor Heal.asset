@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   nameOnEnglish: Minor Heal
   nameOnRussian: "\u041C\u0430\u043B\u043E\u0435 \u0438\u0441\u0446\u0435\u043B\u0435\u043D\u0438\u0435"
-  descriptionOnEnglish: Restore 3 health
+  descriptionOnEnglish: Restore 4 health
   descriptionOnRussian: "\u0412\u043E\u0441\u0441\u0442\u0430\u043D\u0430\u0432\u043B\u0438\u0432\u0430\u0435\u0442
-    3 \u0437\u0434\u043E\u0440\u043E\u0432\u044C\u044F"
+    4 \u0437\u0434\u043E\u0440\u043E\u0432\u044C\u044F"
   type: 2
   effect: 8
   icon: {fileID: 7438189329497247559, guid: e23b7db7d3111424fbc55d3efed46967, type: 3}
-  power: 3
+  power: 4
   energyCost: 1
